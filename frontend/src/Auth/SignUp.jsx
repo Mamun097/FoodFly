@@ -11,6 +11,9 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
+  typography: {
+    fontSize: 20
+  },
   palette: {
     type: 'dark',
     background: {
@@ -39,28 +42,39 @@ export default function SignUp() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container component="main" maxWidth="xs"
-      sx={{
-        border: "2px solid white", // Add a border around the main container
-        borderRadius: "8px", // Optional: Add some border radius for a rounded appearance
-        marginTop: "20px", // Optional: Add some top margin
-      }}
+      <Container
+        component="main"
+        maxWidth="xs"
+        sx={{
+          position: "absolute",
+          top: "47%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          border: "2px solid white", // Add a border around the main container
+          borderRadius: "8px", // Optional: Add some border radius for a rounded appearance
+          marginTop: "20px", // Optional: Add some top margin
+        }}
       >
         <Box
           sx={{
             marginTop: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: '#ffc107' }}>
+          <Avatar sx={{ m: 1, bgcolor: "#ffc107" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
             <TextField
               required
               fullWidth
@@ -68,24 +82,30 @@ export default function SignUp() {
               label="Name"
               name="name"
               autoComplete="off"
-              InputProps={{ style: { color: 'white' } }}
-              InputLabelProps={{ style: { color: 'white' } }}
+              InputProps={{ style: { color: "white" } }}
+              InputLabelProps={{ style: { color: "white" } }}
               variant="outlined"
               sx={{
-                mb: 1,
-                '& label.Mui-focused': {
-                  color: 'white',
+                mb: 1.5,
+                "& label.Mui-focused": {
+                  color: "white",
                 },
-                '& .MuiInput-underline:after': {
-                  borderBottomColor: 'black',
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "#ffc107", // Change focus color to gold
                 },
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'white',
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "white",
                   },
-                  '&:hover fieldset': {
-                    borderColor: '#ffc107',
+                  "&:hover fieldset": {
+                    borderColor: "#ffc107",
                   },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#ffc107", // Change focused border color to gold
+                  },
+                },
+                "& .MuiOutlinedInput-input": {
+                  backgroundColor: "black",
                 },
               }}
             />
@@ -96,24 +116,30 @@ export default function SignUp() {
               label="Address"
               name="address"
               autoComplete="off"
-              InputProps={{ style: { color: 'white' } }}
-              InputLabelProps={{ style: { color: 'white' } }}
+              InputProps={{ style: { color: "white" } }}
+              InputLabelProps={{ style: { color: "white" } }}
               variant="outlined"
               sx={{
-                mb: 1,
-                '& label.Mui-focused': {
-                  color: 'white',
+                mb: 1.5,
+                "& label.Mui-focused": {
+                  color: "white",
                 },
-                '& .MuiInput-underline:after': {
-                  borderBottomColor: 'black',
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "#ffc107", // Change focus color to gold
                 },
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'white',
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "white",
                   },
-                  '&:hover fieldset': {
-                    borderColor: '#ffc107',
+                  "&:hover fieldset": {
+                    borderColor: "#ffc107",
                   },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#ffc107", // Change focused border color to gold
+                  },
+                },
+                "& .MuiOutlinedInput-input": {
+                  backgroundColor: "black",
                 },
               }}
             />
@@ -124,24 +150,30 @@ export default function SignUp() {
               label="Email Address"
               name="email"
               autoComplete="off"
-              InputProps={{ style: { color: 'white' } }}
-              InputLabelProps={{ style: { color: 'white' } }}
+              InputProps={{ style: { color: "white" } }}
+              InputLabelProps={{ style: { color: "white" } }}
               variant="outlined"
               sx={{
-                mb: 1,
-                '& label.Mui-focused': {
-                  color: 'white',
+                mb: 1.5,
+                "& label.Mui-focused": {
+                  color: "white",
                 },
-                '& .MuiInput-underline:after': {
-                  borderBottomColor: 'black',
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "#ffc107", // Change focus color to gold
                 },
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'white',
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "white",
                   },
-                  '&:hover fieldset': {
-                    borderColor: '#ffc107',
+                  "&:hover fieldset": {
+                    borderColor: "#ffc107",
                   },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#ffc107", // Change focused border color to gold
+                  },
+                },
+                "& .MuiOutlinedInput-input": {
+                  backgroundColor: "black",
                 },
               }}
             />
@@ -152,24 +184,30 @@ export default function SignUp() {
               label="Phone"
               name="phone"
               autoComplete="off"
-              InputProps={{ style: { color: 'white' } }}
-              InputLabelProps={{ style: { color: 'white' } }}
+              InputProps={{ style: { color: "white" } }}
+              InputLabelProps={{ style: { color: "white" } }}
               variant="outlined"
               sx={{
-                mb: 1,
-                '& label.Mui-focused': {
-                  color: 'white',
+                mb: 1.5,
+                "& label.Mui-focused": {
+                  color: "white",
                 },
-                '& .MuiInput-underline:after': {
-                  borderBottomColor: 'black',
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "#ffc107", // Change focus color to gold
                 },
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'white',
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "white",
                   },
-                  '&:hover fieldset': {
-                    borderColor: '#ffc107',
+                  "&:hover fieldset": {
+                    borderColor: "#ffc107",
                   },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#ffc107", // Change focused border color to gold
+                  },
+                },
+                "& .MuiOutlinedInput-input": {
+                  backgroundColor: "black",
                 },
               }}
             />
@@ -181,24 +219,30 @@ export default function SignUp() {
               type="password"
               id="password"
               autoComplete="off"
-              InputProps={{ style: { color: 'white' } }}
-              InputLabelProps={{ style: { color: 'white' } }}
+              InputProps={{ style: { color: "white" } }}
+              InputLabelProps={{ style: { color: "white" } }}
               variant="outlined"
               sx={{
-                mb: 1,
-                '& label.Mui-focused': {
-                  color: 'white',
+                mb: 0,
+                "& label.Mui-focused": {
+                  color: "white",
                 },
-                '& .MuiInput-underline:after': {
-                  borderBottomColor: 'black',
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "#ffc107", // Change focus color to gold
                 },
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'white',
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "white",
                   },
-                  '&:hover fieldset': {
-                    borderColor: '#ffc107',
+                  "&:hover fieldset": {
+                    borderColor: "#ffc107",
                   },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#ffc107", // Change focused border color to gold
+                  },
+                },
+                "& .MuiOutlinedInput-input": {
+                  backgroundColor: "black",
                 },
               }}
             />
@@ -206,7 +250,12 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 4, mb: 2, bgcolor: '#e0a800', ':hover': { bgcolor: '#ffc107', color: 'black' } }}
+              sx={{
+                mt: 4,
+                mb: 1,
+                bgcolor: "#e0a800",
+                ":hover": { bgcolor: "#ffc107", color: "black" },
+              }}
             >
               Sign Up
             </Button>

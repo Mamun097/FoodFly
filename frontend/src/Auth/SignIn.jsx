@@ -12,6 +12,9 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
+  typography: {
+    fontSize: 20
+  },
   palette: {
     type: 'dark',
     background: {
@@ -40,6 +43,10 @@ function SignIn() {
         component="main"
         maxWidth="xs"
         sx={{
+          position: "absolute",
+          top: "35%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
           border: "2px solid white", // Add a border around the main container
           borderRadius: "8px", // Optional: Add some border radius for a rounded appearance
           marginTop: "70px", // Optional: Add some top margin
@@ -87,7 +94,7 @@ function SignIn() {
                   color: "white",
                 },
                 "& .MuiInput-underline:after": {
-                  borderBottomColor: "black",
+                  borderBottomColor: "#ffc107", // Change focus color to gold
                 },
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
@@ -96,9 +103,12 @@ function SignIn() {
                   "&:hover fieldset": {
                     borderColor: "#ffc107",
                   },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#ffc107", // Change focused border color to gold
+                  },
                 },
                 "& .MuiOutlinedInput-input": {
-                  backgroundColor: "black", // Add this to ensure background is black
+                  backgroundColor: "black",
                 },
               }}
             />
@@ -120,7 +130,7 @@ function SignIn() {
                   color: "white",
                 },
                 "& .MuiInput-underline:after": {
-                  borderBottomColor: "black",
+                  borderBottomColor: "#ffc107", // Change focus color to gold
                 },
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
@@ -129,6 +139,12 @@ function SignIn() {
                   "&:hover fieldset": {
                     borderColor: "#ffc107",
                   },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#ffc107", // Change focused border color to gold
+                  },
+                },
+                "& .MuiOutlinedInput-input": {
+                  backgroundColor: "black",
                 },
               }}
             />
