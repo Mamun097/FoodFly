@@ -5,15 +5,19 @@ import Footer from "./components/Footer";
 import Home from "./components/Home";
 import About from "./components/About";
 import JoinUs from "./components/JoinUs";
+import SignIn from "./Auth/SignIn";
+import SignUp from "./Auth/SignUp";
 
 function App() {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar />
       <Home />
       <About />
       <JoinUs />
-      <Footer />
+      <Footer /> */}
+      <SignIn />
+      {/* <SignUp/> */}
     </div> 
   );
 }
