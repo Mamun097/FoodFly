@@ -9,7 +9,7 @@
   border: none;
   text-decoration: none;
   text-transform: capitalize;
-  transition: 0.2s linear;
+  /* transition: 0.2s linear; */
 }
 
 html {
@@ -47,6 +47,10 @@ section {
   text-transform: uppercase;
   padding-bottom: 3.5rem;
   font-size: 4rem;
+}
+
+.fa-3x {
+  align-items: last baseline;
 }
 
 .heading span {
@@ -158,47 +162,6 @@ section {
 }
 
 .header .icons div:hover {
-  color: #ffc107;
-}
-
-#menu-btn {
-  display: none;
-}
-
-.header .search-form {
-  position: absolute;
-  top: 115%;
-  right: 7%;
-  background: #fff;
-  width: 50rem;
-  height: 5rem;
-  display: flex;
-  align-items: center;
-  transform: scaleY(0);
-  transform-origin: top;
-}
-
-.header .search-form.active {
-  transform: scaleY(1);
-}
-
-.header .search-form input {
-  height: 100%;
-  width: 100%;
-  font-size: 1.6rem;
-  color: #13131a;
-  padding: 1rem;
-  text-transform: none;
-}
-
-.header .search-form label {
-  cursor: pointer;
-  font-size: 2.2rem;
-  margin-right: 1.5rem;
-  color: #13131a;
-}
-
-.header .search-form label:hover {
   color: #ffc107;
 }
 
