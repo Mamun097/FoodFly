@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 export default function () {
   const [credentials, setCredentials] = useState({
@@ -9,6 +8,7 @@ export default function () {
     location: "",
     email: "",
     password: "",
+    contact: "",
   });
 
 
@@ -18,7 +18,7 @@ export default function () {
     if (credentials.name.length===0) {
       errors.push("Name must not be empty");
     }
-
+ 
     if (credentials.location.length===0) {
         errors.push("Location must not be empty");
       }
@@ -45,7 +45,7 @@ export default function () {
       return;
     }
 
-    const response = await fetch("http://localhost:5000/api/createuser", {
+    const response = await fetch("http://localhost:5000/api/deliveryperson/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,11 +55,12 @@ export default function () {
         location: credentials.location,
         email: credentials.email,
         password: credentials.password,
+        contact: credentials.contact,
       }),
     });
 
     if (response.status === 200) {
-        window.location.href = "/";
+        window.location.href = "/deliveryperson/login";
       } else {
         alert("Email already exists! Try again with another one.");
       }
@@ -72,41 +73,76 @@ export default function () {
 
   return (
     <>
-      <div>
-        <Navbar />
-      </div>
-      <div class="container">
+      <div className="container" style={{ width: "600px", border: "1px solid white", margin:"10px auto"}}>
         <Form onSubmit={handleSubmit}>
           <h1 className="text-center mt-4">Signup</h1>
 
           <Form.Group className="mb-3" controlId="formBasicNmae">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="text" placeholder="Full Name" name="name" value={credentials.name} onChange={onChange}/>
+            <Form.Control
+              type="text"
+              placeholder="Name"
+              name="name"
+              value={credentials.name}
+              onChange={onChange}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicLocation">
             <Form.Label>Location</Form.Label>
-            <Form.Control type="text" placeholder="Location" name="location" value={credentials.location} onChange={onChange}/>
+            <Form.Control
+              type="text"
+              placeholder="Enter Location"
+              name="location"
+              value={credentials.location}
+              onChange={onChange}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email"  name="email" value={credentials.email} onChange={onChange}/>
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
+            <Form.Label>Email Address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              name="email"
+              value={credentials.email}
+              onChange={onChange}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicContact">
+            <Form.Label>Contact No.</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter your contact"
+              name="contact"
+              value={credentials.contact}
+              onChange={onChange}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password"  name="password" value={credentials.password} onChange={onChange}/>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={credentials.password}
+              onChange={onChange}
+            />
           </Form.Group>
 
-          <Button variant="success mb-2" type="submit">
+          <Button
+            variant="success mb-2 mt-4"
+            type="submit"
+            className="d-block mx-auto"
+          >
             Submit
           </Button>
-          <br />
-          <Link to="/login">Already have an account? Login</Link>
+          <div className="text-center">
+            <Link to="/deliveryperson/login">Already have an account? Login!</Link>
+          </div>
+          <br/>
         </Form>
       </div>
     </>

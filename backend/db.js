@@ -8,15 +8,15 @@ const mongoDB = async() => {
     await mongoose.connect(mongoURI, { useNewUrlParser: true });
     console.log("Connected to MongoDB");
 
-    const fetchData = await mongoose.connection.db.collection("food_items");
-    const fetchFoodCategory = await mongoose.connection.db.collection("foodCategory");
+    // const fetchData = await mongoose.connection.db.collection("food_items");
+    // const fetchFoodCategory = await mongoose.connection.db.collection("foodCategory");
 
-    const result = await fetchData.find().toArray();
-    const categoryResult = await fetchFoodCategory.find().toArray();
+    // const result = await fetchData.find().toArray();
+    // const categoryResult = await fetchFoodCategory.find().toArray();
 
-    global.food_items = result;
-    global.food_category = categoryResult;
-    console.log(global.food_items);
+    // global.food_items = result;
+    // global.food_category = categoryResult;
+    // console.log(global.food_items);
     // console.log(result);
 }
 

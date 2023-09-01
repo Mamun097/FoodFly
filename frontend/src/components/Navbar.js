@@ -2,15 +2,26 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function () {
+  const isLoggedIn = localStorage.getItem("authToken");
+
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-success">
-        <div class="container-fluid">
-          <Link class="navbar-brand fs-1 fst-italic" to="/">
+      <nav
+        className="navbar navbar-expand-lg navbar-light bg-dark"
+        style={{
+          position: "fixed",
+          width: "100%",
+          zIndex: 100,
+          top: 0,
+          borderBottom: "1px solid orange",
+        }}
+      >
+        <div className="container-fluid">
+          <Link className="navbar-brand fs-1 fst-italic" to="/">
             FoodFly
           </Link>
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
@@ -18,27 +29,79 @@ export default function () {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <Link class="nav-link active" aria-current="page" to="/">
-                  Home
-                </Link>
-              </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/login">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              {isLoggedIn && (
+                <li className="nav-item">
+                  <Link
+                    className="nav-link active fs-5"
+                    aria-current="page"
+                    to="/user/restaurant"
+                  >
+                    Home
+                  </Link>
+                </li>
+              )}
+            </ul>
+            {!isLoggedIn ? (
+              <div className="d-flex">
+                <Link
+                  className="btn"
+                  style={{
+                    background: "#ff8a00",
+                    color: "white",
+                    marginRight: "10px",
+                  }}
+                  to="/login"
+                >
                   Login
                 </Link>
-              </li>
-
-              <li class="nav-item">
-                <Link class="nav-link" to="/signup">
+                <Link
+                  className="btn"
+                  style={{
+                    background: "#ff8a00",
+                    color: "white",
+                  }}
+                  to="/signup"
+                >
                   Signup
                 </Link>
-              </li>
-            </ul>
+              </div>
+            ) : (
+              ""
+            )}
+            {isLoggedIn ? (
+              <div className="d-flex">
+                <Link
+                  className="btn"
+                  style={{
+                    background: "#ff8a00",
+                    color: "white",
+                    marginRight: "10px",
+                  }}
+                  to="/"
+                >
+                  My Cart
+                </Link>
+                <Link
+                  className="btn"
+                  style={{
+                    background: "#ff8a00",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    localStorage.removeItem("authToken");
+                    window.location.href = "/";
+                  }}
+                >
+                  Logout
+                </Link>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </nav>

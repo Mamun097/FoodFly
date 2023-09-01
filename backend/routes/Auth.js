@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../models/User");
+const Restaurant = require("../models/Restaurant");
+const DeliveryPerson = require("../models/DeliveryPerson");
 const {body, validationResult} = require("express-validator");
 
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const jwtSecret = "SheIsJustAGirlWhoClaimsThatIAmTheOneButTheKidIsNotMySon";
 
 router.post("/createuser", 
     body("name", "Name is too short!").isLength({ min: 1 }),
@@ -14,8 +18,12 @@ router.post("/createuser",
 
 async(req, res) => {
     try {
+        // Check if the email exists in User, Restaurant, and DeliveryPerson tables
         const user = await User.findOne({ email: req.body.email });
-        if (user) {
+        const restaurant = await Restaurant.findOne({ email: req.body.email });
+        const deliveryPerson = await DeliveryPerson.findOne({ email: req.body.email });
+
+        if (user || restaurant || deliveryPerson) {
             return res.status(400).json({ errors: [{ message: "Email already exists" }] });
         }
 
@@ -53,9 +61,19 @@ router.post("/login", async (req, res) => {
           .status(400)
           .json({ errors: [{ message: "Enter valid credentials!" }] });
       }
-    res.json({ message: "Sign In successful!" });
+
+    const data = {
+        user: {
+          id: fetched_data.id,
+        },
+      };
+    
+    const authToken = jwt.sign(data, jwtSecret);
+    return res.json({ success: true , authToken  : authToken});
+    
   } catch (error) {
     console.log(error);  }
+    return res.json({ success: false });
 });
 
 module.exports = router;

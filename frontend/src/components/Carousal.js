@@ -1,35 +1,94 @@
-import React from 'react'
+import React from "react";
 
 export default function Carousal() {
   return (
     <div>
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" style={{objectFit: 'contain !important'}}>
-  <div class="carousel-inner" id= 'carousel'>
-    <div class= 'carousel-caption' style= {{zIndex: 10}}>
-    <form class="d-flex">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-      <button class="btn btn-outline-success text-white" type="submit">Search</button>
-    </form>
+      <div
+        id="carouselExampleFade"
+        className="carousel slide carousel-fade"
+        data-bs-ride="carousel"
+        style={{ objectFit: "contain !important" }}
+      >
+        <div className="carousel-inner" id="carousel">
+          <div
+            className="carousel-caption"
+            style={{
+              position: "absolute",
+              top: "100px",
+              left: "0",
+              width: "100%",
+              zIndex: 10,
+            }}
+          >
+            <h1 style={{ color: "white", fontSize: "40px" }}>
+              Want Some Food?
+            </h1>
+            <h1 style={{ color: "white", fontSize: "60px" }}>
+              <span style={{ color: "white" }}>Welcome To </span>
+              <span style={{ color: "orange" }}>FoodFly!</span>
+            </h1>
+            <h3 style={{ color: "white", fontSize: "20px", opacity: "50%" }}>
+              Satisfy Your Cravings, From Anywhere, Anytime!
+            </h3>
+          </div>
+          <div className="carousel-item active">
+            <img
+              src="https://s3-media0.fl.yelpcdn.com/bphoto/PnjfGDBqFG9Vzf-CVeVEpA/o.jpg"
+              style={{ filter: "brightness(40%)", maxHeight: "100vh" }}
+              className="d-block w-100"
+              alt="..."
+            />
+          </div>
+          <div className="carousel-item">
+            <img
+              src="https://s3-media0.fl.yelpcdn.com/bphoto/e_oQh4KscD5vczQBv2-LDg/o.jpg"
+              style={{ filter: "brightness(40%)", maxHeight: "700px" }}
+              className="d-block w-100"
+              alt="..."
+            />
+          </div>
+          <div className="carousel-item">
+            <img
+              src="https://s3-media0.fl.yelpcdn.com/bphoto/ymUKFmQb9ZpLjj4ANkLYrQ/o.jpg"
+              style={{ filter: "brightness(40%)", maxHeight: "700px" }}
+              className="d-block w-100"
+              alt="..."
+            />
+          </div>
+          <div className="carousel-item">
+            <img
+              src="https://s3-media0.fl.yelpcdn.com/bphoto/lzyZayO8tSOIIxDv2-0MmQ/o.jpg"
+              style={{ filter: "brightness(40%)" }}
+              className="d-block w-100"
+              alt="..."
+            />
+          </div>
+        </div>
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleFade"
+          data-bs-slide="prev"
+        >
+          <span
+            className="carousel-control-prev-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden"></span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleFade"
+          data-bs-slide="next"
+        >
+          <span
+            className="carousel-control-next-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden"></span>
+        </button>
+      </div>
     </div>
-    <div class="carousel-item active">
-      <img src="https://th.bing.com/th/id/OIP.Ntq3__ayEIFAZok5kIuO3wHaE9?pid=ImgDet&rs=1" style= {{filter: 'brightness(30%)'}} class="d-block w-100" alt="..."/>
-    </div>
-    <div class="carousel-item">
-      <img src="https://th.bing.com/th/id/OIP.blrlhxb-u9YWzIJw_jE0zgHaE8?pid=ImgDet&rs=1" style= {{filter: 'brightness(30%)'}} class="d-block w-100" alt="..."/>
-    </div>
-    <div class="carousel-item">
-      <img src="https://th.bing.com/th/id/OIP.n9pG4Aaemr8D7CcTo8fv4gHaEK?pid=ImgDet&rs=1" style= {{filter: 'brightness(30%)'}} class="d-block w-100" alt="..."/>
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-    </div>
-  )
+  );
 }

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 export default function () {
   const [credentials, setCredentials] = useState({
@@ -9,7 +8,7 @@ export default function () {
     password: "",
   });
 
-  const validateForm = () => { 
+  const validateForm = () => {
     const errors = [];
 
     if (credentials.email.trim() === "") {
@@ -44,7 +43,7 @@ export default function () {
       return;
     }
 
-    const response = await fetch("http://localhost:5000/api/login", {
+    const response = await fetch("http://localhost:5000/api/deliveryperson/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,13 +54,17 @@ export default function () {
       }),
     });
 
-    setIsLoading(false);
-
-    if (response.status === 200) {
-      window.location.href = "/";
+    const json = await response.json();
+    console.log(json);
+    if (!json.success) {
+      alert("Invalid credentials");
     } else {
-      alert("Login failed!");
+      localStorage.setItem("authToken", json.authToken);
+      console.log(localStorage.getItem("authToken"));
+      window.location.href = "/deliveryperson/dashboard";
     }
+
+    setIsLoading(false);
   };
 
   const onChange = (event) => {
@@ -70,12 +73,16 @@ export default function () {
 
   return (
     <>
-      <div>
-        <Navbar />
-      </div>
-
-      <div class="container">
+      <div
+        className="container"
+        style={{
+          width: "500px",
+          border: "1px solid white",
+          margin: "100px auto",
+        }}
+      >
         <Form onSubmit={handleSubmit}>
+          <h1 className="text-center mt-4">Sign in</h1>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
@@ -85,9 +92,6 @@ export default function () {
               value={credentials.email}
               onChange={onChange}
             />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -101,12 +105,18 @@ export default function () {
             />
           </Form.Group>
 
-          <Button variant="success mb-2" type="submit">
+          <Button
+            variant="success mb-2 mt-4"
+            type="submit"
+            className="d-block mx-auto"
+          >
             Submit
           </Button>
-
+          <div className="text-center">
+            <Link to="/deliveryperson/signup">New user? Join now!</Link>
+          </div>
           <br />
-          <Link to="/signup">New User? Signup</Link>
+          <br />
         </Form>
       </div>
     </>
