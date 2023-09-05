@@ -126,6 +126,7 @@ export default function ShowFoods_Restaurant() {
                   <div key={foodItem._id} className="col-12 col-md-6 col-lg-3">
                     <Card
                       _id={foodItem._id}
+                      restaurant_id = {foodItem.restaurant_id}
                       name={foodItem.name}
                       img={foodItem.img}
                       CategoryName={foodItem.CategoryName}

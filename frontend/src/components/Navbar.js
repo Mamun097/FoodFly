@@ -81,9 +81,21 @@ export default function () {
                     color: "white",
                     marginRight: "10px",
                   }}
-                  to="/"
+                  to="/user/mycart"
                 >
                   My Cart
+                </Link>
+                <Link
+                  className="btn"
+                  style={{
+                    background: "#ff8a00",
+                    color: "white",
+                    marginRight: "10px",
+                  }}
+                  to="/user/order"
+                >
+                  console.log("bal");
+                  Order Now
                 </Link>
                 <Link
                   className="btn"
@@ -93,6 +105,7 @@ export default function () {
                   }}
                   onClick={() => {
                     localStorage.removeItem("authToken");
+                    localStorage.removeItem("user_id");
                     window.location.href = "/";
                   }}
                 >

@@ -17,7 +17,32 @@ export default function FoodCard_Restaurant(props) {
     transform: isHovered ? "scale(1.05)" : "scale(1)",
     transition: "transform 0.1s ease-in-out",
   };
+  const onClick = async () => {
+  
+    //console.log(props.id);
+  
+    if (localStorage.getItem("user_id") === null) {
+      alert("Please Login First");
+    }
+    else {
+      const response = await fetch("http://localhost:5000/api/addtocart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: localStorage.getItem("user_id"),
+        food_id: props._id,
+        restaurant_id: props.restaurant_id
+      }),
+    });
 
+    const json = await response.json();
+    console.log(json);
+      alert("Added to Cart");
+    }
+
+  }
   return (
     <div
       className="card mt-2"
@@ -39,8 +64,10 @@ export default function FoodCard_Restaurant(props) {
 
         <div className="d-flex flex-row justify-content-between mt-3">
           <div className="h-100 fs-5">Tk {props.price}</div>
-          <button className="btn btn-success btn-sm"> Add to Cart </button>
+          <button className="btn btn-success btn-sm" onClick = {onClick}> Add to Cart </button>
         </div>
+
+        
       </div>
     </div>
   );
