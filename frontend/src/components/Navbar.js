@@ -94,7 +94,6 @@ export default function () {
                   }}
                   to="/user/order"
                 >
-                  console.log("bal");
                   Order Now
                 </Link>
                 <Link
