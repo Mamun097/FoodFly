@@ -119,7 +119,7 @@ export default function Home() {
         {homeKitchens.length > 0 && (
           <div className="row mt-4">
             <h3>Home Kitchens</h3>
-            <hr /> 
+            <hr />
             {homeKitchens
               .filter((restaurant) => restaurant.is_open) // Filter open restaurants
               .map((restaurant) => (
