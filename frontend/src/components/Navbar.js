@@ -17,7 +17,7 @@ export default function () {
         }}
       >
         <div className="container-fluid">
-          <Link className="navbar-brand fs-1 fst-italic" to="/">
+          <Link className="navbar-brand fs-1 fst-italic navbar-dark" to="/">
             FoodFly
           </Link>
           <button
@@ -93,6 +93,7 @@ export default function () {
                   }}
                   onClick={() => {
                     localStorage.removeItem("authToken");
+                    localStorage.removeItem("user_id");
                     window.location.href = "/";
                   }}
                 >
