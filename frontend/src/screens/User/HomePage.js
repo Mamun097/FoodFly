@@ -56,6 +56,7 @@ export default function Home() {
         restaurants.filter(
           (restaurant) =>
             restaurant.is_homekitchen &&
+            restaurant.is_open &&
             (restaurant.name.toLowerCase().includes(search.toLowerCase()) ||
               restaurant.location.toLowerCase().includes(search.toLowerCase())) // Fix the parentheses here
         )
@@ -64,6 +65,7 @@ export default function Home() {
         restaurants.filter(
           (restaurant) =>
             !restaurant.is_homekitchen &&
+            restaurant.is_open &&
             (restaurant.name.toLowerCase().includes(search.toLowerCase()) ||
               restaurant.location.toLowerCase().includes(search.toLowerCase())) // Fix the parentheses here
         )
@@ -73,9 +75,8 @@ export default function Home() {
 
   return (
     <div>
-      <Navbar/>
-      <div className="container" style={{position: "relative",
-            top: "100px",}}>
+      <Navbar />
+      <div className="container" style={{ position: "relative", top: "100px" }}>
         <input
           className="form-control mt-2"
           type="search"
@@ -91,43 +92,63 @@ export default function Home() {
             fontSize: "1.2rem", // Increase the font-size
           }}
         />{" "}
-
         {homeKitchens.length > 0 && (
           <div className="row mt-4">
-            <h2>Home Kitchens</h2>
+            <h3>Home Kitchens</h3>
             <hr />
-            {homeKitchens.map((restaurant) => (
-              <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
-                <RestCard_User
-                  _id={restaurant._id}
-                  name={restaurant.name}
-                  img={restaurant.img}
-                  location={restaurant.location}
-                />
-              </div>
-            ))}
+            {homeKitchens
+              .filter((restaurant) => restaurant.is_open) // Filter open restaurants
+              .map((restaurant) => (
+                <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
+                  <RestCard_User
+                    _id={restaurant._id}
+                    name={restaurant.name}
+                    img={restaurant.img}
+                    location={restaurant.location}
+                    is_open={restaurant.is_open}
+                  />
+                </div>
+              ))}
           </div>
         )}
-
         {otherRestaurants.length > 0 && (
           <div className="row mt-4">
-            <h2>Restaurants</h2>
+            <h3>Restaurants</h3>
             <hr />
-            {otherRestaurants.map((restaurant) => (
+            {otherRestaurants
+              .filter((restaurant) => restaurant.is_open) // Filter open restaurants
+              .map((restaurant) => (
+                <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
+                  <RestCard_User
+                    _id={restaurant._id}
+                    name={restaurant.name}
+                    img={restaurant.img}
+                    location={restaurant.location}
+                    is_open={restaurant.is_open}
+                  />
+                </div>
+              ))}
+          </div>
+        )}
+        <div className="row mt-4">
+          <h3>Temporarily Closed</h3>
+          <hr />
+          {restaurants
+            .filter((restaurant) => !restaurant.is_open) // Filter open restaurants
+            .map((restaurant) => (
               <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
                 <RestCard_User
                   _id={restaurant._id}
                   name={restaurant.name}
                   img={restaurant.img}
                   location={restaurant.location}
+                  is_open={restaurant.is_open}
                 />
               </div>
             ))}
-          </div>
-        )}
-         <Footer />
+        </div>
+        <Footer />
       </div>
-
     </div>
   );
 }
