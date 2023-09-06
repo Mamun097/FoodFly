@@ -67,9 +67,16 @@ router.post("/login", async (req, res) => {
           id: fetched_data.id,
         },
       };
+
+    console.log(fetched_data.name);
     
     const authToken = jwt.sign(data, jwtSecret);
-    return res.json({ success: true , authToken  : authToken});
+    return res.json({
+      success: true,
+      authToken: authToken,
+      userId: fetched_data.id,
+      userName: fetched_data.name
+    });
     
   } catch (error) {
     console.log(error);  }

@@ -4,6 +4,7 @@ import { useState } from "react";
 export default function (props) {
   const handleClick = (e) => {
     localStorage.setItem("restaurant_id", props._id);
+    console.log(props._id);
     window.location.href = "/user/restaurant/foods";
   };
 
