@@ -6,6 +6,7 @@ import Footer from "../../components/Footer";
 export default function Dashboard() {
   const [restaurants, setRestaurant] = useState([]);
   const [authToken, setAuthToken] = useState("");
+  const [isOpen, setIsOpen] = useState(true);
 
   const fetchData = async () => {
     let response = await fetch(
@@ -20,7 +21,13 @@ export default function Dashboard() {
 
     response = await response.json();
     setRestaurant(response);
-    console.log(response);
+
+    response.map((item, index) => {
+      if (item._id === localStorage.getItem("authToken")) {
+        setIsOpen(item.is_open);
+      }
+    });
+    console.log(isOpen);
   };
 
   useEffect(() => {
@@ -31,6 +38,29 @@ export default function Dashboard() {
     const token = localStorage.getItem("authToken");
     setAuthToken(token);
   }, []);
+
+  //Restaurant Open/Close Part
+  const handleIsOpenToggle = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/restaurant/isopen/${localStorage.getItem(
+          "authToken"
+        )}`,
+        {
+          method: "PUT",
+        }
+      );
+
+      if (response.status === 200) {
+        setIsOpen(!isOpen); // Toggle the is_open status
+        console.log("is_open status updated successfully");
+      } else {
+        console.log("Failed to update is_open status");
+      }
+    } catch (error) {
+      console.error("Error updating is_open status:", error);
+    }
+  };
 
   return (
     <div>
@@ -54,11 +84,32 @@ export default function Dashboard() {
 
                 <div className="container">
                   <div className="container mt-3 mx-6">
-                    <h1>{restaurant.name}</h1>
+                    <div className="d-flex flex-row justify-content-between">
+                      <h2>{restaurant.name}</h2>
+                      <div
+                        className="form-check form-switch mt-2"
+                        style={{ fontSize: "22px" }}
+                      >
+                        <input
+                          className="form-check-input"
+                          style={{
+                            cursor: "pointer",
+                            backgroundColor: isOpen ? "transparent" : "#ff8a00",
+                          }}
+                          type="checkbox"
+                          id="is_open"
+                          checked={!isOpen} // Use the state variable here
+                          onChange={handleIsOpenToggle}
+                        />
+                        <label className="form-check-label" for="is_open">
+                          Close Now
+                        </label>
+                      </div>
+                    </div>
 
                     <table className="table table-hover">
                       <tbody>
-                      <tr>
+                        <tr>
                           <th scope="row">Restaurant ID</th>
                           <td>{restaurant._id}</td>
                         </tr>
@@ -76,11 +127,9 @@ export default function Dashboard() {
                         </tr>
                       </tbody>
                     </table>
-                    <h1 className="mt-5">Orders</h1>
-                    <hr/>
+                    <h2 className="mt-5">Orders</h2>
+                    <hr />
                   </div>
-
-                  
 
                   {/* <Footer /> */}
                 </div>

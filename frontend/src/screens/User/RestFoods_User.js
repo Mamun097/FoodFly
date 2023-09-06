@@ -69,8 +69,8 @@ export default function ShowFoods_Restaurant() {
         {restaurants.map((restaurant) =>
           restaurant._id === desired_restaurant_id ? (
             <>
-              <h1 className="mt-3">{restaurant.name}</h1>
-              <h4>{restaurant.location}</h4>
+              <h2 className="mt-3">{restaurant.name}</h2>
+              <h5>{restaurant.location}</h5>
             </>
           ) : null
         )}
@@ -90,7 +90,7 @@ export default function ShowFoods_Restaurant() {
             if (foodsInCategory.length > 0) {
               return (
                 <div key={index} className="row mb-3">
-                  <h2>{item.CategoryName}</h2>
+                  <h3>{item.CategoryName}</h3>
                   <hr />
 
                   {foodsInCategory.map((foodItem) => (

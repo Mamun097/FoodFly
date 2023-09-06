@@ -7,23 +7,33 @@ export default function (props) {
     window.location.href = "/user/restaurant/foods";
   };
 
-  //for hover effect
+  // For hover effect
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    if (props.is_open) {
+      setIsHovered(true);
+    }
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
 
+  // Define styles based on is_open
   const cardStyle = {
     width: "16rem",
     maxHeight: "360px",
-    transform: isHovered ? "scale(1.05)" : "scale(1)",
+    transform: isHovered && props.is_open ? "scale(1.05)" : "scale(1)",
     transition: "transform 0.1s ease-in-out",
-    cursor: isHovered ? "pointer" : "default",
+    cursor: isHovered && props.is_open ? "pointer" : "default",
+  };
+
+  // Conditionally handle the onClick function
+  const handleCardClick = (e) => {
+    if (props.is_open) {
+      handleClick(e);
+    }
   };
 
   return (
@@ -33,13 +43,13 @@ export default function (props) {
         style={cardStyle}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onClick={handleClick}
+        onClick={handleCardClick}
       >
         <img
           src={props.img}
           className="card-img-top"
           alt="..."
-          style={{ maxHeight: "140px", objectFit: "cover" }}
+          style={{ maxHeight: "140px", objectFit: "cover", filter: props.is_open ? "none" : "blur(2px)" }}
         />
         <div className="card-body">
           <h5 className="card-title">{props.name}</h5>
