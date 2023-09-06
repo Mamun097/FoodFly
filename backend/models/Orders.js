@@ -7,6 +7,16 @@ const OrderSchema = new Schema({
         required: true
     }, 
 
+    restaurant_id: {
+        type: String,
+        required: true
+    },
+
+    delivery_person_id: {
+        type: String,
+        required: false
+    },
+
     // Array of food items with quantity
     food_items: [
         {
@@ -21,24 +31,13 @@ const OrderSchema = new Schema({
         }
     ],
 
-    restaurant_id: {
-        type: String,
-        required: true
-    },
-
-    delivery_person_id: {
-        type: String,
-        required: true
-    },
-
     // Status of the order
     status: {
         type: String,
-        enum: ["placed", "on_the_way", "delivered"], // Use enum to restrict values
-        default: "placed" // Default status when an order is created
+        enum: ["pending", "confirmed", "picked_up", "delivered"], // Use enum to restrict values
+        default: "pending" // Default status when an order is created
     },
 
-    // Date field with default value set to Date.now
     date: {
         type: Date,
         default: Date.now
