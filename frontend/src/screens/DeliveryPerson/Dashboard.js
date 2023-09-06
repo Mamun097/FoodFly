@@ -6,6 +6,7 @@ import Footer from "../../components/Footer";
 export default function Dashboard() {
   const [delivery_persons, setDeliveryPersons] = useState([]);
   const [authToken, setAuthToken] = useState("");
+  const [isAvailable, setIsAvailable] = useState(true);
 
   const fetchData = async () => {
     let response = await fetch(
@@ -20,6 +21,13 @@ export default function Dashboard() {
 
     response = await response.json();
     setDeliveryPersons(response);
+
+    response.map((item, index) => {
+      if (item._id === localStorage.getItem("authToken")) {
+        setIsAvailable(item.is_open);
+      }
+    });
+
     console.log(response);
   };
 
@@ -31,6 +39,29 @@ export default function Dashboard() {
     const token = localStorage.getItem("authToken");
     setAuthToken(token);
   }, []);
+
+  //Delivery Person Available/Unavailable Part
+  const handleIsAvailableToggle = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/deliveryperson/isavailable/${localStorage.getItem(
+          "authToken"
+        )}`,
+        {
+          method: "PUT",
+        }
+      );
+
+      if (response.status === 200) {
+        setIsAvailable(!isAvailable); // Toggle the is_open status
+        console.log("is_available status updated successfully");
+      } else {
+        console.log("Failed to update is_available status");
+      }
+    } catch (error) {
+      console.error("Error updating is_available status:", error);
+    }
+  };
 
   return (
     <div>
@@ -45,20 +76,38 @@ export default function Dashboard() {
 
                 <div
                   className="container"
-                  style={{
-                    position: "relative",
-                    top: "100px",
-                  }}
+                  style={{ position: "relative", top: "100px" }}
                 >
                   <div className="container mt-3 mx-6">
+                    <div className="d-flex flex-row justify-content-between">
+                      <h2>{deliveryperson.name}</h2>
+                      <div
+                        className="form-check form-switch mt-2"
+                        style={{ fontSize: "22px" }}
+                      >
+                        <input
+                          className="form-check-input"
+                          style={{
+                            cursor: "pointer",
+                            backgroundColor: isAvailable
+                              ? "transparent"
+                              : "#ff8a00",
+                          }}
+                          type="checkbox"
+                          id="is_available"
+                          checked={!isAvailable} // Use the state variable here
+                          onChange={handleIsAvailableToggle}
+                        />
+                        <label className="form-check-label" for="is_open">
+                          Available Now
+                        </label>
+                      </div>
+                    </div>
+
                     <table className="table table-hover">
                       <tbody>
                         <tr>
-                          <th scope="row">Name</th>
-                          <td>{deliveryperson.name}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">ID</th>
+                          <th scope="row">Delivery Person ID</th>
                           <td>{deliveryperson._id}</td>
                         </tr>
                         <tr>
@@ -75,7 +124,7 @@ export default function Dashboard() {
                         </tr>
                       </tbody>
                     </table>
-                    <h1 className="mt-5">Deliveries</h1>
+                    <h2 className="mt-5">Orders</h2>
                     <hr />
                   </div>
 

@@ -71,7 +71,7 @@ router.post("/deliveryperson/login", async (req, res) => {
     } catch (error) {
       console.log(error);  }
       return res.json({ success: false });
-  });
+  }); 
 
 
   router.get("/deliveryperson/dashboard", async (req, res) => {
@@ -87,6 +87,32 @@ router.post("/deliveryperson/login", async (req, res) => {
       return res.json({ success: false });
     }
   });
+
+
+  // Whether delivery person is available or not 
+router.put('/deliveryperson/isavailable/:deliverypersonId', async (req, res) => {
+  const { deliverypersonId } = req.params;
+ 
+  try {
+    // Find the food item by ID
+    const deliveryperson = await DeliveryPerson.findById(deliverypersonId);
+
+    if (!deliveryperson) {
+      return res.status(404).json({ message: "delivery person not found" });
+    }
+
+    // Toggle the is_open field
+    deliveryperson.is_available = !deliveryperson.is_available; 
+
+    // Save the updated state
+    await deliveryperson.save();
+
+    return res.json({ message: "is_available status updated", is_available: deliveryperson.is_available });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 
 module.exports = router;

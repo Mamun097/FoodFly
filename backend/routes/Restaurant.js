@@ -199,7 +199,7 @@ router.put('/fooditems/stockout/:foodId', async (req, res) => {
     }
 
     // Toggle the is_instock field
-    foodItem.is_instock = !foodItem.is_instock;
+    foodItem.is_instock = !foodItem.is_instock; 
 
     // Save the updated food item
     await foodItem.save();
@@ -282,8 +282,29 @@ router.get('/restaurant/review/:restaurantId', async (req, res) => {
   }
 });
 
+// Restaurant is_open  
+router.put('/restaurant/isopen/:restaurantId', async (req, res) => {
+  const { restaurantId } = req.params;
+ 
+  try {
+    // Find the food item by ID
+    const restaurant = await Restaurant.findById(restaurantId);
 
+    if (!restaurant) {
+      return res.status(404).json({ message: "Food item not found" });
+    }
 
+    // Toggle the is_open field
+    restaurant.is_open = !restaurant.is_open; 
 
+    // Save the updated state
+    await restaurant.save();
+
+    return res.json({ message: "is_open status updated", is_open: restaurant.is_open });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 module.exports = router;
