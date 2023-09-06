@@ -60,6 +60,8 @@ export default function () {
       alert("Invalid credentials");
     } else {
       localStorage.setItem("authToken", json.authToken);
+      localStorage.setItem("user_id", json.userId);
+      localStorage.setItem("user_name", json.userName);
       console.log(localStorage.getItem("authToken"));
       window.location.href = "/user/restaurant"
     }

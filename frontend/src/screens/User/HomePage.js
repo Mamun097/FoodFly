@@ -8,33 +8,38 @@ export default function Home() {
   const [restaurants, setRestaurants] = useState([]);
   const [homeKitchens, setHomeKitchens] = useState([]);
   const [otherRestaurants, setOtherRestaurants] = useState([]);
+  const [mostPopularRestaurants, setMostPopularRestaurants] = useState([]);
 
+  // Fetch restaurant data
   const fetchData = async () => {
-    let response = await fetch("http://localhost:5000/api/restaurants", {
+    const response = await fetch("http://localhost:5000/api/restaurants", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
+    const data = await response.json();
+    setRestaurants(data);
+    // Sort the restaurants by ratings (assuming you have a ratings field)
+    const sortedByRating = [...data].sort((a, b) => b.averageRating - a.averageRating);
+    
+    // Take the top 5 (or however many you want) to show as most popular
+    const topRated = sortedByRating.slice(0, 4);
+    console.log("Top-rated:", topRated);  // Debug line
+    
+    setMostPopularRestaurants(topRated);
 
-    response = await response.json();
-    setRestaurants(response);
-
-    // Filter restaurants into home kitchens and other restaurants
-    const homeKitchenRestaurants = response.filter(
-      (restaurant) => restaurant.is_homekitchen
-    );
-    setHomeKitchens(homeKitchenRestaurants);
-
-    const otherRestaurants = response.filter(
-      (restaurant) => !restaurant.is_homekitchen
-    );
-    setOtherRestaurants(otherRestaurants);
+    const homeKitchens = data.filter((restaurant) => restaurant.is_homekitchen);
+    const otherRests = data.filter((restaurant) => !restaurant.is_homekitchen);
+    setHomeKitchens(homeKitchens);
+    setOtherRestaurants(otherRests);
   };
 
   useEffect(() => {
     fetchData();
+    // fetchUser();
   }, []);
+
 
   // Search
   const [search, setSearch] = useState("");
@@ -92,6 +97,25 @@ export default function Home() {
             fontSize: "1.2rem", // Increase the font-size
           }}
         />{" "}
+
+            {/* Most Popular Restaurants */}
+            {mostPopularRestaurants.length > 0 && (
+          <div className="row mt-4">
+            <h2>Most Popular Restaurants</h2>
+            <hr />
+            {mostPopularRestaurants.map((restaurant) => (
+              <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
+                <RestCard_User
+                  _id={restaurant._id}
+                  name={restaurant.name}
+                  img={restaurant.img}
+                  location={restaurant.location}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
         {homeKitchens.length > 0 && (
           <div className="row mt-4">
             <h3>Home Kitchens</h3>
