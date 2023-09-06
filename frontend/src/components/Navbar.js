@@ -3,7 +3,42 @@ import { Link } from "react-router-dom";
 
 export default function () {
   const isLoggedIn = localStorage.getItem("authToken");
+  const handleOrder = async () => {
+    try {
 
+      // Make the API request to place the order
+      fetch("http://localhost:5000/api/placeorder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: localStorage.getItem("user_id"),
+        }),
+      });
+
+      // Handle the response or move the alert to an appropriate place
+      console.log("sachin is here");
+      // Set the orderPlaced flag to true to prevent further orders
+
+      // Make the API request to remove items from the cart (if needed)
+      await fetch("http://localhost:5000/api/removefromcart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: localStorage.getItem("user_id"),
+        }),
+      });
+
+      // Handle the response or move the alert to an appropriate place
+
+      alert("Order Placed"); // Move this alert to the appropriate place
+    } catch (err) {
+      console.error(err);
+    }
+  }
   return (
     <div>
       <nav
@@ -85,17 +120,17 @@ export default function () {
                 >
                   My Cart
                 </Link>
-                <Link
+                <button
                   className="btn"
                   style={{
                     background: "#ff8a00",
                     color: "white",
                     marginRight: "10px",
                   }}
-                  to="/user/order"
+                  onClick={handleOrder}
                 >
                   Order Now
-                </Link>
+                </button>
                 <Link
                   className="btn"
                   style={{
