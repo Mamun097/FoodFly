@@ -101,7 +101,7 @@ export default function Home() {
             {/* Most Popular Restaurants */}
             {mostPopularRestaurants.length > 0 && (
           <div className="row mt-4">
-            <h2>Most Popular Restaurants</h2>
+            <h3>Most Popular Restaurants</h3>
             <hr />
             {mostPopularRestaurants.map((restaurant) => (
               <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
@@ -110,6 +110,7 @@ export default function Home() {
                   name={restaurant.name}
                   img={restaurant.img}
                   location={restaurant.location}
+                  is_open={restaurant.is_open}
                 />
               </div>
             ))}

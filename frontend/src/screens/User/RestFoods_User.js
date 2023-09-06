@@ -256,10 +256,10 @@ export default function ShowFoods_Restaurant() {
             <>
 
               <div className="d-flex justify-content-between align-items-center">
-                <h1 className="mt-3">{restaurant.name}</h1>
+                <h2 className="mt-3">{restaurant.name}</h2>
                 {/* Average Rating Header */}
                 <div className="d-flex align-items-center">
-                  <h3 style={{ marginBottom: 0 }}>Average Rating: </h3>
+                  <h4 style={{ marginBottom: 0 }}>Average Rating: </h4>
                   <span className="ms-2">{averageRating.toFixed(1)}</span>
                   <div className="ms-2">
                     {averageRating !== null && renderStars(averageRating)}
@@ -352,8 +352,6 @@ export default function ShowFoods_Restaurant() {
                 )
               }
               
-              <h2 className="mt-3">{restaurant.name}</h2>
-              <h5>{restaurant.location}</h5>
             </>
           ) : null
         )}
