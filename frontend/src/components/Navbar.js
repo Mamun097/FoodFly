@@ -159,7 +159,7 @@ export default function () {
                     ""
                   )}
                 </div>
-                <button
+                {/* <button
                   className="btn"
                   style={{
                     background: "#ff8a00",
@@ -169,7 +169,7 @@ export default function () {
                   onClick={handleOrder}
                 >
                   Order Now
-                </button>
+                </button> */}
                 <Link
                   className="btn"
                   style={{

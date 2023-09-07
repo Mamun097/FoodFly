@@ -172,6 +172,42 @@ function MyCart() {
     }
     navigate("/user/mycart");
   };
+  const handleOrder = async () => {
+    try {
+
+      // Make the API request to place the order
+      fetch("http://localhost:5000/api/placeorder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: localStorage.getItem("user_id"),
+        }),
+      });
+
+      // Handle the response or move the alert to an appropriate place
+      console.log("sachin is here");
+      // Set the orderPlaced flag to true to prevent further orders
+
+      // Make the API request to remove items from the cart (if needed)
+      await fetch("http://localhost:5000/api/removefromcart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: localStorage.getItem("user_id"),
+        }),
+      });
+
+      // Handle the response or move the alert to an appropriate place
+
+      alert("Order Placed"); // Move this alert to the appropriate place
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <div>
       <div>
@@ -188,7 +224,7 @@ function MyCart() {
                   <p>Type: {foodItem.type}</p>
                 </div>
                 <div>
-                  <p>Price: Tk {foodItem.price.toFixed(2)}</p>
+                  <p>Price: Tk {(foodItem.price * foodItem.quantity).toFixed(2)}</p>
                   <div className="quantity-controls">
                     <p className="mx-2">Quantity: {foodItem.quantity}</p>
                     <button
@@ -222,6 +258,13 @@ function MyCart() {
           <div className="mt-4">
             <h3>Total:</h3>
             <p className="font-weight-bold">Tk {totalPrice.toFixed(2)}</p>
+            <button
+            className="btn btn-lg btn-primary mx auto my auto"
+            onClick={handleOrder}
+            disabled={foodItems.length === 0} // Disable the button if the cart is empty
+          >
+            Order Now
+          </button>
           </div>
         </div>
       </div>
