@@ -1,20 +1,22 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { UserContext } from "../UserContext"; // Import your context
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 export default function () {
   const isLoggedIn = localStorage.getItem("authToken");
   //const count = 5;
   //const [foodCount, setFoodCount] = useState(0); // State for food count
-  const {foodCount, updateFoodCount} = useContext(UserContext);
+  const { foodCount, updateFoodCount } = useContext(UserContext);
   // useEffect(() => {
   //   // Update the food count from localStorage
   //   const storedFoodCount = parseInt(localStorage.getItem("food_count")) || 0;
   //   setFoodCount(storedFoodCount);
   // }, []);
-  
+
   const handleOrder = async () => {
     try {
 
@@ -121,7 +123,12 @@ export default function () {
             )}
             {isLoggedIn ? (
               <div className="d-flex">
-                <div style={{ position: "relative", display: "inline-block" }}>
+                <div
+                  style={{
+                    position: "relative",
+                    display: "inline-block",
+                  }}
+                >
                   <Link
                     className="btn"
                     style={{
@@ -131,7 +138,8 @@ export default function () {
                     }}
                     to="/user/mycart"
                   >
-                    My Cart
+                    {/* Replace "My Cart" text with the cart icon */}
+                    <FontAwesomeIcon icon={faShoppingCart} />
                   </Link>
                   {foodCount > 0 ? (<span
                     style={{

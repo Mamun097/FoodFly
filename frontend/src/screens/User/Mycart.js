@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../../UserContext';
 function MyCart() {
   const [foodItems, setFoodItems] = useState([]);
   const [cartData, setCartData] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const { foodCount, updateFoodCount } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
@@ -89,7 +92,7 @@ function MyCart() {
         }),
       });
       const data = await response.json();
-  
+      updateFoodCount(foodCount + 1);
       if (data.success) {
         setFoodItems((prevFoodItems) =>
           prevFoodItems.map((foodItem) =>
@@ -120,7 +123,7 @@ function MyCart() {
         }),
       });
       const data = await response.json();
-  
+      updateFoodCount(foodCount - 1);
       if (data.success) {
         setFoodItems((prevFoodItems) =>
           prevFoodItems.map((foodItem) =>
@@ -152,7 +155,11 @@ function MyCart() {
         }),
       });
       const data = await response.json();
-  
+      for (let i = 0; i < foodItems.length; i++) {
+        if (foodItems[i].id === foodItemId) {
+          updateFoodCount(foodCount - foodItems[i].quantity);
+        }
+      }
       if (data.success) {
         setFoodItems((prevFoodItems) =>
           prevFoodItems.filter((foodItem) => foodItem.id !== foodItemId)

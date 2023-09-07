@@ -45,7 +45,7 @@ export default function FoodCard_Restaurant(props) {
 
       const json = await response.json();
       console.log(json);
-      alert("Added to Cart");
+      // alert("Added to Cart");
 
       // Increment the food count and update localStorage
       //const updatedFoodCount = foodCount + 1;
