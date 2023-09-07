@@ -91,6 +91,10 @@ router.post("/addtocart", async (req, res) => {
       return res.status(400).json({ errors: [{ message: "User doesn't exist!" }] });
     }
     console.log("user found");
+    if(req.body.food_id==null){
+      //return res.status(400).json({ errors: [{ message: "Food doesn't exist!" }] });
+      console.log("food not found");
+    }
     await Cart.create({
       user_id: req.body.user_id,
       food_id: req.body.food_id,
@@ -126,6 +130,24 @@ router.post("/getfood", async (req, res) => {
 router.post("/removefromcart", async (req, res) => {
   try {
     const cart = await Cart.deleteMany({ user_id: req.body.user_id });
+    res.json(cart);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/removefoodfromcart", async (req, res) => {
+  try {
+    const cart = await Cart.deleteOne({ user_id: req.body.user_id, food_id: req.body.food_id });
+    res.json(cart);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/removeallfoodfromcart", async (req, res) => {
+  try {
+    const cart = await Cart.deleteMany({ user_id: req.body.user_id, food_id: req.body.food_id });
     res.json(cart);
   } catch (error) {
     console.log(error);

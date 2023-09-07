@@ -8,7 +8,7 @@ export default function Home() {
   const [restaurants, setRestaurants] = useState([]);
   const [homeKitchens, setHomeKitchens] = useState([]);
   const [otherRestaurants, setOtherRestaurants] = useState([]);
-
+  const [foodCount, setFoodCount] = useState(0); // State for food count
   const fetchData = async () => {
     let response = await fetch("http://localhost:5000/api/restaurants", {
       method: "GET",
@@ -71,7 +71,10 @@ export default function Home() {
       );
     }
   }, [search]);
-
+  useEffect(() => {
+    const newFoodCount = localStorage.getItem("food_count");
+    setFoodCount(newFoodCount);
+  }, [localStorage.getItem("food_count")]);
   return (
     <div>
       <Navbar/>

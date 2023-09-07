@@ -26,8 +26,19 @@ const OrderSchema = new Schema({
     user_id: {
         type: String,
         required: true
-    }, 
-
+    },
+    Food: [
+        {
+            amount: {
+                type: Number,
+                required: true
+            },
+            food_id: {
+                type: String,
+                required: true
+            }
+        }
+    ],
     food_id: [
         {
             type: String,
@@ -38,6 +49,18 @@ const OrderSchema = new Schema({
     restaurant_id: {
         type: String,
         required: true
+    },
+
+    order_status: {
+        order_placed: {
+            type: Boolean,
+            required: false
+        }
+    },
+
+    delivery_person_id: {
+        type: String,
+        required: false
     }
 
 });

@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import {useState, useEffect} from 'react';
+import { UserContext } from "../UserContext"; // Import your context
+
 
 export default function () {
   const isLoggedIn = localStorage.getItem("authToken");
+  //const count = 5;
+  //const [foodCount, setFoodCount] = useState(0); // State for food count
+  const {foodCount, updateFoodCount} = useContext(UserContext);
+  // useEffect(() => {
+  //   // Update the food count from localStorage
+  //   const storedFoodCount = parseInt(localStorage.getItem("food_count")) || 0;
+  //   setFoodCount(storedFoodCount);
+  // }, []);
+  
   const handleOrder = async () => {
     try {
 
@@ -109,17 +121,36 @@ export default function () {
             )}
             {isLoggedIn ? (
               <div className="d-flex">
-                <Link
-                  className="btn"
-                  style={{
-                    background: "#ff8a00",
-                    color: "white",
-                    marginRight: "10px",
-                  }}
-                  to="/user/mycart"
-                >
-                  My Cart
-                </Link>
+                <div style={{ position: "relative", display: "inline-block" }}>
+                  <Link
+                    className="btn"
+                    style={{
+                      background: "#ff8a00",
+                      color: "white",
+                      marginRight: "10px",
+                    }}
+                    to="/user/mycart"
+                  >
+                    My Cart
+                  </Link>
+                  {foodCount > 0 ? (<span
+                    style={{
+                      position: "absolute",
+                      top: "1px", // Adjust the vertical position as needed
+                      right: "5px", // Adjust the horizontal position as needed
+                      background: "red",
+                      color: "white",
+                      borderRadius: "50%",
+                      padding: "4px 8px",
+                      fontSize: "8px",
+                    }}
+                  >
+                    {foodCount}
+                  </span>
+                  ) : (
+                    ""
+                  )}
+                </div>
                 <button
                   className="btn"
                   style={{
