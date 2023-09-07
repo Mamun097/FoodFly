@@ -61,6 +61,7 @@ export default function () {
     }
     else {
       localStorage.setItem('authToken', json.authToken);
+      localStorage.setItem('restaurant_id', json.restaurant_id);
       window.location.href = "/restaurant/dashboard";
     }
 

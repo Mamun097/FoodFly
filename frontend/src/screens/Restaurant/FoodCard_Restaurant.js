@@ -112,6 +112,39 @@ export default function (props) {
     }
   };
 
+  //I S O P E N
+
+  const handleStockAndRestaurantStatusToggle = async () => {
+    try {
+      const restaurantId = props.restaurantId; // Assume restaurantId is passed as a prop
+      const foodId = props._id;
+
+      const response = await fetch(
+        `http://localhost:5000/api/restaurant/updateStock/${foodId}/${restaurantId}`,
+        {
+          method: "PUT",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ inStock: !isInStock }) // Toggle the stock status before sending
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Stock Out status and restaurant is_open field updated successfully");
+      } else {
+        console.log("Failed to update Stock Out status and restaurant is_open field");
+      }
+    } catch (error) {
+      console.error("Error updating Stock Out status:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Calling the function when isInStock changes
+    handleStockAndRestaurantStatusToggle();
+  }, [isInStock]);
+
   return (
     <div>
       <div
@@ -137,7 +170,7 @@ export default function (props) {
           <div className="form-check form-switch mt-2">
             <input
               className="form-check-input"
-              style={{ cursor: "pointer", backgroundColor: isInStock? "transparent" : "#ff8a00" }}
+              style={{ cursor: "pointer", backgroundColor: isInStock ? "transparent" : "#ff8a00" }}
               type="checkbox"
               id={`stockout-${props._id}`}
               checked={!isInStock} // Use the state variable here

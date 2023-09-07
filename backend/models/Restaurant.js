@@ -54,7 +54,11 @@ const RestaurantSchema = new Schema({
                 default: Date.now
               }
         }
-    ]
+    ],
+    hasStock: {
+        type: Boolean,
+        default: true,
+      }
 });
 
 module.exports = mongoose.model("restaurants", RestaurantSchema);

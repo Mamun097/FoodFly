@@ -282,8 +282,57 @@ router.get('/restaurant/review/:restaurantId', async (req, res) => {
   }
 });
 
+// R E S T A U R A N T  S T A T U S
+
+async function updateFoodStock(foodId, newStockStatus, restaurantId) {
+  const food = await Food.findById(foodId);
+
+  if (!food) {
+    console.log("Food item not found");
+    return;
+  }
+
+  food.inStock = newStockStatus;
+  await food.save();
+
+  // Using the passed restaurantId parameter now
+  const restaurant = await Restaurant.findById(restaurantId);
+
+  if (!restaurant) {
+    console.log("Restaurant not found");
+    return;
+  }
+
+  // If the restaurant is a home kitchen, check stock status.
+  if (restaurant.is_homekitchen) {
+    const allFoods = await Food.find({ restaurant_id: restaurantId });
+
+    // Check if all foods are out of stock
+    const allOutOfStock = allFoods.every(f => !f.is_instock);
+
+    if (allOutOfStock) {
+      restaurant.hasStock = false;
+      restaurant.is_open = false; // Close the restaurant
+    } else {
+      restaurant.hasStock = true;
+      restaurant.is_open = true; // Open the restaurant
+    }
+
+    await restaurant.save();
+  }
+}
 
 
+router.put("/restaurant/updateStock/:foodId/:restaurantId", async (req, res) => {
+  try {
+    const { foodId, restaurantId } = req.params;
+    const { inStock } = req.body; // true or false
+    await updateFoodStock(foodId, inStock, restaurantId); // Call the function to update the stock and restaurant's is_open field
+    res.status(200).json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
 
 
 module.exports = router;

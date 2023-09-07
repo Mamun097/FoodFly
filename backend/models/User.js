@@ -21,7 +21,14 @@ const UserSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
-    }
+    },
+    // Add a favorites field which is an array of Restaurant ObjectIds
+    favorites: [
+        {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Restaurant'
+        }
+    ]
 
 });
 

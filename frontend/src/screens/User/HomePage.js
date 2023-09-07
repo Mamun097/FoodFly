@@ -9,6 +9,13 @@ export default function Home() {
   const [homeKitchens, setHomeKitchens] = useState([]);
   const [otherRestaurants, setOtherRestaurants] = useState([]);
   const [mostPopularRestaurants, setMostPopularRestaurants] = useState([]);
+  const [favoriteRestaurants, setFavoriteRestaurants] = useState([]);
+
+
+  useEffect(() => {
+    // This will log whenever favoriteRestaurants changes
+    console.log('Updated favoriteRestaurants:', favoriteRestaurants);
+  }, [favoriteRestaurants]);
 
   // Fetch restaurant data
   const fetchData = async () => {
@@ -22,11 +29,11 @@ export default function Home() {
     setRestaurants(data);
     // Sort the restaurants by ratings (assuming you have a ratings field)
     const sortedByRating = [...data].sort((a, b) => b.averageRating - a.averageRating);
-    
+
     // Take the top 5 (or however many you want) to show as most popular
     const topRated = sortedByRating.slice(0, 4);
     console.log("Top-rated:", topRated);  // Debug line
-    
+
     setMostPopularRestaurants(topRated);
 
     const homeKitchens = data.filter((restaurant) => restaurant.is_homekitchen);
@@ -34,12 +41,37 @@ export default function Home() {
     setHomeKitchens(homeKitchens);
     setOtherRestaurants(otherRests);
   };
+  const fetchFavoriteRestaurants = async () => {
+    const userId = localStorage.getItem('user_id');
+    try {
+      const response = await fetch(`http://localhost:5000/api/favorites/${userId}`);
+      const data = await response.json();
+      console.log("the dataaa");
+      // console.log(data);
+
+      if (response.ok) {
+        // // Filter the restaurants that are in the favorite list
+        // const favorites = restaurants.filter(r => 
+        //   data.some(fav => fav._id === r._id)
+        // );
+        console.log(data);
+        setFavoriteRestaurants(data);
+        console.log(favoriteRestaurants);
+      } else {
+        console.log("Error fetching favorites:", data.message);
+      }
+    } catch (error) {
+      console.error("An error occurred while fetching favorites:", error);
+    }
+  };
+
+
 
   useEffect(() => {
     fetchData();
+    fetchFavoriteRestaurants();
     // fetchUser();
   }, []);
-
 
   // Search
   const [search, setSearch] = useState("");
@@ -78,9 +110,11 @@ export default function Home() {
 
   return (
     <div>
-      <Navbar/>
-      <div className="container" style={{position: "relative",
-            top: "100px",}}>
+      <Navbar />
+      <div className="container" style={{
+        position: "relative",
+        top: "100px",
+      }}>
         <input
           className="form-control mt-2"
           type="search"
@@ -97,21 +131,42 @@ export default function Home() {
           }}
         />{" "}
 
-            {/* Most Popular Restaurants */}
-            {mostPopularRestaurants.length > 0 && (
+        {favoriteRestaurants.length > 0 && (
           <div className="row mt-4">
-            <h2>Most Popular Restaurants</h2>
+            <h2>Your Favourite Restaurants</h2>
             <hr />
-            {mostPopularRestaurants.map((restaurant) => (
+            {favoriteRestaurants.slice(0, 4).map((restaurant) => (
               <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
                 <RestCard_User
                   _id={restaurant._id}
                   name={restaurant.name}
                   img={restaurant.img}
                   location={restaurant.location}
+                  averageRating={restaurant.averageRating}
                 />
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Most Popular Restaurants */}
+        {mostPopularRestaurants.length > 0 && (
+          <div className="row mt-4">
+            <h2>Most Popular Available Restaurants</h2>
+            <hr />
+            {mostPopularRestaurants
+              .filter(restaurant => restaurant.is_open) // Only include restaurants that are open
+              .map((restaurant) => (
+                <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
+                  <RestCard_User
+                    _id={restaurant._id}
+                    name={restaurant.name}
+                    img={restaurant.img}
+                    location={restaurant.location}
+                    averageRating={restaurant.averageRating}
+                  />
+                </div>
+              ))}
           </div>
         )}
 
@@ -120,12 +175,17 @@ export default function Home() {
             <h2>Home Kitchens</h2>
             <hr />
             {homeKitchens.map((restaurant) => (
-              <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
+              <div
+                key={restaurant._id}
+                className={`col-12 col-md-6 col-lg-3 ${!restaurant.hasStock ? 'bg-light' : ''}`}
+                style={{ pointerEvents: !restaurant.hasStock ? 'none' : 'auto', opacity: !restaurant.hasStock ? 0.6 : 1 }}
+              >
                 <RestCard_User
                   _id={restaurant._id}
                   name={restaurant.name}
                   img={restaurant.img}
                   location={restaurant.location}
+                  averageRating={restaurant.averageRating}
                 />
               </div>
             ))}
@@ -143,12 +203,13 @@ export default function Home() {
                   name={restaurant.name}
                   img={restaurant.img}
                   location={restaurant.location}
+                  averageRating={restaurant.averageRating}
                 />
               </div>
             ))}
           </div>
         )}
-         <Footer />
+        <Footer />
       </div>
 
     </div>

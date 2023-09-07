@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { FaStar } from "react-icons/fa";
+
 
 export default function (props) {
   const handleClick = (e) => {
@@ -42,10 +44,22 @@ export default function (props) {
           alt="..."
           style={{ maxHeight: "140px", objectFit: "cover" }}
         />
-        <div className="card-body">
-          <h5 className="card-title">{props.name}</h5>
-          <p className="card-text text-muted fs-10">{props.location}</p>
+        <div className="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <h5 className="card-title">{props.name}</h5>
+            <p className="card-text text-muted fs-10 d-inline">{props.location}</p>
+            {props.averageRating !== null && ( // Conditional rendering block
+              <div className="d-flex align-items-center">
+                <span className="mr-1">{props.averageRating}</span>
+                <FaStar />
+              </div>
+            )}
+
+          </div>
         </div>
+
+
+
       </div>
     </div>
   );
