@@ -27,10 +27,31 @@ export default function FoodCard_Restaurant(props) {
   };
 
   const onClick = async () => {
-    localStorage.setItem("restaurant_id", props.restaurant_id);
+
     if (localStorage.getItem("user_id") === null) {
       alert("Please Login First");
     } else {
+      const check = await fetch("http://localhost:5000/api/getcart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: localStorage.getItem("user_id"),
+        }),
+      });
+      const check_json = await check.json();
+      console.log(check_json);
+
+      const uniqueRestaurants = new Set(check_json.map(item => item.restaurant_id));
+      const numberOfUniqueRestaurants = uniqueRestaurants.size;
+      
+      if(numberOfUniqueRestaurants == 1 && !uniqueRestaurants.has(props.restaurant_id)){
+        alert("You can't order from more than one restaurant at a time");
+        return;
+      }
+
+      localStorage.setItem("restaurant_id", props.restaurant_id);
       const response = await fetch("http://localhost:5000/api/addtocart", {
         method: "POST",
         headers: {
@@ -51,7 +72,7 @@ export default function FoodCard_Restaurant(props) {
       //const updatedFoodCount = foodCount + 1;
       //setFoodCount(updatedFoodCount);
       updateFoodCount(foodCount + 1);
-      
+
     }
   };
   return (

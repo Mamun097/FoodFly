@@ -259,7 +259,7 @@ function MyCart() {
             <h3>Total:</h3>
             <p className="font-weight-bold">Tk {totalPrice.toFixed(2)}</p>
             <button
-            className="btn btn-lg btn-primary mx auto my auto"
+            className="btn btn-lg btn-primary float-end"
             onClick={handleOrder}
             disabled={foodItems.length === 0} // Disable the button if the cart is empty
           >
