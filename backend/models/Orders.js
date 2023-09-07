@@ -41,7 +41,14 @@ const OrderSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
-    }
+    },
+
+    payment_method: {
+        type: String,
+        enum: ["cod", "card"],
+        required: false
+    },
+
 });
 
 module.exports = mongoose.model("order", OrderSchema);

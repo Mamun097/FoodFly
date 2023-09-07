@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 const Orders = require("../models/Orders");
+const Food = require("../models/Food");
 
 //Fetching orders of a particular user
 router.get("/user/orders/:userId", async (req, res) => {
@@ -11,7 +12,7 @@ router.get("/user/orders/:userId", async (req, res) => {
     // Find all orders for the specified userId
     const orders = await Orders.find({ user_id: userId });
 
-    if (!orders || orders.length === 0) {
+    if (!orders) {
       return res
         .status(404)
         .json({ message: "No orders found for this user." });
@@ -154,6 +155,20 @@ router.put("/orders/deliveredorder/:orderId", async (req, res) => {
   } catch (error) {
     console.error("Error changing order status:", error);
     return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/food/:foodId", async (req, res) => {
+  const foodId = req.params.foodId;
+  try {
+    const food = await Food.findById(foodId);
+    if (!food) {
+      return res.status(404).json({ message: "Food not found" });
+    }
+    res.status(200).json(food);
+  } catch (error) {
+    console.error("Error fetching food:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 

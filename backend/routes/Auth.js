@@ -30,10 +30,11 @@ async(req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-        await User.create({
+        await User.create({ 
             name: req.body.name, 
             location: req.body.location,
             email: req.body.email,
+            contact: req.body.contact,
             password: hashedPassword,
         })
         res.json({ message: "User Created" });
@@ -68,7 +69,7 @@ router.post("/login", async (req, res) => {
         },
       };
 
-    console.log(fetched_data.name);
+    // console.log(fetched_data.name); 
     
     const authToken = jwt.sign(data, jwtSecret);
     return res.json({

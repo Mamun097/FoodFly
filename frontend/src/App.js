@@ -11,6 +11,7 @@ import RestFoods_User from './screens/User/RestFoods_User';
 import Signup_DP from './screens/DeliveryPerson/Signup';
 import Login_DP from './screens/DeliveryPerson/Signin';
 import Dashboard_DP from './screens/DeliveryPerson/Dashboard';
+import Dashboard_User from './screens/User/Dashboard';
 
 import '../node_modules/bootstrap-dark-5/dist/css/bootstrap-dark.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle';
@@ -39,6 +40,7 @@ function App() {
           <Route exact path="/deliveryperson/signup" element={<Signup_DP/>}/>
           <Route exact path="/deliveryperson/login" element={<Login_DP/>}/>
           <Route exact path="/deliveryperson/dashboard" element={<Dashboard_DP/>}/>
+          <Route exact path="/user/dashboard" element={<Dashboard_User/>}/>
         </Routes>
       </div>
     </Router>
