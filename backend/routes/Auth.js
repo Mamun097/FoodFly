@@ -21,26 +21,26 @@ router.post("/createuser",
 
   async (req, res) => {
     try {
-      // Check if the email exists in User, Restaurant, and DeliveryPerson tables
-      const user = await User.findOne({ email: req.body.email });
-      const restaurant = await Restaurant.findOne({ email: req.body.email });
-      const deliveryPerson = await DeliveryPerson.findOne({ email: req.body.email });
+        // Check if the email exists in User, Restaurant, and DeliveryPerson tables
+        const user = await User.findOne({ email: req.body.email });
+        const restaurant = await Restaurant.findOne({ email: req.body.email });
+        const deliveryPerson = await DeliveryPerson.findOne({ email: req.body.email });
 
-      if (user || restaurant || deliveryPerson) {
-        return res.status(400).json({ errors: [{ message: "Email already exists" }] });
-      }
+        if (user || restaurant || deliveryPerson) {
+            return res.status(400).json({ errors: [{ message: "Email already exists" }] });
+        }
 
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-      await User.create({
-        name: req.body.name,
-        location: req.body.location,
-        email: req.body.email,
-        password: hashedPassword,
-      })
-
-      res.json({ message: "User created!!" });
+        await User.create({ 
+            name: req.body.name, 
+            location: req.body.location,
+            email: req.body.email,
+            contact: req.body.contact,
+            password: hashedPassword,
+        })
+        res.json({ message: "User Created" });
     } catch (error) {
       console.log(error);
       res.json({ message: "User Not Created" });
@@ -67,19 +67,21 @@ router.post("/login", async (req, res) => {
     }
 
     const data = {
-      user: {
-        id: fetched_data.id,
-      },
-    };
+        user: {
+          id: fetched_data.id,
+        },
+      };
 
+    // console.log(fetched_data.name); 
+    
     const authToken = jwt.sign(data, jwtSecret);
-    return res.json({ success: true, authToken: authToken, id: fetched_data.id });
-
-  } catch (error) {
-    console.log(error);
-  }
-  return res.json({ success: false });
-});
+    return res.json({
+      success: true,
+      authToken: authToken,
+      userId: fetched_data.id,
+      userName: fetched_data.name
+    });
+  
 router.post("/addtocart", async (req, res) => {
   try {
 
@@ -174,7 +176,8 @@ router.post("/placeorder", async (req, res) => {
     })
     res.json({ message: "Order placed!!" });
     console.log("order placed");
-  } catch (error) {
+  }
+    catch (error) {
     console.log(error);
   }
 });

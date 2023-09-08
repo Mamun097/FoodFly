@@ -59,8 +59,8 @@ export default function () {
     if (!json.success) {
       alert("Invalid credentials");
     } else {
+      localStorage.setItem("deliveryperson_id", json.authToken);
       localStorage.setItem("authToken", json.authToken);
-      console.log(localStorage.getItem("authToken"));
       window.location.href = "/deliveryperson/dashboard";
     }
 

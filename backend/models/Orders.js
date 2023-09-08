@@ -2,67 +2,57 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const OrderSchema = new Schema({
-    // name: {
-    //     type: String,
-    //     required: true,
-    // },
-    // location: {
-    //     type: String,
-    //     required: true,
-    // },
-    // email: {
-    //     type: String,
-    //     required: true,
-    // },
-    // password: {
-    //     type: String,
-    //     required: true,
-    // },
-    // date: {
-    //     type: Date,
-    //     default: Date.now
-    // }
-
     user_id: {
         type: String,
         required: true
-    },
-    Food: [
-        {
-            amount: {
-                type: Number,
-                required: true
-            },
-            food_id: {
-                type: String,
-                required: true
-            }
-        }
-    ],
-    food_id: [
-        {
-            type: String,
-            required: true
-        }
-    ],
+    }, 
 
     restaurant_id: {
         type: String,
         required: true
     },
 
-    order_status: {
-        order_placed: {
-            type: Boolean,
-            required: false
-        }
-    },
-
     delivery_person_id: {
         type: String,
         required: false
-    }
+    },
 
+    // Array of food items with quantity
+    food_items: [
+        {
+            food_id: {
+                type: String,
+                required: true
+            },
+            quantity: {
+                type: Number,
+                required: true
+            }
+        }
+    ],
+
+    // Status of the order
+    status: {
+        type: String,
+        enum: ["pending", "confirmed", "picked_up", "delivered"], // Use enum to restrict values
+        default: "pending" // Default status when an order is created
+    },
+
+    date: {
+        type: Date,
+        default: Date.now
+    },
+
+    payment_method: {
+        type: String,
+        enum: ["cod", "card"],
+        required: false
+    },
+
+    total_price: {
+        type: Number,
+        required: true
+    }
 });
 
 module.exports = mongoose.model("order", OrderSchema);

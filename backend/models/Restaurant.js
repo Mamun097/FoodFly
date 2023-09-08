@@ -34,6 +34,27 @@ const RestaurantSchema = new Schema({
         type: String,
         required: true,
     },
+    ratings: [
+        {
+         user: mongoose.Schema.Types.ObjectId, 
+         rating: Number 
+        }
+    ],
+    averageRating: 
+    { 
+        type: Number, default: 0 
+    },
+    reviews: [
+        {
+            user: mongoose.Schema.Types.ObjectId,
+            username: String,
+            review: String,
+            date: {
+                type: Date,
+                default: Date.now
+              }
+        }
+    ]
 });
 
 module.exports = mongoose.model("restaurants", RestaurantSchema);

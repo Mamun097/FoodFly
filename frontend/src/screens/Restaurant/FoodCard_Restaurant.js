@@ -130,9 +130,9 @@ export default function (props) {
           className="card-body"
           style={{ boxShadow: "0px 4px 8px rgba(1, 1, 1, 0.2)" }}
         >
-          <h5 className="card-title">{props.name}</h5>
+          <h6 className="card-title">{props.name}</h6>
 
-          <div className="h-100 fs-5">Tk {props.price}</div>
+          <div className="h-100 fs-6">Tk {props.price}</div>
 
           <div className="form-check form-switch mt-2">
             <input
@@ -187,7 +187,7 @@ export default function (props) {
           >
             <div className="modal-content">
               <div className="modal-body">
-                <h4>Are you sure you want to Delete this food?</h4>
+                <h5>Are you sure you want to Delete this food?</h5>
               </div>
               <div className="modal-footer">
                 <button
@@ -221,9 +221,9 @@ export default function (props) {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h2 className="modal-title" id="EditFoodModalLabel">
+                <h3 className="modal-title" id="EditFoodModalLabel">
                   Edit Food
-                </h2>
+                </h3>
               </div>
               <div className="modal-body">
                 {/* Form with input fields */}

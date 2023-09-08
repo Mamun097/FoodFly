@@ -13,12 +13,6 @@ export default function FoodCard_Restaurant(props) {
     setIsHovered(false);
   };
 
-  // useEffect(() => {
-  //   // Update the food count from localStorage
-  //   const storedFoodCount = parseInt(localStorage.getItem("food_count")) || 0;
-  //   setFoodCount(storedFoodCount);
-  // }, [foodCount]);
-
   const cardStyle = {
     width: "16rem",
     maxHeight: "360px",
@@ -92,11 +86,11 @@ export default function FoodCard_Restaurant(props) {
         className="card-body"
         style={{ boxShadow: "0px 4px 8px rgba(1, 1, 1, 0.2)" }}
       >
-        <h5 className="card-title">{props.name}</h5>
+        <h6 className="card-title">{props.name}</h6>
 
         <div className="d-flex flex-row justify-content-between mt-3">
-          <div className="h-100 fs-5">Tk {props.price}</div>
-          <button className="btn btn-success btn-sm" onClick={onClick}> Add to Cart </button>
+          <div className="h-100 fs-6">Tk {props.price}</div>
+          <button className="btn btn-success btn-sm"> Add to Cart </button>
         </div>
 
 

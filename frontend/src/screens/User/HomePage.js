@@ -9,32 +9,43 @@ export default function Home() {
   const [homeKitchens, setHomeKitchens] = useState([]);
   const [otherRestaurants, setOtherRestaurants] = useState([]);
   const [foodCount, setFoodCount] = useState(0); // State for food count
+  const [mostPopularRestaurants, setMostPopularRestaurants] = useState([]);
+  const [topRated, setTopRated] = useState([]);
+  const [closed, setClosed] = useState([]);
+
+  // Fetch restaurant data
   const fetchData = async () => {
-    let response = await fetch("http://localhost:5000/api/restaurants", {
+    const response = await fetch("http://localhost:5000/api/restaurants", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
       
     });
-
-    response = await response.json();
-    setRestaurants(response);
-
-    // Filter restaurants into home kitchens and other restaurants
-    const homeKitchenRestaurants = response.filter(
-      (restaurant) => restaurant.is_homekitchen
+    const data = await response.json();
+    setRestaurants(data);
+    // Sort the restaurants by ratings (assuming you have a ratings field)
+    const sortedByRating = [...data].sort(
+      (a, b) => b.averageRating - a.averageRating
     );
-    setHomeKitchens(homeKitchenRestaurants);
 
-    const otherRestaurants = response.filter(
-      (restaurant) => !restaurant.is_homekitchen
-    );
-    setOtherRestaurants(otherRestaurants);
+    // Take the top 5 (or however many you want) to show as most popular
+    setTopRated(sortedByRating.slice(0, 4));
+    console.log("Top-rated:", topRated); // Debug line
+
+    setMostPopularRestaurants(topRated);
+
+    const homeKitchens = data.filter((restaurant) => restaurant.is_homekitchen);
+    const otherRests = data.filter((restaurant) => !restaurant.is_homekitchen);
+    const closed = data.filter((restaurant) => !restaurant.is_open);
+    setHomeKitchens(homeKitchens);
+    setOtherRestaurants(otherRests);
+    setClosed(closed);
   };
 
   useEffect(() => {
     fetchData();
+    // fetchUser();
   }, []);
 
   // Search
@@ -52,34 +63,56 @@ export default function Home() {
       setOtherRestaurants(
         restaurants.filter((restaurant) => !restaurant.is_homekitchen)
       );
+      setClosed(restaurants.filter((restaurant) => !restaurant.is_open));
+      setMostPopularRestaurants(topRated); // Maintain the top-rated restaurants
     } else {
       setHomeKitchens(
         restaurants.filter(
           (restaurant) =>
             restaurant.is_homekitchen &&
+            restaurant.is_open &&
             (restaurant.name.toLowerCase().includes(search.toLowerCase()) ||
-              restaurant.location.toLowerCase().includes(search.toLowerCase())) // Fix the parentheses here
+              restaurant.location.toLowerCase().includes(search.toLowerCase()))
         )
       );
       setOtherRestaurants(
         restaurants.filter(
           (restaurant) =>
             !restaurant.is_homekitchen &&
+            restaurant.is_open &&
             (restaurant.name.toLowerCase().includes(search.toLowerCase()) ||
-              restaurant.location.toLowerCase().includes(search.toLowerCase())) // Fix the parentheses here
+              restaurant.location.toLowerCase().includes(search.toLowerCase()))
+        )
+      );
+      setClosed(
+        restaurants.filter(
+          (restaurant) =>
+            !restaurant.is_open &&
+            (restaurant.name.toLowerCase().includes(search.toLowerCase()) ||
+              restaurant.location.toLowerCase().includes(search.toLowerCase()))
+        )
+      );
+      setMostPopularRestaurants(
+        topRated.filter(
+          (restaurant) =>
+            restaurant.is_open &&
+            (restaurant.name.toLowerCase().includes(search.toLowerCase()) ||
+              restaurant.location.toLowerCase().includes(search.toLowerCase()))
         )
       );
     }
-  }, [search]);
+
+  }, [search, restaurants, topRated]);
+  
   useEffect(() => {
     const newFoodCount = localStorage.getItem("food_count");
     setFoodCount(newFoodCount);
   }, [localStorage.getItem("food_count")]);
+
   return (
     <div>
-      <Navbar/>
-      <div className="container" style={{position: "relative",
-            top: "100px",}}>
+      <Navbar />
+      <div className="container" style={{ position: "relative", top: "100px" }}>
         <input
           className="form-control mt-2"
           type="search"
@@ -95,43 +128,85 @@ export default function Home() {
             fontSize: "1.2rem", // Increase the font-size
           }}
         />{" "}
-
+        {/* Most Popular Restaurants */}
+        {mostPopularRestaurants.length > 0 && (
+          <div className="row mt-4">
+            <h3>Most Popular</h3>
+            <hr />
+            {mostPopularRestaurants.map((restaurant) => (
+              <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
+                <RestCard_User
+                  _id={restaurant._id}
+                  name={restaurant.name}
+                  img={restaurant.img}
+                  location={restaurant.location}
+                  is_open={restaurant.is_open}
+                  averageRating={restaurant.averageRating}
+                />
+              </div>
+            ))}
+          </div>
+        )}
         {homeKitchens.length > 0 && (
           <div className="row mt-4">
-            <h2>Home Kitchens</h2>
+            <h3>Home Kitchens</h3>
             <hr />
-            {homeKitchens.map((restaurant) => (
-              <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
-                <RestCard_User
-                  _id={restaurant._id}
-                  name={restaurant.name}
-                  img={restaurant.img}
-                  location={restaurant.location}
-                />
-              </div>
-            ))}
+            {homeKitchens
+              .filter((restaurant) => restaurant.is_open) // Filter open restaurants
+              .map((restaurant) => (
+                <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
+                  <RestCard_User
+                    _id={restaurant._id}
+                    name={restaurant.name}
+                    img={restaurant.img}
+                    location={restaurant.location}
+                    is_open={restaurant.is_open}
+                    averageRating={restaurant.averageRating}
+                  />
+                </div>
+              ))}
           </div>
         )}
-
         {otherRestaurants.length > 0 && (
           <div className="row mt-4">
-            <h2>Restaurants</h2>
+            <h3>Restaurants</h3>
             <hr />
-            {otherRestaurants.map((restaurant) => (
+            {otherRestaurants
+              .filter((restaurant) => restaurant.is_open) // Filter open restaurants
+              .map((restaurant) => (
+                <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
+                  <RestCard_User
+                    _id={restaurant._id}
+                    name={restaurant.name}
+                    img={restaurant.img}
+                    location={restaurant.location}
+                    is_open={restaurant.is_open}
+                    averageRating={restaurant.averageRating}
+                  />
+                </div>
+              ))}
+          </div>
+        )}
+        {closed.length > 0 && (
+          <div className="row mt-4">
+            <h3>Temporarily Closed</h3>
+            <hr />
+            {closed.map((restaurant) => (
               <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
                 <RestCard_User
                   _id={restaurant._id}
                   name={restaurant.name}
                   img={restaurant.img}
                   location={restaurant.location}
+                  is_open={restaurant.is_open}
+                  averageRating={restaurant.averageRating}
                 />
               </div>
             ))}
           </div>
         )}
-         <Footer />
+        <Footer />
       </div>
-
     </div>
   );
 }

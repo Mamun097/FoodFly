@@ -199,7 +199,7 @@ router.put('/fooditems/stockout/:foodId', async (req, res) => {
     }
 
     // Toggle the is_instock field
-    foodItem.is_instock = !foodItem.is_instock;
+    foodItem.is_instock = !foodItem.is_instock; 
 
     // Save the updated food item
     await foodItem.save();
@@ -208,6 +208,111 @@ router.put('/fooditems/stockout/:foodId', async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// R E S T A U R A N T  U S E R  R A T I N G
+router.put('/restaurant/rating/:restaurantId', async (req, res) => {
+  try {
+    const restaurantId = req.params.restaurantId;
+    const { userId, rating } = req.body;
+
+    const restaurant = await Restaurant.findById(restaurantId);
+
+    // Remove existing rating by this user if any
+    restaurant.ratings = restaurant.ratings.filter(r => r.user.toString() !== userId);
+
+    // Add new rating
+    restaurant.ratings.push({ user: userId, rating });
+
+    // Recalculate the average rating
+    const totalRating = restaurant.ratings.reduce((acc, r) => acc + r.rating, 0);
+    restaurant.averageRating = totalRating / restaurant.ratings.length;
+
+    await restaurant.save();
+
+    res.json({ success: true, averageRating: restaurant.averageRating });
+  } catch (error) {
+    console.error('Error in /rate:', error);
+    res.json({ success: false, message: 'An error occurred' });
+  }
+});
+
+// R E S T A U R A N T  F E T C H   R A T I N G  
+router.get('/restaurant/rating/:restaurantId', async (req, res) => {
+  try {
+    const restaurantId = req.params.restaurantId;
+
+    const restaurant = await Restaurant.findById(restaurantId);
+
+    res.json({ success: true, averageRating: restaurant.averageRating });
+  } catch (error) {
+    console.error('Error in /rate:', error);
+    res.json({ success: false, message: 'An error occurred' });
+  }
+});
+
+// R E S T A U R A N T  U S E R  R E V I E W
+router.put('/restaurant/review/:restaurantId', async (req, res) => {
+  const { userId, userName, review } = req.body;
+  const restaurantId = req.params.restaurantId;
+  // Validate data
+
+  // Update restaurant data
+  const restaurant = await Restaurant.findById(restaurantId);
+  if (!restaurant) {
+    return res.status(404).json({ success: false, message: 'Restaurant not found' });
+  }
+  
+  restaurant.reviews.push({ user: userId, username: userName, review ,date: Date.now()});
+  await restaurant.save();
+
+  return res.status(200).json({ success: true, message: 'Review successfully added' });
+});
+
+// // R E S T A U R A N T  F E T C H   R E V I E W
+
+router.get('/restaurant/review/:restaurantId', async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
+    // console.log(restaurant.reviews[24].username);
+    res.status(200).json({ success: true, reviews: restaurant.reviews });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'An error occurred' });
+  }
+});
+
+// Restaurant is_open  
+router.put('/restaurant/isopen/:restaurantId', async (req, res) => {
+  const { restaurantId } = req.params;
+ 
+  try {
+    // Find the food item by ID
+    const restaurant = await Restaurant.findById(restaurantId);
+
+    if (!restaurant) {
+      return res.status(404).json({ message: "Food item not found" });
+    }
+
+    // Toggle the is_open field
+    restaurant.is_open = !restaurant.is_open; 
+
+    // Save the updated state
+    await restaurant.save();
+
+    return res.json({ message: "is_open status updated", is_open: restaurant.is_open });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get('/restaurant/:restaurantId', async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
+    res.send(restaurant);
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'An error occurred' });
   }
 });
 
