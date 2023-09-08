@@ -35,10 +35,10 @@ export default function FoodCard_Restaurant(props) {
         className="card-body"
         style={{ boxShadow: "0px 4px 8px rgba(1, 1, 1, 0.2)" }}
       >
-        <h5 className="card-title">{props.name}</h5>
+        <h6 className="card-title">{props.name}</h6>
 
         <div className="d-flex flex-row justify-content-between mt-3">
-          <div className="h-100 fs-5">Tk {props.price}</div>
+          <div className="h-100 fs-6">Tk {props.price}</div>
           <button className="btn btn-success btn-sm"> Add to Cart </button>
         </div>
       </div>

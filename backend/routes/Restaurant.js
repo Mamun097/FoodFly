@@ -307,4 +307,13 @@ router.put('/restaurant/isopen/:restaurantId', async (req, res) => {
   }
 });
 
+router.get('/restaurant/:restaurantId', async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
+    res.send(restaurant);
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'An error occurred' });
+  }
+});
+
 module.exports = router;

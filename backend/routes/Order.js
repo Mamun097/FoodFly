@@ -14,12 +14,11 @@ router.get("/user/orders/:userId", async (req, res) => {
 
     if (!orders) {
       return res
-        .status(404)
         .json({ message: "No orders found for this user." });
     }
 
     // Send the orders as a response
-    res.status(200).json(orders);
+    res.send(orders);
   } catch (error) {
     console.error("Error fetching orders:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -33,17 +32,25 @@ router.get("/restaurant/orders/:restaurantId", async (req, res) => {
     // Find all orders for the specified restaurantId
     const orders = await Orders.find({ restaurant_id: restaurantId });
 
-    if (!orders || orders.length === 0) {
+    if (!orders) {
       return res
-        .status(404)
         .json({ message: "No orders found for this restaurant." });
     }
 
     // Send the orders as a response
-    res.status(200).json(orders);
+    res.send(orders);
   } catch (error) {
     console.error("Error fetching orders:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/deliveryperson/:deliverypersonId", async (req, res) => {
+  try {
+    const dp = await DeliveryPerson.findById(req.params.deliverypersonId);
+    res.status(200).json({ success: true, dp });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'An error occurred' });
   }
 });
 
@@ -56,12 +63,11 @@ router.get("/deliveryperson/orders/:deliverypersonId", async (req, res) => {
 
     if (!orders || orders.length === 0) {
       return res
-        .status(404)
         .json({ message: "No orders found for this delivery person." });
     }
 
     // Send the orders as a response
-    res.status(200).json(orders);
+    res.send(orders);
   } catch (error) {
     console.error("Error fetching orders:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -75,6 +81,7 @@ router.post("/orders/neworder", async (req, res) => {
       user_id: req.body.user_id,
       restaurant_id: req.body.restaurant_id,
       food_items: req.body.food_items,
+      total_price: req.body.total_price,
     });
     res.json({ message: "New order placed!" });
   } catch (error) {
@@ -158,17 +165,17 @@ router.put("/orders/deliveredorder/:orderId", async (req, res) => {
   }
 });
 
-router.get("/food/:foodId", async (req, res) => {
-  const foodId = req.params.foodId;
+router.get("/foods", async (req, res) => {
   try {
-    const food = await Food.findById(foodId);
-    if (!food) {
-      return res.status(404).json({ message: "Food not found" });
-    }
-    res.status(200).json(food);
+    //database theke data fetch kortesi
+    const fetched_data = await mongoose.connection.db.collection("foods");
+    const foods = await fetched_data.find({}).toArray();
+
+    //backend theke frontend e data pathaitesi
+    res.send(foods);
   } catch (error) {
-    console.error("Error fetching food:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.log(error); 
+    return res.json({ success: false });
   }
 });
 

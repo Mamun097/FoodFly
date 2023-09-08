@@ -90,7 +90,7 @@ export default function ShowFoods_Restaurant() {
           CategoryName: food.CategoryName,
           price: food.price,
           img: food.img,
-          restaurant_id: localStorage.getItem("authToken"),
+          restaurant_id: localStorage.getItem("restaurant_id"),
         }),
       }
     );
@@ -108,12 +108,12 @@ export default function ShowFoods_Restaurant() {
       <Navbar_Restaurant />
 
     <div className="container" style={{ position: "relative", top:"100px" }}>
-      {foodCategory !== [] ? (
+      {foodCategory ? (
         foodCategory.map((item, index) => {
           const foodsInCategory = foods.filter(
             (foodItem) =>
               foodItem.CategoryName === item.CategoryName &&
-              foodItem.restaurant_id === authToken
+              foodItem.restaurant_id === localStorage.getItem("restaurant_id")
           );
 
           if (foodsInCategory.length > 0) {

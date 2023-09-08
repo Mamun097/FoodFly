@@ -133,6 +133,7 @@ export default function Home() {
                   img={restaurant.img}
                   location={restaurant.location}
                   is_open={restaurant.is_open}
+                  averageRating={restaurant.averageRating}
                 />
               </div>
             ))}
@@ -152,6 +153,7 @@ export default function Home() {
                     img={restaurant.img}
                     location={restaurant.location}
                     is_open={restaurant.is_open}
+                    averageRating={restaurant.averageRating}
                   />
                 </div>
               ))}
@@ -171,6 +173,7 @@ export default function Home() {
                     img={restaurant.img}
                     location={restaurant.location}
                     is_open={restaurant.is_open}
+                    averageRating={restaurant.averageRating}
                   />
                 </div>
               ))}
@@ -188,6 +191,7 @@ export default function Home() {
                   img={restaurant.img}
                   location={restaurant.location}
                   is_open={restaurant.is_open}
+                  averageRating={restaurant.averageRating}
                 />
               </div>
             ))}
