@@ -449,6 +449,7 @@ export default function ShowFoods_Restaurant() {
                     >
                       <Card
                         _id={foodItem._id}
+                        restaurant_id={foodItem.restaurant_id}
                         name={foodItem.name}
                         img={foodItem.img}
                         CategoryName={foodItem.CategoryName}

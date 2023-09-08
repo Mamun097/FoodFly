@@ -2,7 +2,8 @@
 //Otherwise you will not be able to fetch data from MongoDB
 
 const mongoose = require("mongoose");
-const mongoURI = "mongodb+srv://FoodFly:munshiCSE2019@cluster0.d4f7bw3.mongodb.net/FoodFly?retryWrites=true&w=majority"
+//const mongoURI = "mongodb+srv://FoodFly:munshiCSE2019@cluster0.d4f7bw3.mongodb.net/FoodFly?retryWrites=true&w=majority"
+const mongoURI = "mongodb://admin:123@ac-bajjdnc-shard-00-00.rdeljov.mongodb.net:27017,ac-bajjdnc-shard-00-01.rdeljov.mongodb.net:27017,ac-bajjdnc-shard-00-02.rdeljov.mongodb.net:27017/FoodFly1?ssl=true&replicaSet=atlas-slzp4m-shard-0&authSource=admin&retryWrites=true&w=majority"
 
 const mongoDB = async() => {
     await mongoose.connect(mongoURI, { useNewUrlParser: true });
