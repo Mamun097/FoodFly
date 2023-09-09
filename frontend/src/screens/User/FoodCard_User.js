@@ -90,7 +90,7 @@ export default function FoodCard_Restaurant(props) {
 
         <div className="d-flex flex-row justify-content-between mt-3">
           <div className="h-100 fs-6">Tk {props.price}</div>
-          <button className="btn btn-success btn-sm"> Add to Cart </button>
+          <button className="btn btn-success btn-sm" onClick={onClick}> Add to Cart </button>
         </div>
 
 

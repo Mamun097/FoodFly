@@ -68,7 +68,7 @@ router.post("/login", async (req, res) => {
 
     const data = {
         user: {
-          id: fetched_data.id,
+          id: fetched_data._id,
         },
       };
 
@@ -78,9 +78,14 @@ router.post("/login", async (req, res) => {
     return res.json({
       success: true,
       authToken: authToken,
-      userId: fetched_data.id,
+      userId: fetched_data._id,
       userName: fetched_data.name
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
   
 router.post("/addtocart", async (req, res) => {
   try {

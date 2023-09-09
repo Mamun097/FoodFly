@@ -201,8 +201,9 @@ function MyCart() {
         }),
       });
 
-      // Handle the response or move the alert to an appropriate place
+      updateFoodCount(0);
 
+      // Handle the response or move the alert to an appropriate place
       alert("Order Placed"); // Move this alert to the appropriate place
     } catch (err) {
       console.error(err);

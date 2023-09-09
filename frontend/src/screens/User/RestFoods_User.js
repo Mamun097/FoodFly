@@ -427,7 +427,7 @@ export default function ShowFoods_Restaurant() {
       <hr />
 
       <div className="container">
-        {foodCategory !== [] ? (
+        {foodCategory ? (
           foodCategory.map((item, index) => {
             const foodsInCategory = foods.filter(
               (foodItem) =>

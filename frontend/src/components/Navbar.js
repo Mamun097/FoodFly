@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 export default function () {
-  const isLoggedIn = localStorage.getItem("authToken");
+  const isLoggedIn = localStorage.getItem("user_id");
   const location = useLocation();
   const { foodCount, updateFoodCount } = useContext(UserContext);
   const handleOrder = async () => {
