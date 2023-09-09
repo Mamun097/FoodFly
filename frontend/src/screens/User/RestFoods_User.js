@@ -13,12 +13,10 @@ export default function ShowFoods_Restaurant() {
   const [foods, setFoodItems] = useState([]);
   const [foodCategory, setFoodCategory] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
-
-  const [desired_restaurant_id, setDesiredRestaurantID] = useState(
-    localStorage.getItem("restaurant_id")
-  );
+  const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+  const [desired_restaurant_id, setDesiredRestaurantID] = useState(localStorage.getItem('restaurant_id'));
   const [ratingUpdated, setratingUpdated] = useState(false);
-  const [averageRating, setAverageRating] = useState(null);
+  const [averageRating, setAverageRating] = useState(0);
   const [showRatingButtons, setShowRatingButtons] = useState(false);
   const [userRating, setUserRating] = useState(0);
   const [feedbackDisplayed, setFeedbackDisplayed] = useState(false);
@@ -28,6 +26,7 @@ export default function ShowFoods_Restaurant() {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [reviewFeedbackDisplayed, setReviewFeedbackDisplayed] = useState(false);
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const fetchData = async () => {
     let response = await fetch("http://localhost:5000/api/restaurant/foods", {
@@ -97,6 +96,32 @@ export default function ShowFoods_Restaurant() {
     setratingUpdated(false); // Reset the rating state
   };
 
+  const fetchFavorites = async () => {
+    const userId = localStorage.getItem('user_id');
+    const restaurantId = localStorage.getItem('restaurant_id');
+    console.log(userId);
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/favorites/${userId}`);
+      const data = await response.json();
+      console.log("heree is the frontend part");
+      console.log(data);
+
+      if (response.ok) {
+        // Update state or do something with the fetched favorites
+        const favorites = data.map(fav => fav._id);
+
+        // Setting the isFavorite state
+        setIsFavorite(favorites.includes(restaurantId));
+        console.log("boolean value....", isFavorite);
+      } else {
+        console.log("Error fetching favorites:", data.message);
+      }
+    } catch (error) {
+      console.error("An error occurred while fetching favorites:", error);
+    }
+  };
+
   const handleReviewSubmit = async () => {
     const userId = localStorage.getItem("user_id");
     const userName = localStorage.getItem("user_name");
@@ -142,6 +167,33 @@ export default function ShowFoods_Restaurant() {
 
   const toggleReviewModal = () => {
     setShowReviewModal(!showReviewModal);
+  };
+
+  //Function to toggle favourite button
+  const toggleFavorite = async () => {
+    // const userId = localStorage.getItem('user_id');
+    const restaurantId = localStorage.getItem('restaurant_id');
+
+    const url = isFavorite ? 'http://localhost:5000/api/favorites/remove' : 'http://localhost:5000/api/favorites/add';
+    const payload = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, restaurantId }),
+    };
+
+    try {
+      const response = await fetch(url, payload);
+      if (response.ok) {
+        setIsFavorite(!isFavorite);
+      } else {
+        console.error('Failed to update favorites');
+      }
+
+      // setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.error('Error updating favorites:', error);
+    }
+    
   };
 
   // Function to render stars
@@ -213,6 +265,7 @@ export default function ShowFoods_Restaurant() {
     fetchData();
     fetchRating();
     fetchReviews();
+    fetchFavorites();
   }, []);
 
   useEffect(() => {
@@ -307,6 +360,24 @@ export default function ShowFoods_Restaurant() {
                       >
                         Rate & Review Us!
                       </button>
+
+                      <button
+                        onClick={toggleFavorite}
+                        className={`btn ${isFavorite ? 'btn-danger' : 'btn-primary'} ms-3`}
+                        style={{
+                          padding: '8px 16px',
+                          fontSize: '14px',
+                          borderRadius: '4px',
+                          height: '43px', // Increase the height
+                          border: 'none',
+                          cursor: 'pointer',
+                          boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)"
+                        }}
+                      >
+                        <i className={`bi ${isFavorite ? 'bi-heart-fill' : 'bi-heart'}`}></i>
+                        {isFavorite ? ' Remove from favorites' : ' Add to favorites'}
+                      </button>
+
 
                       {/* Review Modal */}
                       <Modal show={showReviewModal} onHide={toggleReviewModal}>
@@ -410,15 +481,15 @@ export default function ShowFoods_Restaurant() {
 
 
               <div className="d-flex align-items-left mt-3">
-              <a
-                href="#"
-                className="text-decoration-underline ms-auto"
-                style={{ color: "#ff8a00" }}
-                data-bs-toggle="modal"
-                data-bs-target="#reviewsModal"
-              >
-                See Our Reviews
-              </a>
+                <a
+                  href="#"
+                  className="text-decoration-underline ms-auto"
+                  style={{ color: "#ff8a00" }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#reviewsModal"
+                >
+                  See Our Reviews
+                </a>
               </div>
             </>
           ) : null
@@ -427,6 +498,7 @@ export default function ShowFoods_Restaurant() {
       <hr />
 
       <div className="container">
+
         {foodCategory ? (
           foodCategory.map((item, index) => {
             const foodsInCategory = foods.filter(

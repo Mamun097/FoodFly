@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { FaStar } from "react-icons/fa";
+
 
 export default function (props) {
   const handleClick = (e) => {
