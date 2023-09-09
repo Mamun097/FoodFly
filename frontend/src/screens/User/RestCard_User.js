@@ -52,20 +52,20 @@ export default function (props) {
           src={props.img}
           className="card-img-top"
           alt="..."
-          style={{ maxHeight: "140px", objectFit: "cover", filter: props.is_open ? "none" : "blur(2px)" }}
+          style={{
+            maxHeight: "140px",
+            objectFit: "cover",
+            filter: props.is_open ? "none" : "blur(2px)",
+          }}
         />
-        <div className="card-body d-flex justify-content-between align-items-center">
-          <div>
-            <h5 className="card-title">{props.name}</h5>
-            <p className="card-text text-muted fs-10 d-inline">{props.location}</p>
-            {props.averageRating !== null && ( // Conditional rendering block
-              <div className="d-flex align-items-center">
-                <span className="mr-1">{props.averageRating.toFixed(1)}</span>
-                <FaStar style={{ color: '#FFD700' }}/>
-              </div>
-            )}
-
+        <div className="card-body">
+          <div className="d-flex flex-row justify-content-between">
+            <h6 className="card-title">{props.name}</h6>
+            <div style={{ fontSize: "16px", color: "#ff8a00" }}>
+              &#9733;{props.averageRating.toFixed(1)}
+            </div>
           </div>
+          <p className="card-text text-muted fs-10">{props.location}</p>
         </div>
       </div>
     </div>

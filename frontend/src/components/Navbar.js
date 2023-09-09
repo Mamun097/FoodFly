@@ -1,9 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { UserContext } from "../UserContext"; // Import your context
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 export default function () {
-  const isLoggedIn = localStorage.getItem("authToken");
+  const isLoggedIn = localStorage.getItem("user_id");
   const location = useLocation();
+  const { foodCount, updateFoodCount } = useContext(UserContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const received_cart = await fetch("http://localhost:5000/api/getcart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: localStorage.getItem("user_id"),
+        }),
+      });
+      const received_cart_json = await received_cart.json();
+      updateFoodCount(received_cart_json.length);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -56,7 +79,7 @@ export default function () {
                   }`}
                   to="/user/dashboard"
                 >
-                  Dashboard
+                  Profile
                 </Link>
               </li>
               </>
@@ -93,17 +116,53 @@ export default function () {
             )}
             {isLoggedIn ? (
               <div className="d-flex">
-                <Link
+                <div
+                  style={{
+                    position: "relative",
+                    display: "inline-block",
+                  }}
+                >
+                  <Link
+                    className="btn"
+                    style={{
+                      background: "#ff8a00",
+                      color: "white",
+                      marginRight: "10px",
+                    }}
+                    to="/user/mycart"
+                  >
+                    {/* Replace "My Cart" text with the cart icon */}
+                    <FontAwesomeIcon icon={faShoppingCart} />
+                  </Link>
+                  {foodCount > 0 ? (<span
+                    style={{
+                      position: "absolute",
+                      top: "1px", // Adjust the vertical position as needed
+                      right: "4px", // Adjust the horizontal position as needed
+                      background: "white",
+                      color: "black",
+                      borderRadius: "50%",
+                      padding: "2px 6px",
+                      fontSize: "10px",
+                    }}
+                  >
+                    {foodCount}
+                  </span>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                {/* <button
                   className="btn"
                   style={{
                     background: "#ff8a00",
                     color: "white",
                     marginRight: "10px",
                   }}
-                  to="/"
+                  onClick={handleOrder}
                 >
-                  My Cart
-                </Link>
+                  Order Now
+                </button> */}
                 <Link
                   className="btn"
                   style={{

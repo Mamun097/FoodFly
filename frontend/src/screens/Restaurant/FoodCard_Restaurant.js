@@ -163,9 +163,9 @@ export default function (props) {
           className="card-body"
           style={{ boxShadow: "0px 4px 8px rgba(1, 1, 1, 0.2)" }}
         >
-          <h5 className="card-title">{props.name}</h5>
+          <h6 className="card-title">{props.name}</h6>
 
-          <div className="h-100 fs-5">Tk {props.price}</div>
+          <div className="h-100 fs-6">Tk {props.price}</div>
 
           <div className="form-check form-switch mt-2">
             <input

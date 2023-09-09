@@ -57,7 +57,7 @@ export default function () {
               </li>
             </ul>
 
-            {localStorage.getItem("authToken") ? (
+            {localStorage.getItem("restaurant_id") ? (
               <div className="d-flex">
                 {location.pathname === "/restaurant/foods" && (
                   <button

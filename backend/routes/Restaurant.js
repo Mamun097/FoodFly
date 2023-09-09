@@ -355,6 +355,15 @@ router.put("/restaurant/updateStock/:foodId/:restaurantId", async (req, res) => 
     res.status(200).json({ success: true });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+      }
+});
+
+router.get('/restaurant/:restaurantId', async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
+    res.send(restaurant);
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'An error occurred' });
   }
 });
 

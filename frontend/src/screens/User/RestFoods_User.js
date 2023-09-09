@@ -40,7 +40,7 @@ export default function ShowFoods_Restaurant() {
     setFoodItems(response[0]);
     setFoodCategory(response[1]);
     setRestaurants(response[2]);
-    // console.log(response);
+    console.log("restaurant id", localStorage.getItem("restaurant_id"));
   };
 
   const handleRating = async (userRating) => {
@@ -498,7 +498,8 @@ export default function ShowFoods_Restaurant() {
       <hr />
 
       <div className="container">
-        {foodCategory.length>0 ? (
+
+        {foodCategory ? (
           foodCategory.map((item, index) => {
             const foodsInCategory = foods.filter(
               (foodItem) =>
@@ -520,6 +521,7 @@ export default function ShowFoods_Restaurant() {
                     >
                       <Card
                         _id={foodItem._id}
+                        restaurant_id={foodItem.restaurant_id}
                         name={foodItem.name}
                         img={foodItem.img}
                         CategoryName={foodItem.CategoryName}

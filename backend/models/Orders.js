@@ -46,9 +46,13 @@ const OrderSchema = new Schema({
     payment_method: {
         type: String,
         enum: ["cod", "card"],
-        required: false
+        default: "cod"
     },
 
+    total_price: {
+        type: Number,
+        required: true
+    }
 });
 
 module.exports = mongoose.model("order", OrderSchema);

@@ -8,6 +8,7 @@ export default function Home() {
   const [restaurants, setRestaurants] = useState([]);
   const [homeKitchens, setHomeKitchens] = useState([]);
   const [otherRestaurants, setOtherRestaurants] = useState([]);
+  const [foodCount, setFoodCount] = useState(0); // State for food count
   const [mostPopularRestaurants, setMostPopularRestaurants] = useState([]);
   const [favoriteRestaurants, setFavoriteRestaurants] = useState([]);
 
@@ -26,6 +27,7 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
+      
     });
     const data = await response.json();
     setRestaurants(data);
@@ -132,7 +134,13 @@ export default function Home() {
         )
       );
     }
+
   }, [search, restaurants, topRated]);
+  
+  useEffect(() => {
+    const newFoodCount = localStorage.getItem("food_count");
+    setFoodCount(newFoodCount);
+  }, [localStorage.getItem("food_count")]);
 
   return (
     <div>
@@ -173,6 +181,7 @@ export default function Home() {
                   location={restaurant.location}
                   averageRating={restaurant.averageRating}
                   is_open={restaurant.is_open}
+                  averageRating={restaurant.averageRating}
                 />
               </div>
             ))}
@@ -216,6 +225,7 @@ export default function Home() {
                     location={restaurant.location}
                     averageRating={restaurant.averageRating}
                     is_open={restaurant.is_open}
+                    averageRating={restaurant.averageRating}
                   />
                 </div>
               ))}
@@ -236,6 +246,7 @@ export default function Home() {
                     location={restaurant.location}
                     averageRating={restaurant.averageRating}
                     is_open={restaurant.is_open}
+                    averageRating={restaurant.averageRating}
                   />
                 </div>
               ))}
@@ -254,6 +265,7 @@ export default function Home() {
                   location={restaurant.location}
                   averageRating={restaurant.averageRating}
                   is_open={restaurant.is_open}
+                  averageRating={restaurant.averageRating}
                 />
               </div>
             ))}
