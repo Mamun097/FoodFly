@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Carousal from "../components/Carousal";
 import { Container, Row, Col } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
@@ -76,7 +76,10 @@ export default function Home() {
                   Create Bussiness Account
                 </button>
                 <p style={{ fontSize: "16px", marginTop: "20px" }}>
-                  Already have a business account? <Link to="/restaurant/login">Log in</Link>
+                  Already have a business account?{" "}
+                  <Link to="/restaurant/login" style={{ color: "#ff8a00" }}>
+                    Log in
+                  </Link>
                 </p>
               </div>
             </Col>
@@ -113,7 +116,10 @@ export default function Home() {
 
                 {/* New Link for delivery person login */}
                 <p style={{ fontSize: "16px", marginTop: "20px" }}>
-                  Already have a delivery person account? <Link to="/deliveryperson/login">Log in</Link>
+                  Already registered?{" "}
+                  <Link to="/deliveryperson/login" style={{ color: "#ff8a00" }}>
+                    Log in
+                  </Link>
                 </p>
               </div>
             </Col>

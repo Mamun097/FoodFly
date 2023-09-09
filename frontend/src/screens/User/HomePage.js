@@ -170,7 +170,7 @@ export default function Home() {
 
         {favoriteRestaurants.length > 0 && (
           <div className="row mt-4">
-            <h2>Your Favourite Restaurants</h2>
+            <h2>My Favourites</h2>
             <hr />
             {favoriteRestaurants.slice(0, 4).map((restaurant) => (
               <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
@@ -181,7 +181,6 @@ export default function Home() {
                   location={restaurant.location}
                   averageRating={restaurant.averageRating}
                   is_open={restaurant.is_open}
-                  averageRating={restaurant.averageRating}
                 />
               </div>
             ))}
@@ -191,7 +190,7 @@ export default function Home() {
         {/* Most Popular Restaurants */}
         {mostPopularRestaurants.length > 0 && (
           <div className="row mt-4">
-            <h2>Most Popular Available Restaurants</h2>
+            <h2>Most Popular</h2>
             <hr />
             {mostPopularRestaurants
               .filter(restaurant => restaurant.is_open) // Only include restaurants that are open
@@ -225,7 +224,6 @@ export default function Home() {
                     location={restaurant.location}
                     averageRating={restaurant.averageRating}
                     is_open={restaurant.is_open}
-                    averageRating={restaurant.averageRating}
                   />
                 </div>
               ))}
@@ -233,7 +231,7 @@ export default function Home() {
         )}
         {otherRestaurants.length > 0 && (
           <div className="row mt-4">
-            <h3>Restaurants</h3>
+            <h3>All Restaurants</h3>
             <hr />
             {otherRestaurants
               .filter((restaurant) => restaurant.is_open) // Filter open restaurants
@@ -246,7 +244,6 @@ export default function Home() {
                     location={restaurant.location}
                     averageRating={restaurant.averageRating}
                     is_open={restaurant.is_open}
-                    averageRating={restaurant.averageRating}
                   />
                 </div>
               ))}
@@ -265,7 +262,6 @@ export default function Home() {
                   location={restaurant.location}
                   averageRating={restaurant.averageRating}
                   is_open={restaurant.is_open}
-                  averageRating={restaurant.averageRating}
                 />
               </div>
             ))}

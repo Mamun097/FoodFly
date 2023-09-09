@@ -133,9 +133,10 @@ export default function () {
           </Form.Group>
 
           <Button
-            variant="success mb-2 mt-4"
+            variant=" mb-2 mt-4"
             type="submit"
             className="d-block mx-auto"
+            style={{ color: "white" , backgroundColor: "#ff8a00"}}
           >
             Submit
           </Button>

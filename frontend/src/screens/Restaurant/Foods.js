@@ -212,14 +212,14 @@ export default function ShowFoods_Restaurant() {
             <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-danger"
+                class="btn btn-danger btn-sm"
                 data-bs-dismiss="modal"
               >
                 Cancel
               </button>
               <button
                 type="button"
-                class="btn btn-success"
+                class="btn btn-success btn-sm"
                 onClick={handleAddSubmit}
               >
                 Add food

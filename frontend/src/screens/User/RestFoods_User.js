@@ -5,7 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import { FaStar } from 'react-icons/fa';
+import { FaStar } from "react-icons/fa";
 import $ from "jquery";
 window.jQuery = $;
 window.$ = $;
@@ -14,8 +14,10 @@ export default function ShowFoods_Restaurant() {
   const [foods, setFoodItems] = useState([]);
   const [foodCategory, setFoodCategory] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
-  const [userId, setUserId] = useState(localStorage.getItem('user_id'));
-  const [desired_restaurant_id, setDesiredRestaurantID] = useState(localStorage.getItem('restaurant_id'));
+  const [userId, setUserId] = useState(localStorage.getItem("user_id"));
+  const [desired_restaurant_id, setDesiredRestaurantID] = useState(
+    localStorage.getItem("restaurant_id")
+  );
   const [ratingUpdated, setratingUpdated] = useState(false);
   const [averageRating, setAverageRating] = useState(0);
   const [showRatingButtons, setShowRatingButtons] = useState(false);
@@ -100,19 +102,21 @@ export default function ShowFoods_Restaurant() {
   };
 
   const fetchFavorites = async () => {
-    const userId = localStorage.getItem('user_id');
-    const restaurantId = localStorage.getItem('restaurant_id');
+    const userId = localStorage.getItem("user_id");
+    const restaurantId = localStorage.getItem("restaurant_id");
     console.log(userId);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/favorites/${userId}`);
+      const response = await fetch(
+        `http://localhost:5000/api/favorites/${userId}`
+      );
       const data = await response.json();
       console.log("heree is the frontend part");
       console.log(data);
 
       if (response.ok) {
         // Update state or do something with the fetched favorites
-        const favorites = data.map(fav => fav._id);
+        const favorites = data.map((fav) => fav._id);
 
         // Setting the isFavorite state
         setIsFavorite(favorites.includes(restaurantId));
@@ -127,7 +131,9 @@ export default function ShowFoods_Restaurant() {
 
   const fetchRatings = async (restaurantId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/restaurant/${restaurantId}/ratings`);
+      const response = await fetch(
+        `http://localhost:5000/api/restaurant/${restaurantId}/ratings`
+      );
       const data = await response.json();
       return data;
     } catch (error) {
@@ -186,12 +192,14 @@ export default function ShowFoods_Restaurant() {
   //Function to toggle favourite button
   const toggleFavorite = async () => {
     // const userId = localStorage.getItem('user_id');
-    const restaurantId = localStorage.getItem('restaurant_id');
+    const restaurantId = localStorage.getItem("restaurant_id");
 
-    const url = isFavorite ? 'http://localhost:5000/api/favorites/remove' : 'http://localhost:5000/api/favorites/add';
+    const url = isFavorite
+      ? "http://localhost:5000/api/favorites/remove"
+      : "http://localhost:5000/api/favorites/add";
     const payload = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId, restaurantId }),
     };
 
@@ -200,14 +208,13 @@ export default function ShowFoods_Restaurant() {
       if (response.ok) {
         setIsFavorite(!isFavorite);
       } else {
-        console.error('Failed to update favorites');
+        console.error("Failed to update favorites");
       }
 
       // setIsFavorite(!isFavorite);
     } catch (error) {
-      console.error('Error updating favorites:', error);
+      console.error("Error updating favorites:", error);
     }
-    
   };
 
   // Function to render stars
@@ -280,9 +287,8 @@ export default function ShowFoods_Restaurant() {
     let ratingCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
 
     for (let rating of ratings) {
-      console.log('Current rating:', rating);
+      console.log("Current rating:", rating);
       ratingCounts[rating.rating]++;
-
     }
 
     console.log("rating counts", ratingCounts);
@@ -369,75 +375,132 @@ export default function ShowFoods_Restaurant() {
             <>
               <div className="d-flex justify-content-between align-items-center">
                 <h2 className="mt-3">{restaurant.name}</h2>
+
                 {/* Average Rating Header */}
                 <div className="d-flex align-items-center">
                   <h5 style={{ marginBottom: 0 }}>Average Rating: </h5>
                   <span className="ms-2">{averageRating.toFixed(1)}</span>
-                  <div className="ms-2">
+                  <div
+                    className="ms-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#ratingModal"
+                    style={{ cursor: "pointer" }}
+                  >
                     {averageRating !== null && renderStars(averageRating)}
                   </div>
                 </div>
               </div>
 
-                                {/* Detailed Ratings Modal */}
-
-                                <div className="d-flex justify-content-between align-items-center">
-                    <button
-                      type="button"
-                      className="btn btn-primary ms-2 dropdown-toggle"
-                      data-bs-toggle="modal"
-                      data-bs-target="#ratingModal"
-                      style={{
-                        borderRadius: '10px',
-                        padding: '5px 10px',
-                        fontSize: '12px',
-                        background: 'linear-gradient(to right, #007bff, #0056b3)',
-                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
-                      }}
-                    >
-                    </button>
-
-                  </div>
-
-                  <div className="modal fade" id="ratingModal" tabIndex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h5 className="modal-title" id="ratingModalLabel">Detailed Ratings</h5>
-                          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                          {Object.entries(ratingPercentages).map(([star, percentage], index) => (
-                            <div className="d-flex align-items-center mb-2" key={index} style={index === 0 ? { marginLeft: '1.9px' } : {}}>
-                              <span className="mr-2" style={{ marginTop: '-2px' }}>
-                                {star} <FaStar />
-                              </span>
-                              <div className="progress" style={{ width: '70%' }}>
-                                <div
-                                  className="progress-bar"
-                                  role="progressbar"
-                                  style={{ width: `${percentage}%`}}
-                                  aria-valuenow={percentage}
-                                  aria-valuemin="0"
-                                  aria-valuemax="100"
-                                ></div>
-                              </div>
-                              <span className="ml-2">{`${Math.round(percentage)}%`}</span>
-                            </div>
-                          ))}
-
-
-                        </div>
-                        <div className="modal-footer">
-                          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                      </div>
+              {/* Detailed Ratings Modal */}
+              <div
+                className="modal fade"
+                id="ratingModal"
+                tabIndex="-1"
+                aria-labelledby="ratingModalLabel"
+                aria-hidden="true"
+              >
+                <div className="modal-dialog modal-dialog-centered">
+                  <div className="modal-content" style={{ color: "white" }}>
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="ratingModalLabel">
+                        Detailed Ratings
+                      </h5>
+                      <button
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
                     </div>
+                    <div className="modal-body">
+                      {Object.entries(ratingPercentages).map(
+                        ([star, percentage], index) => (
+                          <div
+                            className="d-flex align-items-center mb-2"
+                            key={index}
+                            style={index === 0 ? { marginLeft: "1.9px" } : {}}
+                          >
+                            <span
+                              className="mr-2"
+                              style={{ marginTop: "-2px" , color: "#ff8a00"}}
+                            >
+                              <span style={{ color: "white"}}>
+                              {star} 
+                              </span>
+                              
+                              <FaStar />
+                            </span>
+                            <div className="progress" style={{ width: "70%" }}>
+                              <div
+                                className="progress-bar"
+                                role="progressbar"
+                                style={{ width: `${percentage}%` , backgroundColor: "#ff8a00"}}
+                                aria-valuenow={percentage}
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                            <span className="ml-2">{`${Math.round(
+                              percentage
+                            )}%`}</span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    {/* <div className="modal-footer">
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                    </div> */}
                   </div>
+                </div>
+              </div>
 
               <div className="d-flex justify-content-between align-items-center">
                 <h5>{restaurant.location}</h5>
 
+                {/* All Reviews */}
+                <a
+                  href="#"
+                  className="text-decoration-underline"
+                  style={{ color: "#ff8a00", marginTop: "-15px" }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#reviewsModal"
+                >
+                  See Our Reviews
+                </a>
+              </div>
+
+              <div className="d-flex align-items-center justify-content-between mt-2">
+                {/* Favorite Button */}
+                <button
+                  onClick={toggleFavorite}
+                  className="btn"
+                  style={{
+                    color: "white",
+                    backgroundColor: isFavorite ? "#dc3545" : "#ff8a00",
+                    padding: "0px 4px",
+                    fontSize: "14px",
+                    borderRadius: "4px",
+                    height: "32px", // Increase the height
+                    border: "none",
+                    cursor: "pointer",
+                    boxShadow: "0px 8px 16px 0px rgba(1,1,1,0.2)",
+                  }}
+                >
+                  <i
+                    className={`bi ${
+                      isFavorite ? "bi-heart-fill" : "bi-heart"
+                    }`}
+                  ></i>
+                  {isFavorite ? " Remove from favorites" : " Add to favorites"}
+                </button>
+
+                {/* Rate and Review */}
                 {feedbackDisplayed ? (
                   <div>Thanks for your feedback!</div>
                 ) : showRatingButtons ? (
@@ -454,32 +517,17 @@ export default function ShowFoods_Restaurant() {
                           backgroundColor: "#ff8a00",
                           color: "white",
                           padding: "4px 8px",
-                          fontSize: "16px",
+                          fontSize: "14px",
                           borderRadius: "4px",
                           border: "none",
                           cursor: "pointer",
+                          boxShadow: "0px 8px 16px 0px rgba(1,1,1,0.2)",
+                          color: "white",
+                          height: "32px", // Increase the height
                         }}
                       >
                         Rate & Review Us!
                       </button>
-
-                      <button
-                        onClick={toggleFavorite}
-                        className={`btn ${isFavorite ? 'btn-danger' : 'btn-primary'} ms-3`}
-                        style={{
-                          padding: '8px 16px',
-                          fontSize: '14px',
-                          borderRadius: '4px',
-                          height: '43px', // Increase the height
-                          border: 'none',
-                          cursor: 'pointer',
-                          boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)"
-                        }}
-                      >
-                        <i className={`bi ${isFavorite ? 'bi-heart-fill' : 'bi-heart'}`}></i>
-                        {isFavorite ? ' Remove from favorites' : ' Add to favorites'}
-                      </button>
-
 
                       {/* Review Modal */}
                       <Modal show={showReviewModal} onHide={toggleReviewModal}>
@@ -523,7 +571,7 @@ export default function ShowFoods_Restaurant() {
                       aria-labelledby="reviewsModalLabel"
                       aria-hidden="true"
                     >
-                      <div className="modal-dialog modal-dialog-scrollable modal-lg">
+                      <div className="modal-dialog modal-dialog-scrollable modal-md">
                         <div className="modal-content bg-dark text-white">
                           <div className="modal-header">
                             <h4 className="modal-title" id="reviewsModalLabel">
@@ -551,11 +599,11 @@ export default function ShowFoods_Restaurant() {
                                     borderRadius: "5px",
                                   }}
                                 >
-                                  <h5>
+                                  <h6>
                                     {index + 1}. {review.username}
-                                  </h5>
+                                  </h6>
                                   {/* <p>User ID: {review.user}</p> */}
-                                  <p style={{ fontSize: "1.3rem" }}>
+                                  <p style={{ fontSize: "15px" }}>
                                     {" "}
                                     {review.review}
                                   </p>
@@ -580,19 +628,6 @@ export default function ShowFoods_Restaurant() {
                   </>
                 )}
               </div>
-
-
-              <div className="d-flex align-items-left mt-3">
-                <a
-                  href="#"
-                  className="text-decoration-underline ms-auto"
-                  style={{ color: "#ff8a00" }}
-                  data-bs-toggle="modal"
-                  data-bs-target="#reviewsModal"
-                >
-                  See Our Reviews
-                </a>
-              </div>
             </>
           ) : null
         )}
@@ -600,7 +635,6 @@ export default function ShowFoods_Restaurant() {
       <hr />
 
       <div className="container">
-
         {foodCategory ? (
           foodCategory.map((item, index) => {
             const foodsInCategory = foods.filter(

@@ -25,16 +25,11 @@ router.get("/restaurants", async (req, res) => {
 router.post('/favorites/add', async (req, res) => {
   try {
     const { userId, restaurantId } = req.body;
-    console.log("here is the user id in api", userId);
-    console.log("here is the restaurant id in api", restaurantId);
     const user = await User.findById(userId);
     if (!user) return res.status(404).send("User not found");
 
     user.favorites.push(restaurantId);
-    console.log(user.favorites);
-    console.log("here is the user after push", userId);
     await user.save();
-    console.log("here is the user after save", userId);
 
     res.send('Added to favorites');
   } catch (error) {
@@ -65,8 +60,6 @@ router.post('/favorites/remove', async (req, res) => {
 router.get('/favorites/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
-    console.log("here is the user id");
-    console.log(userId);
 
     // Validate user ID
     if (!mongoose.Types.ObjectId.isValid(userId)) {

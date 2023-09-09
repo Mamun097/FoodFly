@@ -49,7 +49,6 @@ async(req, res) => {
 router.post("/restaurant/login", async (req, res) => {
     try {
       const fetched_data = await Restaurant.findOne({ email: req.body.email });
-      console.log(fetched_data);
       if (!fetched_data) {
         return res
           .status(400)

@@ -37,8 +37,8 @@ export default function Dashboard() {
 
   const fetchRating = async () => {
     //average rating will be fetched from the database
-  const desired_restaurant_id = localStorage.getItem("restaurant_id");
-   console.log("resturant id",desired_restaurant_id);
+    const desired_restaurant_id = localStorage.getItem("restaurant_id");
+    console.log("resturant id", desired_restaurant_id);
     const response = await fetch(
       `http://localhost:5000/api/restaurant/rating/${desired_restaurant_id}`,
       {
@@ -61,7 +61,7 @@ export default function Dashboard() {
   // New function to fetch reviews
   const fetchReviews = async () => {
     const desired_restaurant_id = localStorage.getItem("restaurant_id");
-    console.log("resturant id",desired_restaurant_id);
+    console.log("resturant id", desired_restaurant_id);
     const response = await fetch(
       `http://localhost:5000/api/restaurant/review/${desired_restaurant_id}`
     );
@@ -138,7 +138,7 @@ export default function Dashboard() {
       console.error("Error updating is_open status:", error);
     }
   };
-  
+
   const toggleReviewModal = () => setShowReviewModal(!showReviewModal);
 
   //Completed orders and active orders
@@ -147,7 +147,9 @@ export default function Dashboard() {
 
   const fetchCompletedOrders = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/restaurant/orders/${localStorage.getItem("restaurant_id")}`,
+      `http://localhost:5000/api/restaurant/orders/${localStorage.getItem(
+        "restaurant_id"
+      )}`,
       {
         method: "GET",
         headers: {
@@ -169,9 +171,13 @@ export default function Dashboard() {
     fetchCompletedOrders();
   }, []);
 
-//sorting orders by date
-const sortedActiveOrders = activeOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
-const sortedCompletedOrders = completedOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+  //sorting orders by date
+  const sortedActiveOrders = activeOrders.sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
+  const sortedCompletedOrders = completedOrders.sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
 
   return (
     <div>
@@ -195,8 +201,22 @@ const sortedCompletedOrders = completedOrders.sort((a, b) => new Date(b.date) - 
 
                 <div className="container">
                   <div className="container mt-3 mx-6">
-                    <div className="d-flex flex-row justify-content-between">
-                      <h2>{restaurant.name}</h2>
+                    <div className="d-flex flex-row justify-content-between align-items-center">
+                      <div>
+                        <h2>{restaurant.name}</h2>
+                        {renderStars(averageRating)}
+                        <span className="ms-2">
+                          {averageRating.toFixed(1)}
+                        </span>{" "}
+                        <br />
+                        <button
+                          type="button"
+                          className="btn btn-outline-warning btn-sm mt-2"
+                          onClick={toggleReviewModal}
+                        >
+                          See Reviews
+                        </button>
+                      </div>
                       <div
                         className="form-check form-switch mt-2"
                         style={{ fontSize: "22px" }}
@@ -218,7 +238,7 @@ const sortedCompletedOrders = completedOrders.sort((a, b) => new Date(b.date) - 
                       </div>
                     </div>
 
-                    <table className="table table-hover">
+                    <table className="table table-hover mt-3">
                       <tbody>
                         <tr>
                           <th scope="row">Restaurant ID</th>
@@ -236,47 +256,36 @@ const sortedCompletedOrders = completedOrders.sort((a, b) => new Date(b.date) - 
                           <th scope="row">Contact No.</th>
                           <td>{restaurant.contact}</td>
                         </tr>
-                        <tr>
-                          <th scope="row">Average Rating</th>
-                          <td>
-                            {renderStars(averageRating)}
-                            <span className="ms-2">{averageRating.toFixed(1)}</span>
-                          </td>
-                        </tr>
                       </tbody>
                     </table>
-
-                    {/* Adding for rating and review */}
-
-                    {/* Add the following lines to display Average Rating and Reviews Button */}
-
-
-                    <button type="button" className="btn btn-primary" onClick={toggleReviewModal}>
-                      Reviews
-                    </button>
 
                     {/* Reviews Modal */}
                     <Modal show={showReviewModal} onHide={toggleReviewModal}>
                       <Modal.Header closeButton>
-                        <Modal.Title>Reviews</Modal.Title>
+                        <Modal.Title>All Reviews</Modal.Title>
                       </Modal.Header>
-                      <Modal.Body>
-                        {
-                          reviews.map((review, index) => (
-                            <div key={index} style={{ backgroundColor: '#f2f2f2', margin: '10px', padding: '10px', borderRadius: '5px' }}>
-                              <h6>Username: {review.username}</h6>
-                              <p>User ID: {review.userId}</p>
-                              <p>Time of Review: {new Date(review.date).toLocaleString()}</p>
-                              <p>Review: {review.review}</p>
-                            </div>
-                          ))
-                        }
+                      <Modal.Body style={{maxHeight: "70vh", overflowY: "auto"}}
+                      >
+                        {reviews.map((review, index) => (
+                          <div
+                            key={index}
+                            style={{
+                              backgroundColor: "black",
+                              margin: "10px",
+                              padding: "10px",
+                              borderRadius: "5px",
+                            }}
+                          >
+                            <h6> {index+1}. {review.username}</h6>
+                            
+                            <p style={{ fontSize: "15px" }}
+                            >{review.review}</p>
+                            <p style={{ fontSize: "12px" }}>
+                              {new Date(review.date).toLocaleString()}
+                            </p>
+                          </div>
+                        ))}
                       </Modal.Body>
-                      <Modal.Footer>
-                        <Button variant="secondary" onClick={toggleReviewModal}>
-                          Close
-                        </Button>
-                      </Modal.Footer>
                     </Modal>
 
                     <div className="row lg-6">
