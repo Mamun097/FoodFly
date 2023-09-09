@@ -367,4 +367,17 @@ router.get('/restaurant/:restaurantId', async (req, res) => {
   }
 });
 
+// Endpoint to fetch ratings of a specific restaurant
+router.get("/restaurant/:id/ratings", async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.id);
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+    return res.status(200).json(restaurant.ratings);
+  } catch (error) {
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router;
