@@ -11,11 +11,13 @@ export default function Home() {
   const [mostPopularRestaurants, setMostPopularRestaurants] = useState([]);
   const [favoriteRestaurants, setFavoriteRestaurants] = useState([]);
 
-
   useEffect(() => {
     // This will log whenever favoriteRestaurants changes
     console.log('Updated favoriteRestaurants:', favoriteRestaurants);
   }, [favoriteRestaurants]);
+
+  const [topRated, setTopRated] = useState([]);
+  const [closed, setClosed] = useState([]);
 
   // Fetch restaurant data
   const fetchData = async () => {
@@ -27,6 +29,7 @@ export default function Home() {
     });
     const data = await response.json();
     setRestaurants(data);
+    console.log("restaurants",data);
     // Sort the restaurants by ratings (assuming you have a ratings field)
     const sortedByRating = [...data].sort((a, b) => b.averageRating - a.averageRating);
 
@@ -35,11 +38,14 @@ export default function Home() {
     console.log("Top-rated:", topRated);  // Debug line
 
     setMostPopularRestaurants(topRated);
+    console.log("most popular",mostPopularRestaurants);
 
     const homeKitchens = data.filter((restaurant) => restaurant.is_homekitchen);
     const otherRests = data.filter((restaurant) => !restaurant.is_homekitchen);
+    const closed = data.filter((restaurant) => !restaurant.is_open);
     setHomeKitchens(homeKitchens);
     setOtherRestaurants(otherRests);
+    setClosed(closed);
   };
   const fetchFavoriteRestaurants = async () => {
     const userId = localStorage.getItem('user_id');
@@ -88,33 +94,55 @@ export default function Home() {
       setOtherRestaurants(
         restaurants.filter((restaurant) => !restaurant.is_homekitchen)
       );
+      setClosed(restaurants.filter((restaurant) => !restaurant.is_open));
+      // setMostPopularRestaurants(topRated); // Maintain the top-rated restaurants
     } else {
       setHomeKitchens(
         restaurants.filter(
           (restaurant) =>
             restaurant.is_homekitchen &&
+            restaurant.is_open &&
             (restaurant.name.toLowerCase().includes(search.toLowerCase()) ||
-              restaurant.location.toLowerCase().includes(search.toLowerCase())) // Fix the parentheses here
+              restaurant.location.toLowerCase().includes(search.toLowerCase()))
         )
       );
       setOtherRestaurants(
         restaurants.filter(
           (restaurant) =>
             !restaurant.is_homekitchen &&
+            restaurant.is_open &&
             (restaurant.name.toLowerCase().includes(search.toLowerCase()) ||
-              restaurant.location.toLowerCase().includes(search.toLowerCase())) // Fix the parentheses here
+              restaurant.location.toLowerCase().includes(search.toLowerCase()))
+        )
+      );
+      setClosed(
+        restaurants.filter(
+          (restaurant) =>
+            !restaurant.is_open &&
+            (restaurant.name.toLowerCase().includes(search.toLowerCase()) ||
+              restaurant.location.toLowerCase().includes(search.toLowerCase()))
+        )
+      );
+      setMostPopularRestaurants(
+        topRated.filter(
+          (restaurant) =>
+            restaurant.is_open &&
+            (restaurant.name.toLowerCase().includes(search.toLowerCase()) ||
+              restaurant.location.toLowerCase().includes(search.toLowerCase()))
         )
       );
     }
-  }, [search]);
+  }, [search, restaurants, topRated]);
 
   return (
     <div>
       <Navbar />
+
       <div className="container" style={{
         position: "relative",
         top: "100px",
       }}>
+
         <input
           className="form-control mt-2"
           type="search"
@@ -131,6 +159,7 @@ export default function Home() {
           }}
         />{" "}
 
+
         {favoriteRestaurants.length > 0 && (
           <div className="row mt-4">
             <h2>Your Favourite Restaurants</h2>
@@ -143,6 +172,7 @@ export default function Home() {
                   img={restaurant.img}
                   location={restaurant.location}
                   averageRating={restaurant.averageRating}
+                  is_open={restaurant.is_open}
                 />
               </div>
             ))}
@@ -164,6 +194,7 @@ export default function Home() {
                     img={restaurant.img}
                     location={restaurant.location}
                     averageRating={restaurant.averageRating}
+                    is_open={restaurant.is_open}
                   />
                 </div>
               ))}
@@ -172,31 +203,49 @@ export default function Home() {
 
         {homeKitchens.length > 0 && (
           <div className="row mt-4">
-            <h2>Home Kitchens</h2>
+            <h3>Home Kitchens</h3>
             <hr />
-            {homeKitchens.map((restaurant) => (
-              <div
-                key={restaurant._id}
-                className={`col-12 col-md-6 col-lg-3 ${!restaurant.hasStock ? 'bg-light' : ''}`}
-                style={{ pointerEvents: !restaurant.hasStock ? 'none' : 'auto', opacity: !restaurant.hasStock ? 0.6 : 1 }}
-              >
-                <RestCard_User
-                  _id={restaurant._id}
-                  name={restaurant.name}
-                  img={restaurant.img}
-                  location={restaurant.location}
-                  averageRating={restaurant.averageRating}
-                />
-              </div>
-            ))}
+            {homeKitchens
+              .filter((restaurant) => restaurant.is_open) // Filter open restaurants
+              .map((restaurant) => (
+                <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
+                  <RestCard_User
+                    _id={restaurant._id}
+                    name={restaurant.name}
+                    img={restaurant.img}
+                    location={restaurant.location}
+                    averageRating={restaurant.averageRating}
+                    is_open={restaurant.is_open}
+                  />
+                </div>
+              ))}
           </div>
         )}
-
         {otherRestaurants.length > 0 && (
           <div className="row mt-4">
-            <h2>Restaurants</h2>
+            <h3>Restaurants</h3>
             <hr />
-            {otherRestaurants.map((restaurant) => (
+            {otherRestaurants
+              .filter((restaurant) => restaurant.is_open) // Filter open restaurants
+              .map((restaurant) => (
+                <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
+                  <RestCard_User
+                    _id={restaurant._id}
+                    name={restaurant.name}
+                    img={restaurant.img}
+                    location={restaurant.location}
+                    averageRating={restaurant.averageRating}
+                    is_open={restaurant.is_open}
+                  />
+                </div>
+              ))}
+          </div>
+        )}
+        {closed.length > 0 && (
+          <div className="row mt-4">
+            <h3>Temporarily Closed</h3>
+            <hr />
+            {closed.map((restaurant) => (
               <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
                 <RestCard_User
                   _id={restaurant._id}
@@ -204,6 +253,7 @@ export default function Home() {
                   img={restaurant.img}
                   location={restaurant.location}
                   averageRating={restaurant.averageRating}
+                  is_open={restaurant.is_open}
                 />
               </div>
             ))}
@@ -211,7 +261,6 @@ export default function Home() {
         )}
         <Footer />
       </div>
-
     </div>
   );
 }

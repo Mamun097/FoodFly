@@ -49,6 +49,7 @@ async(req, res) => {
 router.post("/restaurant/login", async (req, res) => {
     try {
       const fetched_data = await Restaurant.findOne({ email: req.body.email });
+      console.log(fetched_data);
       if (!fetched_data) {
         return res
           .status(400)
@@ -71,7 +72,7 @@ router.post("/restaurant/login", async (req, res) => {
         };
       
       const authToken = jwt.sign(data, jwtSecret);
-      return res.json({ success: true , authToken  : fetched_data._id});
+      return res.json({ success: true , authToken  : fetched_data._id,restaurant_id : fetched_data._id});
     } catch (error) {
       console.log(error);  }
       return res.json({ success: false });
@@ -199,7 +200,7 @@ router.put('/fooditems/stockout/:foodId', async (req, res) => {
     }
 
     // Toggle the is_instock field
-    foodItem.is_instock = !foodItem.is_instock;
+    foodItem.is_instock = !foodItem.is_instock; 
 
     // Save the updated food item
     await foodItem.save();
@@ -321,7 +322,30 @@ async function updateFoodStock(foodId, newStockStatus, restaurantId) {
     await restaurant.save();
   }
 }
+// Restaurant is_open  
+router.put('/restaurant/isopen/:restaurantId', async (req, res) => {
+  const { restaurantId } = req.params;
+ 
+  try {
+    // Find the food item by ID
+    const restaurant = await Restaurant.findById(restaurantId);
 
+    if (!restaurant) {
+      return res.status(404).json({ message: "Food item not found" });
+    }
+
+    // Toggle the is_open field
+    restaurant.is_open = !restaurant.is_open; 
+
+    // Save the updated state
+    await restaurant.save();
+
+    return res.json({ message: "is_open status updated", is_open: restaurant.is_open });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 router.put("/restaurant/updateStock/:foodId/:restaurantId", async (req, res) => {
   try {
@@ -333,6 +357,5 @@ router.put("/restaurant/updateStock/:foodId/:restaurantId", async (req, res) => 
     res.status(500).json({ success: false, message: error.message });
   }
 });
-
 
 module.exports = router;

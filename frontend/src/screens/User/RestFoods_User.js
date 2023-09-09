@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import Card from "./FoodCard_User";
 import Navbar from "../../components/Navbar";
 import { Row, Col } from "react-bootstrap";
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 import { Modal, Button } from "react-bootstrap";
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-import $ from 'jquery';
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import $ from "jquery";
 window.jQuery = $;
 window.$ = $;
-
 
 export default function ShowFoods_Restaurant() {
   const [foods, setFoodItems] = useState([]);
@@ -17,7 +16,7 @@ export default function ShowFoods_Restaurant() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
   const [desired_restaurant_id, setDesiredRestaurantID] = useState(localStorage.getItem('restaurant_id'));
   const [ratingUpdated, setratingUpdated] = useState(false);
-  const [averageRating, setAverageRating] = useState(null);
+  const [averageRating, setAverageRating] = useState(0);
   const [showRatingButtons, setShowRatingButtons] = useState(false);
   const [userRating, setUserRating] = useState(0);
   const [feedbackDisplayed, setFeedbackDisplayed] = useState(false);
@@ -28,7 +27,6 @@ export default function ShowFoods_Restaurant() {
   const [reviewFeedbackDisplayed, setReviewFeedbackDisplayed] = useState(false);
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-
 
   const fetchData = async () => {
     let response = await fetch("http://localhost:5000/api/restaurant/foods", {
@@ -47,14 +45,17 @@ export default function ShowFoods_Restaurant() {
 
   const handleRating = async (userRating) => {
     //user will rate the restaurant
-    const userId = localStorage.getItem('user_id');
-    const response = await fetch(`http://localhost:5000/api/restaurant/rating/${desired_restaurant_id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId, rating: userRating })
-    });
+    const userId = localStorage.getItem("user_id");
+    const response = await fetch(
+      `http://localhost:5000/api/restaurant/rating/${desired_restaurant_id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, rating: userRating }),
+      }
+    );
 
     const data = await response.json();
 
@@ -70,12 +71,15 @@ export default function ShowFoods_Restaurant() {
 
   const fetchRating = async () => {
     //average rating will be fetched from the database
-    const response = await fetch(`http://localhost:5000/api/restaurant/rating/${desired_restaurant_id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `http://localhost:5000/api/restaurant/rating/${desired_restaurant_id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
 
     // console.log(response);
 
@@ -90,7 +94,6 @@ export default function ShowFoods_Restaurant() {
     }
 
     setratingUpdated(false); // Reset the rating state
-
   };
 
   const fetchFavorites = async () => {
@@ -108,9 +111,9 @@ export default function ShowFoods_Restaurant() {
         // Update state or do something with the fetched favorites
         const favorites = data.map(fav => fav._id);
 
-      // Setting the isFavorite state
-      setIsFavorite(favorites.includes(restaurantId));
-        // console.log(data.favorites);
+        // Setting the isFavorite state
+        setIsFavorite(favorites.includes(restaurantId));
+        console.log("boolean value....", isFavorite);
       } else {
         console.log("Error fetching favorites:", data.message);
       }
@@ -120,15 +123,18 @@ export default function ShowFoods_Restaurant() {
   };
 
   const handleReviewSubmit = async () => {
-    const userId = localStorage.getItem('user_id');
-    const userName = localStorage.getItem('user_name');
-    const response = await fetch(`http://localhost:5000/api/restaurant/review/${desired_restaurant_id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId, userName, review: userReview }),
-    });
+    const userId = localStorage.getItem("user_id");
+    const userName = localStorage.getItem("user_name");
+    const response = await fetch(
+      `http://localhost:5000/api/restaurant/review/${desired_restaurant_id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, userName, review: userReview }),
+      }
+    );
 
     const data = await response.json();
     if (data.success) {
@@ -139,13 +145,15 @@ export default function ShowFoods_Restaurant() {
         setReviewFeedbackDisplayed(false);
       }, 3000); // Hide the message after 3 seconds
     } else {
-      console.error('Failed to submit the review');
+      console.error("Failed to submit the review");
     }
   };
 
   // New function to fetch reviews
   const fetchReviews = async () => {
-    const response = await fetch(`http://localhost:5000/api/restaurant/review/${desired_restaurant_id}`);
+    const response = await fetch(
+      `http://localhost:5000/api/restaurant/review/${desired_restaurant_id}`
+    );
     const data = await response.json();
     if (data.success) {
       setReviews(data.reviews);
@@ -180,9 +188,12 @@ export default function ShowFoods_Restaurant() {
       } else {
         console.error('Failed to update favorites');
       }
+
+      // setIsFavorite(!isFavorite);
     } catch (error) {
       console.error('Error updating favorites:', error);
     }
+    
   };
 
   // Function to render stars
@@ -190,26 +201,30 @@ export default function ShowFoods_Restaurant() {
     let stars = [];
     for (let i = 1; i <= 5; i++) {
       if (i <= Math.floor(averageRating)) {
-        stars.push(<i className="bi bi-star-fill"></i>);
+        stars.push(
+          <i className="bi bi-star-fill" style={{ color: "#ff8a00" }}></i>
+        );
       } else if (i === Math.ceil(averageRating)) {
         const percentage = ((averageRating % 1) * 100).toFixed(2);
         stars.push(
-          <div style={{ position: 'relative', display: 'inline-block' }}>
-            <i className="bi bi-star"></i>
-            <div style={{
-              position: 'absolute',
-              overflow: 'hidden',
-              top: 0,
-              left: 0,
-              width: `${percentage}%`,
-              zIndex: 1,
-            }}>
-              <i className="bi bi-star-fill"></i>
+          <div style={{ position: "relative", display: "inline-block" }}>
+            <i className="bi bi-star" style={{ color: "#ff8a00" }}></i>
+            <div
+              style={{
+                position: "absolute",
+                overflow: "hidden",
+                top: 0,
+                left: 0,
+                width: `${percentage}%`,
+                zIndex: 1,
+              }}
+            >
+              <i className="bi bi-star-fill" style={{ color: "#ff8a00" }}></i>
             </div>
           </div>
         );
       } else {
-        stars.push(<i className="bi bi-star"></i>);
+        stars.push(<i className="bi bi-star" style={{ color: "#ff8a00" }}></i>);
       }
     }
     return stars;
@@ -225,7 +240,7 @@ export default function ShowFoods_Restaurant() {
       setTimeout(() => {
         setFeedbackDisplayed(false);
         setShowRatingButtons(false);
-      }, 3000);  // Hide the message after 3 seconds and show the "Rate this restaurant" button again
+      }, 3000); // Hide the message after 3 seconds and show the "Rate this restaurant" button again
     }
     // setratingUpdated(true); // Update the rating in the state
   };
@@ -239,7 +254,7 @@ export default function ShowFoods_Restaurant() {
           key={i}
           className={i <= userRating ? "bi bi-star-fill" : "bi bi-star"}
           onClick={() => handleUserRating(i)}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: "pointer", color: "#ff8a00" }}
         ></i>
       );
     }
@@ -261,13 +276,13 @@ export default function ShowFoods_Restaurant() {
   useEffect(() => {
     if (ratingUpdated) {
       fetchRating();
-      setratingUpdated(false);  // Reset the variable
+      setratingUpdated(false); // Reset the variable
     }
   }, [ratingUpdated]);
 
   useEffect(() => {
     if (feedbackDisplayed) {
-      toggleReviewModal();  // Close the review modal
+      toggleReviewModal(); // Close the review modal
     }
   }, [feedbackDisplayed]);
 
@@ -307,37 +322,40 @@ export default function ShowFoods_Restaurant() {
           restaurant._id === desired_restaurant_id ? (
             <>
               <div className="d-flex justify-content-between align-items-center">
-                <h1 className="mt-3">{restaurant.name}</h1>
+                <h2 className="mt-3">{restaurant.name}</h2>
                 {/* Average Rating Header */}
                 <div className="d-flex align-items-center">
-                  <h3 style={{ marginBottom: 0 }}>Average Rating: </h3>
+                  <h5 style={{ marginBottom: 0 }}>Average Rating: </h5>
                   <span className="ms-2">{averageRating.toFixed(1)}</span>
                   <div className="ms-2">
                     {averageRating !== null && renderStars(averageRating)}
                   </div>
                 </div>
-
               </div>
-              <h4>{restaurant.location}</h4>
-              {
-                feedbackDisplayed ? (
+
+              <div className="d-flex justify-content-between align-items-center">
+                <h5>{restaurant.location}</h5>
+
+                {feedbackDisplayed ? (
                   <div>Thanks for your feedback!</div>
                 ) : showRatingButtons ? (
                   <div>
-                    {renderClickableStars()}  {/* This will render clickable stars */}
+                    {renderClickableStars()}{" "}
+                    {/* This will render clickable stars */}
                   </div>
                 ) : (
                   <>
                     <div className="d-flex justify-content-between align-items-center">
-                      <button onClick={() => setShowRatingButtons(true)}
+                      <button
+                        onClick={() => setShowRatingButtons(true)}
                         style={{
-                          backgroundColor: '#007BFF',
-                          color: 'white',
-                          padding: '10px 20px',
-                          fontSize: '16px',
-                          borderRadius: '4px',
-                          border: 'none',
-                          cursor: 'pointer'
+                          backgroundColor: "#ff8a00",
+                          color: "white",
+                          padding: "4px 8px",
+                          fontSize: "16px",
+                          borderRadius: "4px",
+                          border: "none",
+                          cursor: "pointer",
                         }}
                       >
                         Rate & Review Us!
@@ -369,58 +387,110 @@ export default function ShowFoods_Restaurant() {
                         <Modal.Body>
                           <textarea
                             value={userReview}
+                            style={{ width: "100%", height: "70px" }}
                             onChange={(e) => setUserReview(e.target.value)}
                             placeholder="Write your review here"
                           />
                           {reviewSubmitted && <p>Thanks for your review!</p>}
                         </Modal.Body>
                         <Modal.Footer>
-                          <Button variant="secondary" onClick={toggleReviewModal}>
+                          <Button variant="danger" onClick={toggleReviewModal}>
                             Close
                           </Button>
-                          <Button variant="primary" onClick={() => { handleReviewSubmit(); toggleReviewModal(); }}>
+                          <Button
+                            style={{
+                              backgroundColor: "#ff8a00",
+                              border: "none",
+                            }}
+                            onClick={() => {
+                              handleReviewSubmit();
+                              toggleReviewModal();
+                            }}
+                          >
                             Submit Review
                           </Button>
                         </Modal.Footer>
                       </Modal>
-
-                      <button type="button" className="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#reviewsModal">
-                        Our Reviews
-                      </button>
                     </div>
 
                     {/* Reviews Modal */}
-                    <div className="modal fade" id="reviewsModal" tabIndex="-1" aria-labelledby="reviewsModalLabel" aria-hidden="true">
-                      <div className="modal-dialog">
-                        <div className="modal-content">
+                    <div
+                      className="modal fade"
+                      id="reviewsModal"
+                      tabIndex="-1"
+                      aria-labelledby="reviewsModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div className="modal-dialog modal-dialog-scrollable modal-lg">
+                        <div className="modal-content bg-dark text-white">
                           <div className="modal-header">
-                            <h5 className="modal-title" id="reviewsModalLabel">Our Reviews</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h4 className="modal-title" id="reviewsModalLabel">
+                              Our Reviews
+                            </h4>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
                           </div>
                           <div className="modal-body">
-                            {
-                              reviews
-                                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                                .map((review, index) => (
-                                  <div key={index} style={{ backgroundColor: '#f2f2f2', margin: '10px', padding: '10px', borderRadius: '5px' }}>
-                                    <h6>{index + 1}. User Name: {review.username}</h6>
-                                    <p>User ID: {review.user}</p>
-                                    <p>Time: {new Date(review.date).toLocaleString()}</p> {/* Make sure your backend is sending date */}
-                                    <p>Review: {review.review}</p>
-                                  </div>
-                                ))
-                            }
+                            {reviews
+                              .sort(
+                                (a, b) => new Date(b.date) - new Date(a.date)
+                              )
+                              .map((review, index) => (
+                                <div
+                                  key={index}
+                                  style={{
+                                    backgroundColor: "#333",
+                                    margin: "10px",
+                                    padding: "10px",
+                                    borderRadius: "5px",
+                                  }}
+                                >
+                                  <h5>
+                                    {index + 1}. {review.username}
+                                  </h5>
+                                  {/* <p>User ID: {review.user}</p> */}
+                                  <p style={{ fontSize: "1.3rem" }}>
+                                    {" "}
+                                    {review.review}
+                                  </p>
+                                  <p style={{ fontSize: "0.8rem" }}>
+                                    {new Date(review.date).toLocaleString()}
+                                  </p>
+                                </div>
+                              ))}
                           </div>
                           <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button
+                              type="button"
+                              className="btn btn-danger"
+                              data-bs-dismiss="modal"
+                            >
+                              Close
+                            </button>
                           </div>
                         </div>
                       </div>
                     </div>
                   </>
-                )
-              }
+                )}
+              </div>
 
+
+              <div className="d-flex align-items-left mt-3">
+                <a
+                  href="#"
+                  className="text-decoration-underline ms-auto"
+                  style={{ color: "#ff8a00" }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#reviewsModal"
+                >
+                  See Our Reviews
+                </a>
+              </div>
             </>
           ) : null
         )}
@@ -428,7 +498,7 @@ export default function ShowFoods_Restaurant() {
       <hr />
 
       <div className="container">
-        {foodCategory !== [] ? (
+        {foodCategory.length>0 ? (
           foodCategory.map((item, index) => {
             const foodsInCategory = foods.filter(
               (foodItem) =>
@@ -440,7 +510,7 @@ export default function ShowFoods_Restaurant() {
             if (foodsInCategory.length > 0) {
               return (
                 <div key={index} className="row mb-3">
-                  <h2>{item.CategoryName}</h2>
+                  <h3>{item.CategoryName}</h3>
                   <hr />
 
                   {foodsInCategory.map((foodItem) => (

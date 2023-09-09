@@ -220,7 +220,7 @@ export default function (props) {
           >
             <div className="modal-content">
               <div className="modal-body">
-                <h4>Are you sure you want to Delete this food?</h4>
+                <h5>Are you sure you want to Delete this food?</h5>
               </div>
               <div className="modal-footer">
                 <button
@@ -254,9 +254,9 @@ export default function (props) {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h2 className="modal-title" id="EditFoodModalLabel">
+                <h3 className="modal-title" id="EditFoodModalLabel">
                   Edit Food
-                </h2>
+                </h3>
               </div>
               <div className="modal-body">
                 {/* Form with input fields */}

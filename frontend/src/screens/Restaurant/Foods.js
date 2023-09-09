@@ -119,7 +119,7 @@ export default function ShowFoods_Restaurant() {
           if (foodsInCategory.length > 0) {
             return (
               <div key={index} className="row mb-3">
-                <h2>{item.CategoryName}</h2>
+                <h3>{item.CategoryName}</h3>
                 <hr />
 
                 {foodsInCategory.map((foodItem) => (
@@ -155,9 +155,9 @@ export default function ShowFoods_Restaurant() {
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h2 class="modal-title" id="AddFoodModalLabel">
+              <h3 class="modal-title" id="AddFoodModalLabel">
                 Add New Food
-              </h2>
+              </h3>
             </div>
 
             <div class="modal-body">

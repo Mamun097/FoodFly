@@ -28,7 +28,11 @@ const UserSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Restaurant'
         }
-    ]
+    ],
+    contact: {
+        type: String,
+        required: false,
+    },
 
 });
 

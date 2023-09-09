@@ -24,15 +24,22 @@ router.get("/restaurants", async (req, res) => {
 router.post('/favorites/add', async (req, res) => {
   try {
     const { userId, restaurantId } = req.body;
+    console.log("here is the user id in api", userId);
+    console.log("here is the restaurant id in api", restaurantId);
     const user = await User.findById(userId);
     if (!user) return res.status(404).send("User not found");
 
     user.favorites.push(restaurantId);
+    console.log(user.favorites);
+    console.log("here is the user after push", userId);
     await user.save();
+    console.log("here is the user after save", userId);
 
     res.send('Added to favorites');
   } catch (error) {
-    res.status(500).send('Server error');
+    console.error("Save failed:", error);
+  return res.status(500).json({ error: error.toString() });
+    // res.status(500).send('Server error');
   }
 });
 
@@ -64,28 +71,42 @@ router.get('/favorites/:userId', async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
+    
+      const user = await User.findById(userId).select('favorites -_id');
 
-    const user = await User.findById(userId).select('favorites -_id');
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Return the favorite restaurant IDs
+      const favoriteRestaurantIds = user.favorites.map(fav => ({ _id: fav }));
+  
+      // Fetch all favorite restaurants by their IDs
+      const favoriteRestaurants = await Restaurant.find({
+        '_id': { $in: favoriteRestaurantIds }
+      });
+  
+      res.json(favoriteRestaurants);
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
     }
+  });  
 
-    // Return the favorite restaurant IDs
-    const favoriteRestaurantIds = user.favorites.map(fav => ({ _id: fav }));
 
-    // Fetch all favorite restaurants by their IDs
-    const favoriteRestaurants = await Restaurant.find({
-      '_id': { $in: favoriteRestaurantIds }
-    });
-
-    res.json(favoriteRestaurants);
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
-
+  router.get("/user/:userId", async (req, res) => {
+    const userId = req.params.userId;
+    try {
+      //database theke data fetch kortesi
+      const user = await User.findById(userId);
+  
+      //backend theke frontend e data pathaitesi
+      res.send(user);
+    } catch (error) {
+      console.log(error);
+      return res.json({ success: false });
+    }
+  });
 
 module.exports = router; 
