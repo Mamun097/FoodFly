@@ -165,7 +165,7 @@ export default function FoodCard_Restaurant(props) {
               }
               return null;
             })}
-            <h5 className="mt-4">Total Price: Tk </h5>
+            <h6 className="mt-4">Total: Tk {props.total_price}</h6>
             <p style={{ fontSize: "0.8rem", marginBottom: "0px" }}>
               {new Date(props.date).toLocaleString()}
             </p>

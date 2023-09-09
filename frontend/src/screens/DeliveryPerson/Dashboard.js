@@ -180,6 +180,7 @@ export default function Dashboard() {
                                 delivery_person_id={order.delivery_person_id}
                                 status={order.status}
                                 food_items={order.food_items}
+                                total_price={order.total_price}
                                 date={order.date}
                                 payment_method={order.payment_method}
                               />
@@ -205,6 +206,7 @@ export default function Dashboard() {
                                 delivery_person_id={order.delivery_person_id}
                                 status={order.status}
                                 food_items={order.food_items}
+                                total_price={order.total_price}
                                 date={order.date}
                                 payment_method={order.payment_method}
                               />

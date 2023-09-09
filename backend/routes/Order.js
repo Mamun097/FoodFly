@@ -89,6 +89,7 @@ router.post("/orders/neworder", async (req, res) => {
       restaurant_id: req.body.restaurant_id,
       food_items: received_food_items,
       total_price: req.body.total_price,
+      payment_method: req.body.payment_method,
     });
     res.json({ message: "New order placed!" });
   } catch (error) {

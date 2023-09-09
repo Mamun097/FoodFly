@@ -137,8 +137,19 @@ export default function FoodCard_Restaurant(props) {
               }
               return null;
             })}
-            <h5 className="mt-4">Total Price: Tk </h5>
-            <p style={{ fontSize: "0.8rem", marginBottom: "0px" }}>
+            <h6 className="mt-4">Total: Tk {props.total_price}</h6>
+            {
+              props.payment_method === "card" ? (
+                <p style={{ fontSize: "1rem", marginBottom: "0px" , marginTop: "-5px" }}>
+                  Paid With Card
+                </p>
+              ) : (
+                <p style={{ fontSize: "1rem", marginBottom: "0px" , marginTop: "-5px"}}>
+                  Cash on Delivery
+                </p>
+              )
+            }
+            <p style={{ fontSize: "0.8rem", marginBottom: "0px" , marginTop: "10px"}}>
               {new Date(props.date).toLocaleString()}
             </p>
           </div>
@@ -148,11 +159,11 @@ export default function FoodCard_Restaurant(props) {
               <h5 className="mb-1">
                 <u>Pick Up Address</u>
               </h5>
-              <p style={{ fontSize: "1.1rem" }}>{user.name}</p>
+              <p style={{ fontSize: "1.1rem" }}>{restaurant.name}</p>
               <p style={{ fontSize: "0.8rem", marginBottom: "0px" }}>
-                Address: {user.location}
+                Address: {restaurant.location}
                 <br />
-                Contact: {user.contact}
+                Contact: {restaurant.contact}
               </p>
             </div>
           </div>

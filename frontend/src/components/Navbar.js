@@ -79,7 +79,7 @@ export default function () {
                   }`}
                   to="/user/dashboard"
                 >
-                  Dashboard
+                  Profile
                 </Link>
               </li>
               </>

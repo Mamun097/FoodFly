@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const jwtSecret = "SheIsJustAGirlWhoClaimsThatIAmTheOneButTheKidIsNotMySon"
 
 const User = require("../models/User");
+const Food = require("../models/Food");
 
 router.get("/restaurants", async (req, res) => {
     try {
@@ -27,6 +28,20 @@ router.get("/restaurants", async (req, res) => {
   
       //backend theke frontend e data pathaitesi
       res.send(user);
+    } catch (error) {
+      console.log(error);
+      return res.json({ success: false });
+    }
+  });
+
+  router.get("/food/:foodId", async (req, res) => {
+    const foodId = req.params.foodId;
+    try {
+      //database theke data fetch kortesi
+      const food = await Food.findById(foodId);
+  
+      //backend theke frontend e data pathaitesi
+      res.send(food);
     } catch (error) {
       console.log(error);
       return res.json({ success: false });
