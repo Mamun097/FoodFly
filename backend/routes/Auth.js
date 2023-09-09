@@ -71,8 +71,6 @@ router.post("/login", async (req, res) => {
           id: fetched_data._id,
         },
       };
-
-    // console.log(fetched_data.name); 
     
     const authToken = jwt.sign(data, jwtSecret);
     return res.json({
@@ -97,9 +95,8 @@ router.post("/addtocart", async (req, res) => {
       console.log("error occured here");
       return res.status(400).json({ errors: [{ message: "User doesn't exist!" }] });
     }
-    console.log("user found");
+
     if(req.body.food_id==null){
-      //return res.status(400).json({ errors: [{ message: "Food doesn't exist!" }] });
       console.log("food not found");
     }
     await Cart.create({
@@ -127,7 +124,6 @@ router.post("/getcart", async (req, res) => {
 router.post("/getfood", async (req, res) => {
   try {
     const food = await Food.findOne({ _id: req.body.food_id });
-    console.log(food);
     res.json(food);
   } catch (error) {
     console.log(error);
@@ -183,6 +179,16 @@ router.post("/placeorder", async (req, res) => {
     console.log("order placed");
   }
     catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/finduser", async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.body.user_id });
+    res.json(user);
+  }
+  catch (error) {
     console.log(error);
   }
 });

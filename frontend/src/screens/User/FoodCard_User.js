@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useContext } from "react";
 import { UserContext } from "../../UserContext";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+
 export default function FoodCard_Restaurant(props) {
   const [isHovered, setIsHovered] = useState(false);
   //const [foodCount, setFoodCount] = useState(0); // State for food count
@@ -90,7 +94,11 @@ export default function FoodCard_Restaurant(props) {
 
         <div className="d-flex flex-row justify-content-between mt-3">
           <div className="h-100 fs-6">Tk {props.price}</div>
-          <button className="btn btn-success btn-sm" onClick={onClick}> Add to Cart </button>
+          <button className="btn btn-md" 
+          style={{ backgroundColor: "#ff8a00", color: "white" }}
+          onClick={onClick}>
+            <FontAwesomeIcon icon={faCartPlus} /> {/* Add the cart icon */}
+          </button>
         </div>
 
 

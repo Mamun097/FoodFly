@@ -10,11 +10,10 @@ export default function () {
   const isLoggedIn = localStorage.getItem("user_id");
   const location = useLocation();
   const { foodCount, updateFoodCount } = useContext(UserContext);
-  const handleOrder = async () => {
-    
-    try {
-      // Make the API request to place the order
-      fetch("http://localhost:5000/api/placeorder", {
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const received_cart = await fetch("http://localhost:5000/api/getcart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,29 +22,12 @@ export default function () {
           user_id: localStorage.getItem("user_id"),
         }),
       });
-
-      // Handle the response or move the alert to an appropriate place
-      console.log("sachin is here");
-      // Set the orderPlaced flag to true to prevent further orders
-
-      // Make the API request to remove items from the cart (if needed)
-      await fetch("http://localhost:5000/api/removefromcart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: localStorage.getItem("user_id"),
-        }),
-      });
-
-      // Handle the response or move the alert to an appropriate place
-
-      alert("Order Placed"); // Move this alert to the appropriate place
-    } catch (err) {
-      console.error(err);
+      const received_cart_json = await received_cart.json();
+      updateFoodCount(received_cart_json.length);
     }
-  }
+    fetchData();
+  }, []);
+
   return (
     <div>
       <nav
@@ -156,12 +138,12 @@ export default function () {
                     style={{
                       position: "absolute",
                       top: "1px", // Adjust the vertical position as needed
-                      right: "5px", // Adjust the horizontal position as needed
-                      background: "red",
-                      color: "white",
+                      right: "4px", // Adjust the horizontal position as needed
+                      background: "white",
+                      color: "black",
                       borderRadius: "50%",
-                      padding: "4px 8px",
-                      fontSize: "8px",
+                      padding: "2px 6px",
+                      fontSize: "10px",
                     }}
                   >
                     {foodCount}

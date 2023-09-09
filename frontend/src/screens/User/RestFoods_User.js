@@ -41,7 +41,7 @@ export default function ShowFoods_Restaurant() {
     setFoodItems(response[0]);
     setFoodCategory(response[1]);
     setRestaurants(response[2]);
-    // console.log(response);
+    console.log("restaurant id", localStorage.getItem("restaurant_id"));
   };
 
   const handleRating = async (userRating) => {

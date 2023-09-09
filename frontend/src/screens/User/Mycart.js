@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/Navbar';
-import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { UserContext } from '../../UserContext';
+import React, { useEffect, useState } from "react";
+import Navbar from "../../components/Navbar";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../UserContext";
 function MyCart() {
   const [foodItems, setFoodItems] = useState([]);
   const [cartData, setCartData] = useState([]);
@@ -11,6 +11,19 @@ function MyCart() {
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
+
+      const received_cart = await fetch("http://localhost:5000/api/getcart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: localStorage.getItem("user_id"),
+        }),
+      });
+      const received_cart_json = await received_cart.json();
+      updateFoodCount(received_cart_json.length);
+
       localStorage.removeItem("food_count");
       try {
         // Fetch cart_data
@@ -59,7 +72,6 @@ function MyCart() {
           }
           totalPrice += Number(foodItem.price);
         });
-        
 
         // Convert the object into an array of unique food items
         const uniqueFoodItemsArray = Object.values(uniqueFoodItems);
@@ -109,19 +121,22 @@ function MyCart() {
       console.error(error);
     }
   };
-  
+
   const handleDecreaseQuantity = async (foodItemId, user_id) => {
     try {
-      const response = await fetch("http://localhost:5000/api/removefoodfromcart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: localStorage.getItem("user_id"),
-          food_id: foodItemId,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/removefoodfromcart",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: localStorage.getItem("user_id"),
+            food_id: foodItemId,
+          }),
+        }
+      );
       const data = await response.json();
       updateFoodCount(foodCount - 1);
       if (data.success) {
@@ -139,21 +154,23 @@ function MyCart() {
     } catch (error) {
       console.error(error);
     }
-    
   };
-  
+
   const handleDeleteQuantity = async (foodItemId, user_id) => {
     try {
-      const response = await fetch("http://localhost:5000/api/removeallfoodfromcart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: localStorage.getItem("user_id"),
-          food_id: foodItemId,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/removeallfoodfromcart",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: localStorage.getItem("user_id"),
+            food_id: foodItemId,
+          }),
+        }
+      );
       const data = await response.json();
       for (let i = 0; i < foodItems.length; i++) {
         if (foodItems[i].id === foodItemId) {
@@ -174,79 +191,95 @@ function MyCart() {
   };
   const handleOrder = async () => {
     try {
-
-      // Make the API request to place the order
-      fetch("http://localhost:5000/api/placeorder", {
+      fetch("http://localhost:5000/api/orders/neworder", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           user_id: localStorage.getItem("user_id"),
+          total_price: totalPrice,
+          food_items: foodItems,
+          restaurant_id: localStorage.getItem("restaurant_id"),
         }),
       });
 
-      // Handle the response or move the alert to an appropriate place
-      console.log("sachin is here");
-      // Set the orderPlaced flag to true to prevent further orders
-
-      // Make the API request to remove items from the cart (if needed)
-      await fetch("http://localhost:5000/api/removefromcart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: localStorage.getItem("user_id"),
-        }),
-      });
-
-      updateFoodCount(0);
-
-      // Handle the response or move the alert to an appropriate place
       alert("Order Placed"); // Move this alert to the appropriate place
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
     }
+
+    await fetch("http://localhost:5000/api/removefromcart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: localStorage.getItem("user_id"),
+      }),
+    });
+    updateFoodCount(0);
+
   };
   return (
     <div>
       <div>
         <Navbar />
-        <div className="container" style={{ position: "relative", top: "100px" }}>
+        <div
+          className="container"
+          style={{ position: "relative", top: "100px" }}
+        >
           <h1 className="my-4">My Cart</h1>
           <hr />
 
           <ul className="list-group">
             {foodItems.map((foodItem, index) => (
-              <li key={foodItem.id} className="list-group-item d-flex justify-content-between align-items-center">
+              <li
+                key={foodItem.id}
+                className="list-group-item d-flex justify-content-between align-items-center"
+              >
                 <div>
                   <h3>{foodItem.name}</h3>
                   <p>Type: {foodItem.type}</p>
                 </div>
                 <div>
-                  <p>Price: Tk {(foodItem.price * foodItem.quantity).toFixed(2)}</p>
+                  <p>
+                    Price: Tk {(foodItem.price * foodItem.quantity).toFixed(2)}
+                  </p>
                   <div className="quantity-controls">
                     <p className="mx-2">Quantity: {foodItem.quantity}</p>
                     <button
                       className="btn btn-sm btn-primary mx-2"
-                      onClick={() => handleDecreaseQuantity(foodItem.id, localStorage.getItem("user_id"))}
+                      onClick={() =>
+                        handleDecreaseQuantity(
+                          foodItem.id,
+                          localStorage.getItem("user_id")
+                        )
+                      }
                     >
                       -
                     </button>
                     <button
                       className="btn btn-sm btn-primary mx-2"
                       position="relative"
-
-                      onClick={() => handleIncreaseQuantity(foodItem.id, localStorage.getItem("user_id"))}
+                      onClick={() =>
+                        handleIncreaseQuantity(
+                          foodItem.id,
+                          localStorage.getItem("user_id")
+                        )
+                      }
                     >
                       +
                     </button>
                     <button
                       className="btn btn-sm btn-primary mx-2"
                       position="relative"
-
-                      onClick={() => handleDeleteQuantity(foodItem.id, localStorage.getItem("user_id"))}
+                      onClick={() =>
+                        handleDeleteQuantity(
+                          foodItem.id,
+                          localStorage.getItem("user_id")
+                        )
+                      }
                     >
                       Delete
                     </button>
@@ -260,12 +293,12 @@ function MyCart() {
             <h3>Total:</h3>
             <p className="font-weight-bold">Tk {totalPrice.toFixed(2)}</p>
             <button
-            className="btn btn-lg btn-primary float-end"
-            onClick={handleOrder}
-            disabled={foodItems.length === 0} // Disable the button if the cart is empty
-          >
-            Order Now
-          </button>
+              className="btn btn-lg btn-primary float-end"
+              onClick={handleOrder}
+              disabled={foodItems.length === 0} // Disable the button if the cart is empty
+            >
+              Order Now
+            </button>
           </div>
         </div>
       </div>

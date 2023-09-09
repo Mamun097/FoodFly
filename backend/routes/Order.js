@@ -76,11 +76,18 @@ router.get("/deliveryperson/orders/:deliverypersonId", async (req, res) => {
 
 //Placing a new order
 router.post("/orders/neworder", async (req, res) => {
+  received_food_items= []
+  for(let i = 0; i < req.body.food_items.length; i++){
+    received_food_items.push({
+      food_id: req.body.food_items[i].id,
+      quantity: req.body.food_items[i].quantity
+    })
+  }
   try {
     await Orders.create({
       user_id: req.body.user_id,
       restaurant_id: req.body.restaurant_id,
-      food_items: req.body.food_items,
+      food_items: received_food_items,
       total_price: req.body.total_price,
     });
     res.json({ message: "New order placed!" });
