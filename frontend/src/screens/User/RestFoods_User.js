@@ -5,6 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import { FaStar } from 'react-icons/fa';
 import $ from "jquery";
 window.jQuery = $;
 window.$ = $;
@@ -27,6 +28,8 @@ export default function ShowFoods_Restaurant() {
   const [reviewFeedbackDisplayed, setReviewFeedbackDisplayed] = useState(false);
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [ratings, setRatings] = useState([]);
+  const [ratingPercentages, setRatingPercentages] = useState({});
 
   const fetchData = async () => {
     let response = await fetch("http://localhost:5000/api/restaurant/foods", {
@@ -119,6 +122,17 @@ export default function ShowFoods_Restaurant() {
       }
     } catch (error) {
       console.error("An error occurred while fetching favorites:", error);
+    }
+  };
+
+  const fetchRatings = async (restaurantId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/restaurant/${restaurantId}/ratings`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching ratings:", error);
+      return [];
     }
   };
 
@@ -261,6 +275,25 @@ export default function ShowFoods_Restaurant() {
     return stars;
   };
 
+  const calculateRatingPercentages = (ratings) => {
+    let totalRatings = ratings.length;
+    let ratingCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+    for (let rating of ratings) {
+      console.log('Current rating:', rating);
+      ratingCounts[rating.rating]++;
+
+    }
+
+    console.log("rating counts", ratingCounts);
+    let ratingPercentages = {};
+    for (let star = 1; star <= 5; star++) {
+      ratingPercentages[star] = (ratingCounts[star] / totalRatings) * 100;
+    }
+
+    return ratingPercentages;
+  };
+
   useEffect(() => {
     fetchData();
     fetchRating();
@@ -271,6 +304,19 @@ export default function ShowFoods_Restaurant() {
   useEffect(() => {
     const id = localStorage.getItem("restaurant_id");
     setDesiredRestaurantID(id);
+  }, []);
+
+  useEffect(() => {
+    const loadRatings = async () => {
+      const restaurant_id = localStorage.getItem("restaurant_id");
+      const fetchedRatings = await fetchRatings(restaurant_id);
+      console.log("ratings", fetchedRatings);
+      setRatings(fetchedRatings);
+      setRatingPercentages(calculateRatingPercentages(fetchedRatings));
+      console.log("rating percentage", ratingPercentages);
+    };
+
+    loadRatings();
   }, []);
 
   useEffect(() => {
@@ -332,6 +378,62 @@ export default function ShowFoods_Restaurant() {
                   </div>
                 </div>
               </div>
+
+                                {/* Detailed Ratings Modal */}
+
+                                <div className="d-flex justify-content-between align-items-center">
+                    <button
+                      type="button"
+                      className="btn btn-primary ms-2 dropdown-toggle"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ratingModal"
+                      style={{
+                        borderRadius: '10px',
+                        padding: '5px 10px',
+                        fontSize: '12px',
+                        background: 'linear-gradient(to right, #007bff, #0056b3)',
+                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
+                      }}
+                    >
+                    </button>
+
+                  </div>
+
+                  <div className="modal fade" id="ratingModal" tabIndex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title" id="ratingModalLabel">Detailed Ratings</h5>
+                          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                          {Object.entries(ratingPercentages).map(([star, percentage], index) => (
+                            <div className="d-flex align-items-center mb-2" key={index} style={index === 0 ? { marginLeft: '1.9px' } : {}}>
+                              <span className="mr-2" style={{ marginTop: '-2px' }}>
+                                {star} <FaStar />
+                              </span>
+                              <div className="progress" style={{ width: '70%' }}>
+                                <div
+                                  className="progress-bar"
+                                  role="progressbar"
+                                  style={{ width: `${percentage}%`}}
+                                  aria-valuenow={percentage}
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                ></div>
+                              </div>
+                              <span className="ml-2">{`${Math.round(percentage)}%`}</span>
+                            </div>
+                          ))}
+
+
+                        </div>
+                        <div className="modal-footer">
+                          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
               <div className="d-flex justify-content-between align-items-center">
                 <h5>{restaurant.location}</h5>
