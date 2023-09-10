@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import RestCard_User from "./RestCard_User";
 import Footer from "../../components/Footer";
+import { FaHeart } from 'react-icons/fa';
+import { FaFire } from 'react-icons/fa';
+
 
 export default function Home() {
   // Fetch data from /api/restaurants route
@@ -170,7 +173,7 @@ export default function Home() {
 
         {favoriteRestaurants.length > 0 && (
           <div className="row mt-4">
-            <h2>My Favourites</h2>
+            <h4><FaHeart style={{ color: "#dc3545" , marginTop: "-5px"}} /> My Favourites</h4>
             <hr />
             {favoriteRestaurants.slice(0, 4).map((restaurant) => (
               <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
@@ -190,7 +193,7 @@ export default function Home() {
         {/* Most Popular Restaurants */}
         {mostPopularRestaurants.length > 0 && (
           <div className="row mt-4">
-            <h2>Most Popular</h2>
+            <h4><FaFire style={{ color: 'orange' , marginTop: "-10px"}} /> Most Popular</h4>
             <hr />
             {mostPopularRestaurants
               .filter(restaurant => restaurant.is_open) // Only include restaurants that are open
@@ -211,7 +214,7 @@ export default function Home() {
 
         {homeKitchens.length > 0 && (
           <div className="row mt-4">
-            <h3>Home Kitchens</h3>
+            <h4>Home Kitchens</h4>
             <hr />
             {homeKitchens
               .filter((restaurant) => restaurant.is_open) // Filter open restaurants
@@ -231,7 +234,7 @@ export default function Home() {
         )}
         {otherRestaurants.length > 0 && (
           <div className="row mt-4">
-            <h3>All Restaurants</h3>
+            <h4>All Restaurants</h4>
             <hr />
             {otherRestaurants
               .filter((restaurant) => restaurant.is_open) // Filter open restaurants
@@ -251,7 +254,7 @@ export default function Home() {
         )}
         {closed.length > 0 && (
           <div className="row mt-4">
-            <h3>Temporarily Closed</h3>
+            <h4>Temporarily Closed</h4>
             <hr />
             {closed.map((restaurant) => (
               <div key={restaurant._id} className="col-12 col-md-6 col-lg-3">
