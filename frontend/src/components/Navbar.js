@@ -41,7 +41,7 @@ export default function () {
         }}
       >
         <div className="container-fluid">
-          <Link className="navbar-brand fs-1 fst-italic navbar-dark" to="/">
+          <Link className="navbar-brand fs-1 fst-italic text-warning" to="/">
             FoodFly
           </Link>
           <button
@@ -56,36 +56,34 @@ export default function () {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {isLoggedIn ? (
-              <>
-              <li className="nav-item">
-                <Link
-                  className={`nav-link fs-5 ${
-                    location.pathname === "/user/restaurant"
-                      ? "active"
-                      : ""
-                  }`}
-                  to="/user/restaurant"
-                >
-                  Home
-                </Link>
-              </li>
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              {isLoggedIn ? (
+                <>
+                  <li className="nav-item">
+                    <Link
+                      className={`nav-link fs-5 ${location.pathname === "/user/restaurant" ? "active" : ""
+                        }`}
+                      to="/user/restaurant"
+                      style={{ color: location.pathname === "/user/restaurant" ? 'orange' : 'white' }}
+                    >
+                      Home
+                    </Link>
+                  </li>
 
-              <li className="nav-item">
-                <Link
-                  className={`nav-link fs-5 ${
-                    location.pathname === "/user/dashboard" ? "active" : ""
-                  }`}
-                  to="/user/dashboard"
-                >
-                  Profile
-                </Link>
-              </li>
-              </>
-            ) : (
-              ""
-            )}
+                  <li className="nav-item">
+                    <Link
+                      className={`nav-link fs-5 ${location.pathname === "/user/dashboard" ? "active" : ""
+                        }`}
+                      to="/user/dashboard"
+                      style={{ color: location.pathname === "/user/dashboard" ? 'orange' : 'white' }}
+                    >
+                      Profile
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                ""
+              )}
             </ul>
             {!isLoggedIn ? (
               <div className="d-flex">

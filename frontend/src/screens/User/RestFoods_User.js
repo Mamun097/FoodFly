@@ -338,6 +338,10 @@ export default function ShowFoods_Restaurant() {
     }
   }, [feedbackDisplayed]);
 
+  const [isHovered, setIsHovered] = useState(false);
+  const hoverStyle = isHovered ? { transform: 'scale(1.1)', transition: 'transform 0.1s ease' } : {};
+
+
   return (
     <div>
       <div>
@@ -384,7 +388,9 @@ export default function ShowFoods_Restaurant() {
                     className="ms-2"
                     data-bs-toggle="modal"
                     data-bs-target="#ratingModal"
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer" , ...hoverStyle }}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                   >
                     {averageRating !== null && renderStars(averageRating)}
                   </div>
@@ -400,7 +406,7 @@ export default function ShowFoods_Restaurant() {
                 aria-hidden="true"
               >
                 <div className="modal-dialog modal-dialog-centered">
-                  <div className="modal-content" style={{ color: "white" }}>
+                  <div className="modal-content" style={{ color: "black" }}>
                     <div className="modal-header">
                       <h5 className="modal-title" id="ratingModalLabel">
                         Detailed Ratings
@@ -422,19 +428,19 @@ export default function ShowFoods_Restaurant() {
                           >
                             <span
                               className="mr-2"
-                              style={{ marginTop: "-2px" , color: "#ff8a00"}}
+                              style={{ marginTop: "-2px", color: "#ff8a00" }}
                             >
-                              <span style={{ color: "white"}}>
-                              {star} 
+                              <span style={{ color: "black" }}>
+                                {star}
                               </span>
-                              
+
                               <FaStar />
                             </span>
                             <div className="progress" style={{ width: "70%" }}>
                               <div
                                 className="progress-bar"
                                 role="progressbar"
-                                style={{ width: `${percentage}%` , backgroundColor: "#ff8a00"}}
+                                style={{ width: `${percentage}%`, backgroundColor: "#ff8a00" }}
                                 aria-valuenow={percentage}
                                 aria-valuemin="0"
                                 aria-valuemax="100"
@@ -493,9 +499,8 @@ export default function ShowFoods_Restaurant() {
                   }}
                 >
                   <i
-                    className={`bi ${
-                      isFavorite ? "bi-heart-fill" : "bi-heart"
-                    }`}
+                    className={`bi ${isFavorite ? "bi-heart-fill" : "bi-heart"
+                      }`}
                   ></i>
                   {isFavorite ? " Remove from favorites" : " Add to favorites"}
                 </button>
@@ -572,7 +577,7 @@ export default function ShowFoods_Restaurant() {
                       aria-hidden="true"
                     >
                       <div className="modal-dialog modal-dialog-scrollable modal-md">
-                        <div className="modal-content bg-dark text-white">
+                        <div className="modal-content bg-light text-black">
                           <div className="modal-header">
                             <h4 className="modal-title" id="reviewsModalLabel">
                               Our Reviews
@@ -593,10 +598,11 @@ export default function ShowFoods_Restaurant() {
                                 <div
                                   key={index}
                                   style={{
-                                    backgroundColor: "#333",
+                                    backgroundColor: "white",
                                     margin: "10px",
                                     padding: "10px",
                                     borderRadius: "5px",
+                                    boxShadow: "0px 2px 4px 0px rgba(0,0,0,0.2)",
                                   }}
                                 >
                                   <h6>

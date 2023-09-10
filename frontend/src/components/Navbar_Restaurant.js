@@ -16,7 +16,7 @@ export default function () {
         }}
       >
         <div className="container-fluid">
-          <Link className="navbar-brand fs-1 fst-italic" to="/">
+          <Link className="navbar-brand fs-1 fst-italic text-warning" to="/">
             FoodFly
           </Link>
           <button
@@ -40,6 +40,7 @@ export default function () {
                       : ""
                   }`}
                   to="/restaurant/dashboard"
+                  style={{ color: location.pathname === "/restaurant/dashboard" ? 'orange' : 'white' }}
                 >
                   Dashboard
                 </Link>
@@ -51,6 +52,7 @@ export default function () {
                     location.pathname === "/restaurant/foods" ? "active" : ""
                   }`}
                   to="/restaurant/foods"
+                  style={{ color: location.pathname === "/restaurant/foods" ? 'orange' : 'white' }}
                 >
                   Menu
                 </Link>

@@ -15,7 +15,7 @@ export default function () {
         }}
       >
         <div className="container-fluid">
-          <Link className="navbar-brand fs-1 fst-italic" to="/">
+          <Link className="navbar-brand fs-1 fst-italic text-warning" to="/">
             FoodFly
           </Link>
           <button
@@ -35,6 +35,7 @@ export default function () {
                 <Link
                   className="nav-link fs-5 active"
                   to="/deliveryperson/dashboard"
+                  style={{ color: "orange" }}
                 >
                   Dashboard
                 </Link>
