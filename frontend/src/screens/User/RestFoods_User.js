@@ -341,6 +341,12 @@ export default function ShowFoods_Restaurant() {
   const [isHovered, setIsHovered] = useState(false);
   const hoverStyle = isHovered ? { transform: 'scale(1.1)', transition: 'transform 0.1s ease' } : {};
 
+  const [isHovered2, setIsHovered2] = useState(false);
+  const hoverStyle2 = isHovered2 ? { transform: 'scale(1.05)', transition: 'transform 0.1s ease' } : {};
+
+  const [isHovered3, setIsHovered3] = useState(false);
+  const hoverStyle3 = isHovered3 ? { transform: 'scale(1.05)', transition: 'transform 0.1s ease' } : {};
+
 
   return (
     <div>
@@ -486,6 +492,8 @@ export default function ShowFoods_Restaurant() {
                 <button
                   onClick={toggleFavorite}
                   className="btn"
+                  onMouseEnter={() => setIsHovered2(true)}
+                  onMouseLeave={() => setIsHovered2(false)}
                   style={{
                     color: "white",
                     backgroundColor: isFavorite ? "#dc3545" : "#ff8a00",
@@ -494,7 +502,7 @@ export default function ShowFoods_Restaurant() {
                     borderRadius: "4px",
                     height: "32px", // Increase the height
                     border: "none",
-                    cursor: "pointer",
+                    cursor: "pointer", ...hoverStyle2,
                     boxShadow: "0px 8px 16px 0px rgba(1,1,1,0.2)",
                   }}
                 >
@@ -517,6 +525,8 @@ export default function ShowFoods_Restaurant() {
                   <>
                     <div className="d-flex justify-content-between align-items-center">
                       <button
+                      onMouseEnter={() => setIsHovered3(true)}
+                      onMouseLeave={() => setIsHovered3(false)}
                         onClick={() => setShowRatingButtons(true)}
                         style={{
                           backgroundColor: "#ff8a00",
@@ -525,7 +535,7 @@ export default function ShowFoods_Restaurant() {
                           fontSize: "14px",
                           borderRadius: "4px",
                           border: "none",
-                          cursor: "pointer",
+                          cursor: "pointer", ...hoverStyle3,
                           boxShadow: "0px 8px 16px 0px rgba(1,1,1,0.2)",
                           color: "white",
                           height: "32px", // Increase the height
