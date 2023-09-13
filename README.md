@@ -5,6 +5,10 @@
 ## Description
 
 This platform is a comprehensive solution for food delivery, developed as our <b>CSE-408 Softare Development Sessional Project </b>. It supports multiple roles including `Customer`, `Restaurant`, and `Delivery Person` and has all the necessary features an online food delivery platform should have.
+- [Scope Fixation](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fraw.githubusercontent.com%2FMamun097%2FFoodFly%2Fmain%2FApplication%2520Design%2FScope%2520Fixation.pptx&wdOrigin=BROWSELINK)
+- [MockUI](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fraw.githubusercontent.com%2FMamun097%2FFoodFly%2Fmain%2FApplication%2520Design%2FMockUI.pptx&wdOrigin=BROWSELINK)
+- [System Architecture](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fraw.githubusercontent.com%2FMamun097%2FFoodFly%2Fmain%2FApplication%2520Design%2FSystem_Architecture.pptx&wdOrigin=BROWSELINK)
+- [API Documentation](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fraw.githubusercontent.com%2FMamun097%2FFoodFly%2Fmain%2FApplication%2520Design%2FAPI_Documentation.xlsx&wdOrigin=BROWSELINK)
 
 ---
 
