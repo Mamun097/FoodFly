@@ -8,7 +8,7 @@ This platform is a comprehensive solution for food delivery, developed as our <b
 
 ---
 
-## Built With ❤️ and
+## Built With
 - MongoDB
 - ExpressJS
 - React
