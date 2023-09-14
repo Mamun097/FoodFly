@@ -1,5 +1,4 @@
-<h1 align="center"><i>FoodFly</i></h1>
-<h3 align="center"><i>CSE-408 Software Developmet Project</i></h3>
+<h1 align="center"><i>FoodFly</i><i>CSE-408 Software Developmet Project</i></h1>
 
 
 ## Description
