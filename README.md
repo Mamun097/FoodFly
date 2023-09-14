@@ -1,4 +1,4 @@
-# <p align="center"><i>FoodFly<br><sub style="font-size: smaller; opacity: 0.7;">CSE-408 Software Development Project</sub></i></p>
+# <p align="center"><i>FoodFly<br><sub style="font-size: smaller; opacity: 0.3;">CSE-408 Software Development Project</sub></i></p>
 
 
 
