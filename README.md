@@ -1,12 +1,5 @@
-<style>
-  .small-faded {
-    font-size: 20px; /* Adjust the font size as needed */
-    opacity: 0.7; /* Adjust the opacity as needed (0.0 to 1.0) */
-  }
-</style>
-</head>
-<body>
-  <h1 align="center"><i>FoodFly<br><span class="small-faded">CSE-408 Software Development Project</span></i></h1>
+# <p align="center"><i>FoodFly<br><sub style="font-size: smaller; opacity: 0.7;">CSE-408 Software Development Project</sub></i></p>
+
 
 
 ## Description
