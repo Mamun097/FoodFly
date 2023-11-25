@@ -90,9 +90,3 @@ This platform is a comprehensive solution for food delivery, developed as our <b
 
 ---
 
-## 🤝 Contribution
-
-Feel free to create issues and submit PRs.
-
----
-
