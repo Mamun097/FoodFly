@@ -10,7 +10,7 @@ export default function Dashboard() {
 
   const fetchData = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/user/${localStorage.getItem("user_id")}`,
+      `https://foodfly.onrender.com/api/user/${localStorage.getItem("user_id")}`,
       {
         method: "GET",
         headers: {
@@ -36,7 +36,7 @@ export default function Dashboard() {
   const [orders, setOrders] = useState([]);
   const fetchOrders = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/user/orders/${localStorage.getItem(
+      `https://foodfly.onrender.com/api/user/orders/${localStorage.getItem(
         "user_id"
       )}`,
       {
@@ -62,7 +62,7 @@ export default function Dashboard() {
 
   const fetchCompletedOrders = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/user/orders/${localStorage.getItem(
+      `https://foodfly.onrender.com/api/user/orders/${localStorage.getItem(
         "user_id"
       )}`,
       {

@@ -12,7 +12,7 @@ export default function FoodCard_Restaurant(props) {
   //fetching all foods
   const [foods, setFoods] = useState([]);
   const fetchFoods = async () => {
-    let response = await fetch("http://localhost:5000/api/foods", {
+    let response = await fetch("https://foodfly.onrender.com/api/foods", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export default function FoodCard_Restaurant(props) {
   //fetching all restaurants
   const [restaurants, setRestaurants] = useState([]);
   const fetchRestaurants = async () => {
-    let response = await fetch("http://localhost:5000/api/restaurants", {
+    let response = await fetch("https://foodfly.onrender.com/api/restaurants", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

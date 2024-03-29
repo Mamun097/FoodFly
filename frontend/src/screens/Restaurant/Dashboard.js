@@ -15,7 +15,7 @@ export default function Dashboard() {
 
   const fetchData = async () => {
     let response = await fetch(
-      "http://localhost:5000/api/restaurant/dashboard",
+      "https://foodfly.onrender.com/api/restaurant/dashboard",
       {
         method: "GET",
         headers: {
@@ -40,7 +40,7 @@ export default function Dashboard() {
     const desired_restaurant_id = localStorage.getItem("restaurant_id");
     console.log("resturant id", desired_restaurant_id);
     const response = await fetch(
-      `http://localhost:5000/api/restaurant/rating/${desired_restaurant_id}`,
+      `https://foodfly.onrender.com/api/restaurant/rating/${desired_restaurant_id}`,
       {
         method: "GET",
         headers: {
@@ -63,7 +63,7 @@ export default function Dashboard() {
     const desired_restaurant_id = localStorage.getItem("restaurant_id");
     console.log("resturant id", desired_restaurant_id);
     const response = await fetch(
-      `http://localhost:5000/api/restaurant/review/${desired_restaurant_id}`
+      `https://foodfly.onrender.com/api/restaurant/review/${desired_restaurant_id}`
     );
     const data = await response.json();
     if (data.success) {
@@ -120,7 +120,7 @@ export default function Dashboard() {
   const handleIsOpenToggle = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/restaurant/isopen/${localStorage.getItem(
+        `https://foodfly.onrender.com/api/restaurant/isopen/${localStorage.getItem(
           "restaurant_id"
         )}`,
         {
@@ -147,7 +147,7 @@ export default function Dashboard() {
 
   const fetchCompletedOrders = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/restaurant/orders/${localStorage.getItem(
+      `https://foodfly.onrender.com/api/restaurant/orders/${localStorage.getItem(
         "restaurant_id"
       )}`,
       {

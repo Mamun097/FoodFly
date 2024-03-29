@@ -12,7 +12,7 @@ export default function FoodCard_Restaurant(props) {
   //fetching all foods
   const [foods, setFoods] = useState([]);
   const fetchFoods = async () => {
-    let response = await fetch("http://localhost:5000/api/foods", {
+    let response = await fetch("https://foodfly.onrender.com/api/foods", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export default function FoodCard_Restaurant(props) {
   const [restaurant, setRestaurant] = useState([]);
   const fetchRestaurants = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/restaurant/${props.restaurant_id}`,
+      `https://foodfly.onrender.com/api/restaurant/${props.restaurant_id}`,
       {
         method: "GET",
         headers: {
@@ -43,7 +43,7 @@ export default function FoodCard_Restaurant(props) {
   const [user, setUser] = useState([]);
   const fetchUser = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/user/${props.user_id}`,
+      `https://foodfly.onrender.com/api/user/${props.user_id}`,
       {
         method: "GET",
         headers: {
@@ -63,7 +63,7 @@ export default function FoodCard_Restaurant(props) {
 
   const handlePickup = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/orders/pickeduporder/${props._id}`,
+      `https://foodfly.onrender.com/api/orders/pickeduporder/${props._id}`,
       {
         method: "PUT",
         headers: {
@@ -79,7 +79,7 @@ export default function FoodCard_Restaurant(props) {
 
   const handleDeliver = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/orders/deliveredorder/${props._id}`,
+      `https://foodfly.onrender.com/api/orders/deliveredorder/${props._id}`,
       {
         method: "PUT",
         headers: {

@@ -45,7 +45,7 @@ export default function () {
       return;
     }
 
-    const response = await fetch("http://localhost:5000/api/deliveryperson/signup", {
+    const response = await fetch("https://foodfly.onrender.com/api/deliveryperson/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -8,7 +8,7 @@ export default function Myorder() {
       try {
         if (!orderPlaced) { // Check if order hasn't been placed yet
           // Make the API request to place the order
-          fetch("http://localhost:5000/api/placeorder", {
+          fetch("https://foodfly.onrender.com/api/placeorder", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export default function Myorder() {
           setOrderPlaced(true);
 
           // Make the API request to remove items from the cart (if needed)
-          await fetch("http://localhost:5000/api/removefromcart", {
+          await fetch("https://foodfly.onrender.com/api/removefromcart", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

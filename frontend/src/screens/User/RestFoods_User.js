@@ -34,7 +34,7 @@ export default function ShowFoods_Restaurant() {
   const [ratingPercentages, setRatingPercentages] = useState({});
 
   const fetchData = async () => {
-    let response = await fetch("http://localhost:5000/api/restaurant/foods", {
+    let response = await fetch("https://foodfly.onrender.com/api/restaurant/foods", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export default function ShowFoods_Restaurant() {
     //user will rate the restaurant
     const userId = localStorage.getItem("user_id");
     const response = await fetch(
-      `http://localhost:5000/api/restaurant/rating/${desired_restaurant_id}`,
+      `https://foodfly.onrender.com/api/restaurant/rating/${desired_restaurant_id}`,
       {
         method: "PUT",
         headers: {
@@ -77,7 +77,7 @@ export default function ShowFoods_Restaurant() {
   const fetchRating = async () => {
     //average rating will be fetched from the database
     const response = await fetch(
-      `http://localhost:5000/api/restaurant/rating/${desired_restaurant_id}`,
+      `https://foodfly.onrender.com/api/restaurant/rating/${desired_restaurant_id}`,
       {
         method: "GET",
         headers: {
@@ -108,7 +108,7 @@ export default function ShowFoods_Restaurant() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/favorites/${userId}`
+        `https://foodfly.onrender.com/api/favorites/${userId}`
       );
       const data = await response.json();
       console.log("heree is the frontend part");
@@ -132,7 +132,7 @@ export default function ShowFoods_Restaurant() {
   const fetchRatings = async (restaurantId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/restaurant/${restaurantId}/ratings`
+        `https://foodfly.onrender.com/api/restaurant/${restaurantId}/ratings`
       );
       const data = await response.json();
       return data;
@@ -146,7 +146,7 @@ export default function ShowFoods_Restaurant() {
     const userId = localStorage.getItem("user_id");
     const userName = localStorage.getItem("user_name");
     const response = await fetch(
-      `http://localhost:5000/api/restaurant/review/${desired_restaurant_id}`,
+      `https://foodfly.onrender.com/api/restaurant/review/${desired_restaurant_id}`,
       {
         method: "PUT",
         headers: {
@@ -172,7 +172,7 @@ export default function ShowFoods_Restaurant() {
   // New function to fetch reviews
   const fetchReviews = async () => {
     const response = await fetch(
-      `http://localhost:5000/api/restaurant/review/${desired_restaurant_id}`
+      `https://foodfly.onrender.com/api/restaurant/review/${desired_restaurant_id}`
     );
     const data = await response.json();
     if (data.success) {
@@ -195,8 +195,8 @@ export default function ShowFoods_Restaurant() {
     const restaurantId = localStorage.getItem("restaurant_id");
 
     const url = isFavorite
-      ? "http://localhost:5000/api/favorites/remove"
-      : "http://localhost:5000/api/favorites/add";
+      ? "https://foodfly.onrender.com/api/favorites/remove"
+      : "https://foodfly.onrender.com/api/favorites/add";
     const payload = {
       method: "POST",
       headers: { "Content-Type": "application/json" },

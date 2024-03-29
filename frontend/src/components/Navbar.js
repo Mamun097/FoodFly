@@ -13,7 +13,7 @@ export default function () {
 
   useEffect(() => {
     const fetchData = async () => {
-      const received_cart = await fetch("http://localhost:5000/api/getcart", {
+      const received_cart = await fetch("https://foodfly.onrender.com/api/getcart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

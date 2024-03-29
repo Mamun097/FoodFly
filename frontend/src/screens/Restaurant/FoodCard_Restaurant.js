@@ -11,7 +11,7 @@ export default function (props) {
   const confirmDelete = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/restaurant/deletefood/${props._id}`,
+        `https://foodfly.onrender.com/api/restaurant/deletefood/${props._id}`,
         {
           method: "DELETE",
         }
@@ -49,7 +49,7 @@ export default function (props) {
   const handleEditSubmit = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/restaurant/editfood/${props._id}`,
+        `https://foodfly.onrender.com/api/restaurant/editfood/${props._id}`,
         {
           method: "PUT",
           headers: {
@@ -95,7 +95,7 @@ export default function (props) {
   const handleStockOutToggle = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/fooditems/stockout/${props._id}`,
+        `https://foodfly.onrender.com/api/fooditems/stockout/${props._id}`,
         {
           method: "PUT",
         }
@@ -120,7 +120,7 @@ export default function (props) {
       const foodId = props._id;
 
       const response = await fetch(
-        `http://localhost:5000/api/restaurant/updateStock/${foodId}/${restaurantId}`,
+        `https://foodfly.onrender.com/api/restaurant/updateStock/${foodId}/${restaurantId}`,
         {
           method: "PUT",
           headers: {

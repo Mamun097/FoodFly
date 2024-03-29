@@ -10,7 +10,7 @@ export default function EditFoodModal({ show, onHide, food }) {
 
   const handleSave = async () => {
     try {
-        const response = await fetch(`http://localhost:5000/api/restaurant/editfood/${food._id}`, {
+        const response = await fetch(`https://foodfly.onrender.com/api/restaurant/editfood/${food._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

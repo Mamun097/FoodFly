@@ -9,7 +9,7 @@ export default function ShowFoods_Restaurant() {
   const [authToken, setAuthToken] = useState("");
 
   const fetchData = async () => {
-    let response = await fetch("http://localhost:5000/api/restaurant/foods", {
+    let response = await fetch("https://foodfly.onrender.com/api/restaurant/foods", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export default function ShowFoods_Restaurant() {
     }
 
     const response = await fetch(
-      "http://localhost:5000/api/restaurant/addfood",
+      "https://foodfly.onrender.com/api/restaurant/addfood",
       {
         method: "POST",
         headers: {

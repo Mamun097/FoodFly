@@ -24,7 +24,7 @@ export default function CartCard(props) {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `http://localhost:5000/api/food/${props.id}`,
+        `https://foodfly.onrender.com/api/food/${props.id}`,
         {
           method: "GET",
           headers: {

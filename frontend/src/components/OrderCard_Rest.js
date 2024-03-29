@@ -12,7 +12,7 @@ export default function FoodCard_Restaurant(props) {
   //fetching all foods
   const [foods, setFoods] = useState([]);
   const fetchFoods = async () => {
-    let response = await fetch("http://localhost:5000/api/foods", {
+    let response = await fetch("https://foodfly.onrender.com/api/foods", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export default function FoodCard_Restaurant(props) {
   const [user, setUser] = useState([]);
   const fetchUser = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/user/${props.user_id}`,
+      `https://foodfly.onrender.com/api/user/${props.user_id}`,
       {
         method: "GET",
         headers: {
@@ -46,7 +46,7 @@ export default function FoodCard_Restaurant(props) {
 
   const handleReject = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/restaurant/deleteorder/${props._id}`,
+      `https://foodfly.onrender.com/api/restaurant/deleteorder/${props._id}`,
       {
         method: "DELETE",
         headers: {
@@ -65,7 +65,7 @@ export default function FoodCard_Restaurant(props) {
   const [deliverypersons, setDeliverypersons] = useState([]);
   const fetchDeliverypersons = async () => {
     let response = await fetch(
-      "http://localhost:5000/api/deliveryperson/dashboard",
+      "https://foodfly.onrender.com/api/deliveryperson/dashboard",
       {
         method: "GET",
         headers: {
@@ -81,7 +81,7 @@ export default function FoodCard_Restaurant(props) {
   const [restaurant, setRestaurant] = useState([]);
   const fetchRestaurant = async () => {
     let response = await fetch(
-      `http://localhost:5000/api/restaurant/${props.restaurant_id}`,
+      `https://foodfly.onrender.com/api/restaurant/${props.restaurant_id}`,
       {
         method: "GET",
         headers: {
@@ -107,7 +107,7 @@ export default function FoodCard_Restaurant(props) {
     });
     console.log("props.res", restaurant._id);
     let response = await fetch(
-      `http://localhost:5000/api/orders/confirmorder/${props._id}/${dp_id}`,
+      `https://foodfly.onrender.com/api/orders/confirmorder/${props._id}/${dp_id}`,
       {
         method: "PUT",
         headers: {

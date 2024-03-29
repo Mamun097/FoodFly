@@ -25,7 +25,7 @@ export default function Home() {
 
   // Fetch restaurant data
   const fetchData = async () => {
-    const response = await fetch("http://localhost:5000/api/restaurants", {
+    const response = await fetch("https://foodfly.onrender.com/api/restaurants", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export default function Home() {
   const fetchFavoriteRestaurants = async () => {
     const userId = localStorage.getItem('user_id');
     try {
-      const response = await fetch(`http://localhost:5000/api/favorites/${userId}`);
+      const response = await fetch(`https://foodfly.onrender.com/api/favorites/${userId}`);
       const data = await response.json();
       console.log("the dataaa");
       // console.log(data);

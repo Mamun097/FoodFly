@@ -11,7 +11,7 @@ export default function Dashboard() {
 
   const fetchData = async () => {
     let response = await fetch(
-      "http://localhost:5000/api/deliveryperson/dashboard",
+      "https://foodfly.onrender.com/api/deliveryperson/dashboard",
       {
         method: "GET",
         headers: {
@@ -45,7 +45,7 @@ export default function Dashboard() {
   const handleIsAvailableToggle = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/deliveryperson/isavailable/${localStorage.getItem(
+        `https://foodfly.onrender.com/api/deliveryperson/isavailable/${localStorage.getItem(
           "deliveryperson_id"
         )}`,
         {
@@ -72,7 +72,7 @@ export default function Dashboard() {
  
    const fetchCompletedOrders = async () => {
      let response = await fetch(
-       `http://localhost:5000/api/deliveryperson/orders/${localStorage.getItem("deliveryperson_id")}`,
+       `https://foodfly.onrender.com/api/deliveryperson/orders/${localStorage.getItem("deliveryperson_id")}`,
        {
          method: "GET",
          headers: {

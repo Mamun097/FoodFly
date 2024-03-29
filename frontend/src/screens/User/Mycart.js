@@ -21,7 +21,7 @@ function MyCart() {
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
-      const received_cart = await fetch("http://localhost:5000/api/getcart", {
+      const received_cart = await fetch("https://foodfly.onrender.com/api/getcart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ function MyCart() {
       localStorage.removeItem("food_count");
       try {
         // Fetch cart_data
-        const cartResponse = await fetch("http://localhost:5000/api/getcart", {
+        const cartResponse = await fetch("https://foodfly.onrender.com/api/getcart", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -51,7 +51,7 @@ function MyCart() {
 
         // Fetch food_items for each item in cart_data
         const foodPromises = cartData.map((cartItem) =>
-          fetch("http://localhost:5000/api/getfood", {
+          fetch("https://foodfly.onrender.com/api/getfood", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -101,7 +101,7 @@ function MyCart() {
 
   const handleIncreaseQuantity = async (foodItemId, user_id) => {
     try {
-      const response = await fetch("http://localhost:5000/api/addtocart", {
+      const response = await fetch("https://foodfly.onrender.com/api/addtocart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -134,7 +134,7 @@ function MyCart() {
   const handleDecreaseQuantity = async (foodItemId, user_id) => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/removefoodfromcart",
+        "https://foodfly.onrender.com/api/removefoodfromcart",
         {
           method: "POST",
           headers: {
@@ -168,7 +168,7 @@ function MyCart() {
   const handleDeleteQuantity = async (foodItemId, user_id) => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/removeallfoodfromcart",
+        "https://foodfly.onrender.com/api/removeallfoodfromcart",
         {
           method: "POST",
           headers: {
@@ -206,7 +206,7 @@ function MyCart() {
 
   const handleOrder = async () => {
     try {
-      fetch("http://localhost:5000/api/orders/neworder", {
+      fetch("https://foodfly.onrender.com/api/orders/neworder", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -224,7 +224,7 @@ function MyCart() {
       console.error(error);
     }
 
-    await fetch("http://localhost:5000/api/removefromcart", {
+    await fetch("https://foodfly.onrender.com/api/removefromcart", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
