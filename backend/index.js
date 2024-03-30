@@ -5,14 +5,19 @@ const port = 5000
 const mongoDB = require('./db');
 mongoDB();
 
-app.use(cors());
+// app.use(cors());
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    next();
-})
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//     next();
+// })
+
+const allowedOrigins = ['http://localhost:3000', 'https://radiant-stroopwafel-12cf8c.netlify.app'];
+app.use(cors({
+  origin: allowedOrigins
+}));
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
